@@ -20,6 +20,10 @@ const paths = {
   plus: "M12 5v14M5 12h14",
   minus: "M5 12h14",
   trash: "M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3",
+  work: "M4 8h16v11H4zM9 8V5h6v3M4 13h16",
+  farm: "M12 21v-9M12 12C12 8 9 5.5 5 5.5c0 4 3 6.5 7 6.5zM12 12c0-4 3-6.5 7-6.5 0 4-3 6.5-7 6.5zM6 21h12",
+  security: "M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6zM9 12l2 2 4-4",
+  education: "M3 9l9-5 9 5-9 5zM7 11v5c3 2 7 2 10 0v-5M21 9v6",
 } as const;
 
 export type IconName = keyof typeof paths;

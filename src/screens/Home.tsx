@@ -3,15 +3,16 @@ import { href } from "../lib/router";
 import { useApp } from "../lib/state";
 
 export function Home() {
-  const { t, done } = useApp();
-  const h = t.ui.home;
+  const { t, c, countryDone } = useApp();
+  const h = t.home;
+  if (!c) return null;
   return (
     <div className="page">
       <section className="hero">
-        <h1 id="page-title" tabIndex={-1}>{h.title}</h1>
-        <p className="lead">{h.lead}</p>
+        <h1 id="page-title" tabIndex={-1}>{c.home.title}</h1>
+        <p className="lead">{c.home.lead}</p>
         <div className="button-row">
-          {done ? (
+          {countryDone ? (
             <>
               <a className="button" href={href({ name: "results" })}>{h.seeResults}</a>
               <a className="button secondary" href={href({ name: "screener", step: 1 })}>{h.resume}</a>
@@ -46,11 +47,13 @@ export function Home() {
       </section>
 
       <section>
-        <h2>{h.programsTitle}</h2>
-        <p>{h.programsBody}</p>
+        <h2>{c.home.programsTitle}</h2>
+        <p>{c.home.programsBody}</p>
       </section>
 
-      <p className="fine-print">{h.notGov}</p>
+      <p className="fine-print">
+        {h.notGov} <a href={href({ name: "country" })}>{t.country.change}</a>
+      </p>
     </div>
   );
 }

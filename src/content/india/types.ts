@@ -1,0 +1,83 @@
+/** Wording for the India questionnaire. */
+export interface InWizard {
+  where: { title: string; state: string; statePlaceholder: string; area: string; rural: string; urban: string; errorState: string; errorArea: string };
+  family: {
+    title: string;
+    age: string;
+    ageHint: string;
+    gender: string;
+    female: string;
+    male: string;
+    other: string;
+    size: string;
+    sizeHint: string;
+    under6: string;
+    girlsUnder10: string;
+    school: string;
+    situations: string;
+    college: string;
+    pregnant: string;
+    senior60: string;
+    senior70: string;
+    widow: string;
+    disability: string;
+    disabilityNone: string;
+    disabilitySome: string;
+    disabilitySevere: string;
+  };
+  cards: {
+    title: string;
+    category: string;
+    general: string;
+    obc: string;
+    sc: string;
+    st: string;
+    minority: string;
+    ration: string;
+    rationNone: string;
+    rationAay: string;
+    rationPhh: string;
+    rationOther: string;
+    bpl: string;
+    yes: string;
+    no: string;
+    dontKnow: string;
+    bank: string;
+    already: string;
+    ayushman: string;
+    pmKisan: string;
+    eshram: string;
+    pension: string;
+  };
+  money: {
+    title: string;
+    income: string;
+    incomeHint: string;
+    per: string;
+    monthly: string;
+    yearly: string;
+    perYear: (amount: string) => string;
+    taxPayer: string;
+    govtEmployee: string;
+    formalJob: string;
+  };
+  work: {
+    title: string;
+    lead: string;
+    farmer: string;
+    farmLabour: string;
+    worker: string;
+    vendor: string;
+    artisan: string;
+    business: string;
+    salaried: string;
+    student: string;
+    jobseeker: string;
+    homemaker: string;
+    land: string;
+    landHint: string;
+    firstJob: string;
+    wantsLoan: string;
+  };
+  home: { title: string; type: string; pucca: string; kutcha: string; none: string; meter: string; lpg: string };
+}

@@ -8,8 +8,17 @@ async function expectAccessible(page: Page) {
   expect(serious.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(", ")}`)).toEqual([]);
 }
 
-async function completeScreener(page: Page) {
+/** Tick a checkbox or radio by clicking its visible label text. */
+const pick = (page: Page, label: string) => page.getByText(label, { exact: true }).click();
+
+async function chooseCountry(page: Page, name: "United States" | "India") {
   await page.goto("./");
+  await expect(page.getByRole("heading", { level: 1, name: "Where do you live?" })).toBeVisible();
+  await page.getByRole("button", { name: new RegExp(name) }).click();
+}
+
+async function completeScreener(page: Page) {
+  await chooseCountry(page, "United States");
   await page.getByRole("link", { name: "Check what I qualify for" }).click();
 
   await expect(page.getByRole("heading", { level: 1, name: "Where do you live?" })).toBeFocused();
@@ -39,10 +48,17 @@ async function completeScreener(page: Page) {
   await page.getByRole("button", { name: "See my results" }).click();
 }
 
-test("home page is accessible and private by default", async ({ page }) => {
+test("asks for the country first, and every start page is accessible", async ({ page }) => {
   await page.goto("./");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Find help you may already qualify for.");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Where do you live?");
   await expect(page.getByRole("button", { name: "Quick exit" })).toBeVisible();
+  await expectAccessible(page);
+  await chooseCountry(page, "United States");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Find help you may already qualify for.");
+  await expectAccessible(page);
+  await page.getByRole("link", { name: /Change country/ }).first().click();
+  await page.getByRole("button", { name: /India/ }).click();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Find the government schemes your family can get.");
   await expectAccessible(page);
 });
 
@@ -100,10 +116,98 @@ test("the single-file release works offline, straight from a file", async ({ pag
   test.skip(!existsSync(file), "run `npm run build:single` first");
   await context.route(/^https?:/, (route) => route.abort());
   await page.goto(file.href);
+  await page.getByRole("button", { name: /United States/ }).click();
   await page.getByRole("link", { name: "Check what I qualify for" }).click();
   await page.getByLabel("State").selectOption("CA");
   for (let i = 0; i < 4; i++) await page.getByRole("button", { name: "Next" }).click();
   await page.getByRole("button", { name: "See my results" }).click();
   await expect(page.getByRole("heading", { level: 1, name: "Your results" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "SNAP (food stamps)" })).toBeVisible();
+});
+
+async function completeIndia(page: Page) {
+  await chooseCountry(page, "India");
+  await page.getByRole("link", { name: "Check what I qualify for" }).click();
+
+  await expect(page.getByRole("heading", { level: 1, name: "Where do you live?" })).toBeFocused();
+  await page.getByRole("button", { name: "Next" }).click();
+  await expect(page.getByText("Please choose your state.")).toBeVisible();
+  await page.getByLabel("State or union territory").selectOption("UP");
+  await pick(page, "Village (rural area)");
+  await expectAccessible(page);
+  await page.getByRole("button", { name: "Next" }).click();
+
+  await page.getByLabel("Your age").fill("34");
+  await pick(page, "A woman");
+  await page.getByRole("button", { name: "More: Children under 6" }).click();
+  await page.getByRole("button", { name: "More: Girls under 10" }).click();
+  await page.getByRole("button", { name: "More: Children in school (class 1–12)" }).click();
+  await page.getByRole("button", { name: "More: Children in school (class 1–12)" }).click();
+  await expectAccessible(page);
+  await page.getByRole("button", { name: "Next" }).click();
+
+  await pick(page, "SC (Scheduled Caste)");
+  await pick(page, "Priority household (PHH / BPL)");
+  await pick(page, "Yes");
+  await expectAccessible(page);
+  await page.getByRole("button", { name: "Next" }).click();
+
+  await page.getByLabel("Total family income").fill("9000");
+  await expect(page.getByText("That's about ₹1,08,000 a year.")).toBeVisible();
+  await expectAccessible(page);
+  await page.getByRole("button", { name: "Next" }).click();
+
+  await pick(page, "Farming on our own or rented land");
+  await pick(page, "Farm labour");
+  await page.getByLabel("Farmland our family owns (acres)").fill("1.5");
+  await expectAccessible(page);
+  await page.getByRole("button", { name: "Next" }).click();
+
+  await pick(page, "A kutcha or damaged house");
+  await pick(page, "We have an LPG gas connection");
+  await expectAccessible(page);
+  await page.getByRole("button", { name: "See my results" }).click();
+}
+
+test("an Indian farming family finds its schemes and how to apply", async ({ page }) => {
+  await completeIndia(page);
+  await expect(page.getByRole("heading", { level: 1, name: "Your results" })).toBeVisible();
+  const likely = page.locator("section.result-group").filter({ has: page.getByRole("heading", { name: "You likely qualify" }) });
+  for (const name of [
+    "PM-KISAN",
+    "Free ration (PM Garib Kalyan Anna Yojana)",
+    "PM Awas Yojana – Gramin",
+    "PM Ujjwala Yojana",
+    "Rural jobs guarantee (VB-G RAM G)",
+    "Kisan Credit Card",
+    "Sukanya Samriddhi Yojana",
+  ]) {
+    await expect(likely.getByRole("heading", { name, exact: true })).toBeVisible();
+  }
+  await expect(page.locator(".value-amount")).toContainText("₹");
+  await expect(page.getByRole("heading", { name: "Your state has more schemes" })).toBeVisible();
+  await expectAccessible(page);
+
+  await likely.getByRole("link", { name: /PM-KISAN/ }).first().click();
+  await expect(page.getByRole("heading", { level: 1, name: "PM-KISAN" })).toBeFocused();
+  await expect(page.getByText("₹6,000 a year, paid as ₹2,000 every four months.")).toBeVisible();
+  await expect(page.getByRole("link", { name: /PM-KISAN portal/ })).toHaveAttribute("href", "https://pmkisan.gov.in/");
+  await expectAccessible(page);
+});
+
+test("India works in Hindi, and each country keeps its own answers", async ({ page }) => {
+  await completeIndia(page);
+  await page.getByRole("button", { name: "हिन्दी" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "आपके नतीजे" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "पीएम-किसान", exact: true })).toBeVisible();
+  await expect(page.locator("html")).toHaveAttribute("lang", "hi");
+  await expectAccessible(page);
+
+  await page.getByRole("button", { name: "English" }).click();
+  await page.getByRole("link", { name: /Change country/ }).click();
+  await page.getByRole("button", { name: /United States/ }).click();
+  await expect(page.getByRole("link", { name: "Check what I qualify for" })).toBeVisible();
+  await page.getByRole("link", { name: /Change country/ }).first().click();
+  await page.getByRole("button", { name: /India/ }).click();
+  await expect(page.getByRole("link", { name: "See my results" })).toBeVisible();
 });

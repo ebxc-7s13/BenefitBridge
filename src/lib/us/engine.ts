@@ -5,7 +5,8 @@ import { acaMarketplace, medicaidAdults, medicaidChip, medicaidPregnancy, medica
 import { housingVoucher, lifeline, liheap } from "./programs/home";
 import { ctc, eitc, freeTaxHelp, ssi, tanf } from "./programs/money";
 import { ruleset2026 } from "./rulesets/2026";
-import type { Context, Household, Program, ProgramId, ProgramResult, Ruleset, Status } from "./types";
+import { rank, totals } from "../core";
+import type { Context, Household, Program, ProgramId, ProgramResult, Ruleset } from "./types";
 
 export const currentRuleset = ruleset2026;
 
@@ -18,8 +19,6 @@ export const programs: Program[] = [
 ];
 
 export const programById = Object.fromEntries(programs.map((p) => [p.id, p])) as Record<ProgramId, Program>;
-
-const order: Record<Status, number> = { likely: 0, possibly: 1, unlikely: 2 };
 
 const clean = (n: number) => (Number.isFinite(n) && n > 0 ? n : 0);
 const count = (n: number) => Math.floor(clean(n));
@@ -68,16 +67,12 @@ export function buildContext(h: Household, ruleset: Ruleset): Context {
 export function screen(household: Household, ruleset: Ruleset = currentRuleset, list: Program[] = programs): ProgramResult[] {
   const h = normalize(household);
   const ctx = buildContext(h, ruleset);
-  return list
-    .map((p) => ({ programId: p.id, ...p.evaluate(h, ctx) }))
-    .sort((a, b) => order[a.status] - order[b.status] || (b.value?.high ?? 0) - (a.value?.high ?? 0));
+  return rank(list.map((p) => ({ programId: p.id, ...p.evaluate(h, ctx) })));
 }
 
 /** Total estimated yearly value of the results that are likely or possible. */
 export function totalValue(results: ProgramResult[]): { low: number; high: number } {
-  return results
-    .filter((r) => r.status !== "unlikely" && r.value)
-    .reduce((t, r) => ({ low: t.low + r.value!.low, high: t.high + r.value!.high }), { low: 0, high: 0 });
+  return totals(results).yearly;
 }
 
 export function emptyHousehold(): Household {

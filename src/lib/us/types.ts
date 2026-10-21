@@ -38,25 +38,9 @@ export interface Household {
   };
 }
 
-export type Status = "likely" | "possibly" | "unlikely";
+import type { Evaluation } from "../core";
 
-/** A language-neutral reason. `key` is looked up in the content files for the user's language. */
-export interface Reason {
-  key: string;
-  params?: Record<string, number | string>;
-}
-
-/** Estimated yearly value in USD. `low` < `high` means a range. */
-export interface Value {
-  low: number;
-  high: number;
-}
-
-export interface Evaluation {
-  status: Status;
-  reasons: Reason[];
-  value?: Value;
-}
+export type { Evaluation, Reason, Status, Value } from "../core";
 
 export interface ProgramResult extends Evaluation {
   programId: ProgramId;

@@ -334,3 +334,25 @@ select:focus, input:focus { border-color: var(--brand); }
   .card { box-shadow: none; break-inside: avoid; }
   main { max-width: none; padding: 0; }
 }
+
+/* Radio options reuse the checkbox look, with a round marker. */
+.check.radio .check-box { border-radius: 50%; }
+.check input[type="radio"]:checked + .check-box { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+
+/* Country picker */
+.country-list { list-style: none; padding: 0; margin: 1rem 0; display: grid; gap: 0.75rem; }
+.country-card {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 0.9rem;
+  width: 100%; text-align: left; font: inherit; color: var(--text); cursor: pointer;
+}
+.country-card:hover { border-color: var(--brand); }
+.country-code {
+  display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 12px;
+  background: var(--brand-soft); color: var(--brand-strong); font-weight: 800; letter-spacing: 0.04em;
+}
+.country-card strong { display: block; font-size: 1.1rem; }
+.country-card span.muted { font-size: 0.92rem; }
+.country-chip { font-weight: 800; letter-spacing: 0.04em; text-decoration: none; }
+.language-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+.value-once { font-size: 0.95rem; font-weight: 650; margin-top: 0.3rem; }
+.extra-card { border-style: dashed; }

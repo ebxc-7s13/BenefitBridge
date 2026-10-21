@@ -1,11 +1,12 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { contents, type Content, type Locale } from "../content";
-import { emptyHousehold, screen } from "./eligibility/engine";
-import type { Household, ProgramId, ProgramResult } from "./eligibility/types";
+import { ui, type CountryCode, type CountryContent, type Locale, type UiStrings } from "../content";
+import { contentFor, packFor, packs, type Answers, type CountryPack } from "../countries";
+import type { ProgramResult } from "./core";
 import type { IncomeInput } from "./income";
 import { storage } from "./storage";
 
-const KEY = "benefitbridge:v1";
+const KEY = "benefitbridge:v2";
+const OLD_KEY = "benefitbridge:v1";
 
 export type PlanStatus = "todo" | "applying" | "applied" | "approved" | "denied";
 
@@ -17,47 +18,89 @@ export interface PlanItem {
   renewal?: string;
 }
 
+type Plan = Partial<Record<string, PlanItem>>;
+
 export interface Saved {
+  country: CountryCode | null;
   locale: Locale;
   /** Keep answers on this device between visits. */
   save: boolean;
-  answers: Household;
+  answers: Answers;
+  /** United States income as typed, with how often it's paid. */
   income: { earned: IncomeInput; other: IncomeInput };
-  /** The screener has been finished at least once. */
-  done: boolean;
-  plan: Partial<Record<ProgramId, PlanItem>>;
+  /** India family income as typed (monthly or yearly). */
+  inIncome: IncomeInput;
+  /** The questionnaire has been finished at least once, per country. */
+  done: Record<CountryCode, boolean>;
+  plan: Record<CountryCode, Plan>;
 }
 
+const browserLocale = (): Locale => {
+  const lang = typeof navigator !== "undefined" ? navigator.language?.toLowerCase() ?? "" : "";
+  return lang.startsWith("es") ? "es" : lang.startsWith("hi") ? "hi" : "en";
+};
+
 function initial(): Saved {
-  const lang = typeof navigator !== "undefined" && navigator.language?.toLowerCase().startsWith("es") ? "es" : "en";
   return {
-    locale: lang,
+    country: null,
+    locale: browserLocale(),
     save: true,
-    answers: emptyHousehold(),
+    answers: { US: packs.US.empty(), IN: packs.IN.empty() },
     income: { earned: { amount: "", frequency: "monthly" }, other: { amount: "", frequency: "monthly" } },
-    done: false,
-    plan: {},
+    inIncome: { amount: "", frequency: "monthly" },
+    done: { US: false, IN: false },
+    plan: { US: {}, IN: {} },
+  };
+}
+
+/** v1 stored one US household; carry it over as the US country. */
+function migrate(fresh: Saved): Saved | null {
+  const old = storage.get<{ locale?: Locale; save?: boolean; answers?: Answers["US"]; income?: Saved["income"]; done?: boolean; plan?: Plan }>(OLD_KEY);
+  if (!old) return null;
+  return {
+    ...fresh,
+    country: "US",
+    locale: old.locale === "es" ? "es" : "en",
+    save: old.save ?? true,
+    answers: { ...fresh.answers, US: { ...fresh.answers.US, ...old.answers } },
+    income: old.income ?? fresh.income,
+    done: { ...fresh.done, US: !!old.done },
+    plan: { ...fresh.plan, US: old.plan ?? {} },
   };
 }
 
 function load(): Saved {
   const fresh = initial();
   const stored = storage.get<Partial<Saved>>(KEY);
-  if (!stored) return fresh;
+  if (!stored) return migrate(fresh) ?? fresh;
+  const a = stored.answers;
   return {
     ...fresh,
     ...stored,
-    answers: { ...fresh.answers, ...stored.answers, expenses: { ...fresh.answers.expenses, ...stored.answers?.expenses }, receives: { ...fresh.answers.receives, ...stored.answers?.receives } },
-    income: { ...fresh.income, ...stored.income },
+    answers: {
+      US: { ...fresh.answers.US, ...a?.US, expenses: { ...fresh.answers.US.expenses, ...a?.US?.expenses }, receives: { ...fresh.answers.US.receives, ...a?.US?.receives } },
+      IN: { ...fresh.answers.IN, ...a?.IN, work: { ...fresh.answers.IN.work, ...a?.IN?.work }, receives: { ...fresh.answers.IN.receives, ...a?.IN?.receives } },
+    },
+    done: { ...fresh.done, ...stored.done },
+    plan: { ...fresh.plan, ...stored.plan },
   };
 }
 
 interface AppState extends Saved {
-  t: Content;
+  /** Text shared by every country, in the reader's language. */
+  t: UiStrings;
+  /** The chosen country's pack and wording (null until a country is chosen). */
+  pack: CountryPack | null;
+  c: CountryContent | null;
   results: ProgramResult[];
+  countryDone: boolean;
+  countryPlan: Plan;
   update(patch: Partial<Saved>): void;
-  setAnswers(patch: Partial<Household>): void;
-  setPlanItem(id: ProgramId, patch: Partial<PlanItem> | null): void;
+  chooseCountry(code: CountryCode): void;
+  setAnswers<K extends CountryCode>(code: K, patch: Partial<Answers[K]>): void;
+  setPlanItem(id: string, patch: Partial<PlanItem> | null): void;
+  /** Switch to the country's next language. */
+  toggleLocale(): void;
   reset(): void;
 }
 
@@ -69,29 +112,52 @@ export function AppProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (state.save) storage.set(KEY, state);
     else storage.remove(KEY);
+    storage.remove(OLD_KEY);
     document.documentElement.lang = state.locale;
   }, [state]);
 
-  const results = useMemo(() => (state.done && state.answers.state ? screen(state.answers) : []), [state.done, state.answers]);
+  const pack = state.country ? packFor(state.country) : null;
+  const countryDone = !!state.country && state.done[state.country];
 
-  const value = useMemo<AppState>(
-    () => ({
+  const results = useMemo(() => {
+    if (!pack || !state.country || !countryDone) return [];
+    const answers = state.answers[state.country];
+    return answers.state ? pack.screen(answers as never) : [];
+  }, [pack, state.country, countryDone, state.answers]);
+
+  const value = useMemo<AppState>(() => {
+    const locales: Locale[] = pack ? pack.locales : ["en", "hi", "es"];
+    return {
       ...state,
-      t: contents[state.locale],
+      t: ui[state.locale],
+      pack,
+      c: pack ? contentFor(pack, state.locale) : null,
       results,
+      countryDone,
+      countryPlan: state.country ? state.plan[state.country] : {},
       update: (patch) => setState((s) => ({ ...s, ...patch })),
-      setAnswers: (patch) => setState((s) => ({ ...s, answers: { ...s.answers, ...patch } })),
+      chooseCountry: (code) =>
+        setState((s) => {
+          const supported = packFor(code).locales;
+          return { ...s, country: code, locale: supported.includes(s.locale) ? s.locale : supported[0] };
+        }),
+      setAnswers: (code, patch) => setState((s) => ({ ...s, answers: { ...s.answers, [code]: { ...s.answers[code], ...patch } } })),
       setPlanItem: (id, patch) =>
         setState((s) => {
-          const plan = { ...s.plan };
+          if (!s.country) return s;
+          const plan = { ...s.plan[s.country] };
           if (patch === null) delete plan[id];
           else plan[id] = { status: "todo", docs: [], ...plan[id], ...patch };
-          return { ...s, plan };
+          return { ...s, plan: { ...s.plan, [s.country]: plan } };
+        }),
+      toggleLocale: () =>
+        setState((s) => {
+          const i = locales.indexOf(s.locale);
+          return { ...s, locale: locales[(i + 1) % locales.length] };
         }),
       reset: () => setState((s) => ({ ...initial(), locale: s.locale, save: s.save })),
-    }),
-    [state, results],
-  );
+    };
+  }, [state, pack, results, countryDone]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

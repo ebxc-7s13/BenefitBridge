@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 /** Hash routes keep the app working from a single file, a subfolder, or offline. */
 export type Route =
   | { name: "home" }
+  | { name: "country" }
   | { name: "screener"; step: number }
   | { name: "results" }
   | { name: "program"; id: string }
@@ -20,6 +21,8 @@ export function parse(hash: string): Route {
       return b ? { name: "program", id: decodeURIComponent(b) } : { name: "results" };
     case "plan":
       return { name: "plan" };
+    case "country":
+      return { name: "country" };
     case "help":
       return { name: "help" };
     default:

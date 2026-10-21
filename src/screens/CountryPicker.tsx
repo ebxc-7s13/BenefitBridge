@@ -1,0 +1,45 @@
+import { Icon } from "../components/Icon";
+import type { CountryCode } from "../content";
+import { go } from "../lib/router";
+import { useApp } from "../lib/state";
+
+const COUNTRIES: CountryCode[] = ["IN", "US"];
+
+export function CountryPicker() {
+  const { t, country, chooseCountry } = useApp();
+  return (
+    <div className="page">
+      <h1 id="page-title" tabIndex={-1}>{t.country.title}</h1>
+      <p className="lead">{t.country.lead}</p>
+      <ul className="country-list">
+        {COUNTRIES.map((code) => (
+          <li key={code}>
+            <button
+              type="button"
+              className="card country-card"
+              aria-current={country === code ? "true" : undefined}
+              onClick={() => {
+                chooseCountry(code);
+                go({ name: "home" });
+              }}
+            >
+              <span className="country-code" aria-hidden="true">{code}</span>
+              <span>
+                <strong>{t.country.names[code]}</strong>
+                <span className="muted">{t.country.blurbs[code]}</span>
+              </span>
+              <Icon name="forward" />
+            </button>
+          </li>
+        ))}
+      </ul>
+      <section className="card privacy-card">
+        <Icon name="shield" size={28} />
+        <div>
+          <h2>{t.home.privacyTitle}</h2>
+          <p>{t.home.privacyBody}</p>
+        </div>
+      </section>
+    </div>
+  );
+}

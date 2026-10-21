@@ -1,6 +1,7 @@
-import type { Category, ProgramId, Status } from "../lib/eligibility/types";
+import type { Status } from "../lib/core";
 
-export type Locale = "en" | "es";
+export type Locale = "en" | "es" | "hi";
+export type CountryCode = "US" | "IN";
 export type Params = Record<string, number | string>;
 
 export interface ProgramContent {
@@ -15,26 +16,42 @@ export interface ProgramContent {
   faq: [question: string, answer: string][];
 }
 
-export interface Content {
-  locale: Locale;
-  ui: UiStrings;
-  categories: Record<Category, string>;
-  status: Record<Status, string>;
-  programs: Record<ProgramId, ProgramContent>;
+export interface Resource {
+  title: string;
+  body: string;
+  links: { label: string; href: string }[];
+}
+
+/** Text that belongs to one country, in one language. `W` holds that country's questionnaire wording. */
+export interface CountryContent<W = unknown> {
+  home: { title: string; lead: string; programsTitle: string; programsBody: string };
+  wizard: W;
+  results: {
+    valueNote: string;
+    noneBody: string;
+    /** An extra card under the results, e.g. a pointer to state schemes. */
+    extra?: Resource;
+  };
+  deniedHelp: string;
+  /** People and services to contact, shown on the help page. */
+  resources: Resource[];
+  categories: Record<string, string>;
+  programs: Record<string, ProgramContent>;
   reasons: Record<string, (p: Params) => string>;
 }
 
+/** Text shared by every country, in one language. */
 export interface UiStrings {
+  locale: Locale;
+  /** The language's own name, shown on the switch button. */
+  languageName: string;
   appName: string;
-  tagline: string;
   skipToContent: string;
   quickExit: string;
   quickExitHint: string;
-  language: string;
   nav: { home: string; results: string; plan: string; help: string };
+  country: { title: string; lead: string; change: string; names: Record<CountryCode, string>; blurbs: Record<CountryCode, string> };
   home: {
-    title: string;
-    lead: string;
     start: string;
     resume: string;
     seeResults: string;
@@ -42,8 +59,6 @@ export interface UiStrings {
     privacyBody: string;
     howTitle: string;
     how: [string, string][];
-    programsTitle: string;
-    programsBody: string;
     notGov: string;
   };
   wizard: {
@@ -51,70 +66,21 @@ export interface UiStrings {
     back: string;
     next: string;
     finish: string;
-    optional: string;
     privacyNote: string;
-    state: { title: string; label: string; placeholder: string };
-    household: {
-      title: string;
-      size: string;
-      sizeHint: string;
-      under5: string;
-      age5to16: string;
-      age17to18: string;
-      situations: string;
-      pregnant: string;
-      senior60: string;
-      senior65: string;
-      disability: string;
-      married: string;
-      homeless: string;
-      minus: (label: string) => string;
-      plus: (label: string) => string;
-    };
-    income: {
-      title: string;
-      lead: string;
-      earned: string;
-      earnedHint: string;
-      other: string;
-      otherHint: string;
-      frequency: string;
-      frequencies: { monthly: string; weekly: string; biweekly: string; twiceMonthly: string; yearly: string };
-      perMonth: (amount: string) => string;
-    };
-    expenses: {
-      title: string;
-      lead: string;
-      rent: string;
-      utilities: string;
-      childCare: string;
-      medical: string;
-      medicalHint: string;
-    };
-    current: {
-      title: string;
-      lead: string;
-      snap: string;
-      medicaid: string;
-      ssi: string;
-      tanf: string;
-      medicare: string;
-    };
-    errors: { state: string };
+    minus: (label: string) => string;
+    plus: (label: string) => string;
   };
   results: {
     title: string;
     summary: (likely: number, possibly: number) => string;
     valueLabel: string;
-    valueNote: string;
+    onceLabel: (amount: string) => string;
     noneTitle: string;
-    noneBody: string;
     groupLikely: string;
     groupPossibly: string;
     groupUnlikely: string;
     showUnlikely: (n: number) => string;
     hideUnlikely: string;
-    perYear: string;
     details: string;
     inPlan: string;
     editAnswers: string;
@@ -129,7 +95,6 @@ export interface UiStrings {
     documents: string;
     documentsHint: string;
     steps: string;
-    apply: string;
     call: (phone: string) => string;
     faq: string;
     addToPlan: string;
@@ -143,7 +108,6 @@ export interface UiStrings {
     addToCalendar: string;
     calendarInterview: (program: string) => string;
     calendarRenewal: (program: string) => string;
-    deniedHelp: string;
   };
   plan: {
     title: string;
@@ -165,16 +129,6 @@ export interface UiStrings {
   help: {
     title: string;
     lead: string;
-    call211: string;
-    call211Body: string;
-    legal: string;
-    legalBody: string;
-    immigration: string;
-    immigrationBody: string;
-    safety: string;
-    safetyBody: string;
-    crisis: string;
-    crisisBody: string;
     privacyTitle: string;
     privacyBody: string;
     saveLabel: string;
@@ -190,5 +144,6 @@ export interface UiStrings {
     install: string;
     installBody: string;
   };
-  money: { perMonth: string; perYear: string; upTo: string };
+  money: { perMonth: string; perYear: string; upTo: string; once: string };
+  status: Record<Status, string>;
 }

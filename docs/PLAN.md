@@ -93,6 +93,17 @@ server, accounts or partners that the project owner has to set up.
 | 3 | Step-by-step apply guides with official links and phone numbers; status tracking (not started → approved/denied, with appeal help); **calendar reminders** (.ics) for interviews and renewals; **printable / PDF plan** to bring to appointments; quick-exit button and help for safety, legal aid, immigration and crisis | SMS/email/push reminders (need a server and a messaging provider); caseworker helper mode with shared cases |
 | 4 | **Renewal tracking** with dates and reminders in "My plan" | State-by-state rules for the top 10 states; partner API; anonymous outcome analytics (all need a server and data agreements) |
 
+### Update: v1.1.0 (October 2026) — multiple countries
+
+The app now asks for the country first and plugs in each country's rules, questionnaire,
+wording, currency, helplines and languages. **India** is the second country, with 39 central
+government schemes in English and Hindi (food, health, housing, energy, rural jobs, workers,
+farmers, pensions and insurance, disability, women, students and small business), and a pointer
+to myScheme for state schemes. Next countries can be added as packs without touching the
+screens. Planned India follow-ups are deeper rules for the largest states' own schemes
+(Ladli Behna, Ladki Bahin and similar), and more Indian languages (Bengali, Marathi, Tamil,
+Telugu).
+
 ## 5. Architecture
 
 ```

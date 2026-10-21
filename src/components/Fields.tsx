@@ -40,14 +40,14 @@ export function Stepper(props: {
   );
 }
 
-export function MoneyField(props: { label: string; hint?: string; value: string; onChange(v: string): void; children?: ReactNode }) {
+export function MoneyField(props: { label: string; hint?: string; value: string; onChange(v: string): void; symbol?: string; children?: ReactNode }) {
   const id = useId();
   return (
     <div className="field">
       <label htmlFor={id}>{props.label}</label>
       {props.hint && <p className="hint" id={`${id}-hint`}>{props.hint}</p>}
       <div className="money-input">
-        <span aria-hidden="true">$</span>
+        <span aria-hidden="true">{props.symbol ?? "$"}</span>
         <input
           id={id}
           type="text"
@@ -73,5 +73,33 @@ export function Check(props: { label: string; checked: boolean; onChange(v: bool
       </span>
       <span>{props.label}</span>
     </label>
+  );
+}
+
+export function RadioGroup<V extends string>(props: {
+  legend: string;
+  name: string;
+  value: V | "";
+  options: [value: V, label: string][];
+  onChange(v: V): void;
+  error?: string;
+}) {
+  const id = useId();
+  return (
+    <fieldset className="field" aria-describedby={props.error ? `${id}-error` : undefined}>
+      <legend>{props.legend}</legend>
+      <div className="check-list">
+        {props.options.map(([value, label]) => (
+          <label key={value} className="check radio">
+            <input type="radio" name={props.name} value={value} checked={props.value === value} onChange={() => props.onChange(value)} />
+            <span className="check-box" aria-hidden="true">
+              <Icon name="check" size={16} />
+            </span>
+            <span>{label}</span>
+          </label>
+        ))}
+      </div>
+      {props.error && <p className="error" id={`${id}-error`} role="alert">{props.error}</p>}
+    </fieldset>
   );
 }

@@ -1,16 +1,15 @@
 import { Icon } from "../components/Icon";
-import { longDate, money } from "../content/format";
-import { applyUrl, programLinks } from "../content/links";
-import type { ProgramId } from "../lib/eligibility/types";
+import { longDate } from "../content/format";
+import { linkUrl } from "../content/links";
 import { canSaveFiles } from "../lib/ics";
 import { href } from "../lib/router";
 import { useApp } from "../lib/state";
-import { stateName } from "../lib/states";
 
 export function Plan() {
-  const { t, locale, plan, answers, done } = useApp();
-  const ui = t.ui.plan;
-  const ids = Object.keys(plan) as ProgramId[];
+  const { t, c, pack, locale, country, countryPlan: plan, answers, countryDone } = useApp();
+  const ui = t.plan;
+  if (!pack || !c || !country) return null;
+  const ids = Object.keys(plan).filter((id) => c.programs[id]);
   const today = new Date().toISOString().slice(0, 10);
 
   const dates = ids
@@ -25,13 +24,12 @@ export function Plan() {
   return (
     <div className="page plan">
       <div className="print-only print-header">
-        <strong>{t.ui.appName}</strong> — {ui.printTitle}
+        <strong>{t.appName}</strong> — {ui.printTitle}
         <p>{ui.printFor}</p>
         <p>{ui.printedOn(longDate(today, locale))}</p>
-        {done && (
+        {countryDone && (
           <p>
-            {ui.household}: {stateName(answers.state)} · {answers.size} · {money(answers.monthlyEarned + answers.monthlyOther, locale)}
-            {t.ui.money.perMonth}
+            {ui.household}: {pack.summary(answers[country] as never, locale)}
           </p>
         )}
       </div>
@@ -42,7 +40,7 @@ export function Plan() {
       {ids.length === 0 ? (
         <div className="card empty">
           <p>{ui.empty}</p>
-          <a className="button" href={href(done ? { name: "results" } : { name: "screener", step: 1 })}>{done ? ui.emptyCta : t.ui.home.start}</a>
+          <a className="button" href={href(countryDone ? { name: "results" } : { name: "screener", step: 1 })}>{countryDone ? ui.emptyCta : t.home.start}</a>
         </div>
       ) : (
         <>
@@ -56,7 +54,7 @@ export function Plan() {
                   <li key={`${d.id}-${d.kind}`}>
                     <Icon name="calendar" size={18} />
                     <span>
-                      <strong>{longDate(d.date, locale)}</strong> — {t.programs[d.id].name}: {d.kind === "interview" ? ui.interview : ui.renewal}
+                      <strong>{longDate(d.date, locale)}</strong> — {c.programs[d.id].name}: {d.kind === "interview" ? ui.interview : ui.renewal}
                     </span>
                   </li>
                 ))}
@@ -67,28 +65,28 @@ export function Plan() {
           <ul className="plan-list">
             {ids.map((id) => {
               const item = plan[id]!;
-              const c = t.programs[id];
-              const phone = programLinks[id].phone;
+              const p = c.programs[id];
+              const link = pack.links[id];
               return (
                 <li key={id} className="card plan-item">
                   <div className="plan-head">
-                    <h2>{c.name}</h2>
-                    <span className={`badge plan-${item.status}`}>{t.ui.program.statuses[item.status]}</span>
+                    <h2>{p.name}</h2>
+                    <span className={`badge plan-${item.status}`}>{t.program.statuses[item.status]}</span>
                   </div>
-                  <p className="muted">{ui.progress(item.docs.length, c.documents.length)}</p>
+                  <p className="muted">{ui.progress(item.docs.length, p.documents.length)}</p>
                   <div className="meter" aria-hidden="true">
-                    <div style={{ width: `${(item.docs.length / c.documents.length) * 100}%` }} />
+                    <div style={{ width: `${(item.docs.length / p.documents.length) * 100}%` }} />
                   </div>
                   <ul className="print-docs">
-                    {c.documents.map((doc, i) => (
+                    {p.documents.map((doc, i) => (
                       <li key={doc} className={item.docs.includes(i) ? "done" : ""}>
                         {item.docs.includes(i) ? "☑" : "☐"} {doc}
                       </li>
                     ))}
                   </ul>
                   <p className="print-only">
-                    {applyUrl(id, locale)}
-                    {phone ? ` · ${phone}` : ""}
+                    {linkUrl(link, locale)}
+                    {link.phone ? ` · ${link.phone}` : ""}
                   </p>
                   <a className="card-link screen-only" href={href({ name: "program", id })}>
                     {ui.open} <Icon name="forward" size={16} />

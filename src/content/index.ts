@@ -1,13 +1,14 @@
-import type { Reason } from "../lib/eligibility/types";
-import { en } from "./en";
-import { es } from "./es";
-import type { Content, Locale } from "./types";
+import type { Reason } from "../lib/core";
+import type { CountryContent, Locale, UiStrings } from "./types";
+import { uiEn } from "./ui/en";
+import { uiEs } from "./ui/es";
+import { uiHi } from "./ui/hi";
 
-export const contents: Record<Locale, Content> = { en, es };
+export const ui: Record<Locale, UiStrings> = { en: uiEn, es: uiEs, hi: uiHi };
 
-export function reasonText(c: Content, r: Reason): string {
+export function reasonText(c: CountryContent, r: Reason): string {
   const render = c.reasons[r.key];
   return render ? render(r.params ?? {}) : r.key;
 }
 
-export type { Content, Locale } from "./types";
+export type { CountryCode, CountryContent, Locale, UiStrings } from "./types";

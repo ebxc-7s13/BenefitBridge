@@ -1,0 +1,47 @@
+import type { SchemeId } from "../../lib/india/types";
+import type { Link } from "../links";
+
+/** Official portals to apply or check status. Phone numbers are national toll-free helplines. */
+export const indiaLinks: Record<SchemeId, Link> = {
+  ration: { url: "https://nfsa.gov.in/", phone: "1967" },
+  anganwadi: { url: "https://wcd.gov.in/" },
+  "mid-day-meal": { url: "https://pmposhan.education.gov.in/" },
+  pmjay: { url: "https://beneficiary.nha.gov.in/", phone: "14555" },
+  jsy: { url: "https://nhm.gov.in/" },
+  pmmvy: { url: "https://pmmvy.wcd.gov.in/" },
+  "pmay-g": { url: "https://pmayg.dord.gov.in/" },
+  "pmay-u": { url: "https://pmay-urban.gov.in/" },
+  "surya-ghar": { url: "https://pmsuryaghar.gov.in/" },
+  ujjwala: { url: "https://pmuy.gov.in/", phone: "1800-2333-555" },
+  "rural-jobs": { url: "https://rural.gov.in/" },
+  eshram: { url: "https://eshram.gov.in/", phone: "14434" },
+  "pm-sym": { url: "https://maandhan.in/" },
+  vishwakarma: { url: "https://pmvishwakarma.gov.in/" },
+  svanidhi: { url: "https://pmsvanidhi.mohua.gov.in/" },
+  mudra: { url: "https://www.mudra.org.in/" },
+  pmegp: { url: "https://www.kviconline.gov.in/pmegpeportal/" },
+  "skill-india": { url: "https://www.skillindiadigital.gov.in/" },
+  internship: { url: "https://pminternship.mca.gov.in/" },
+  "first-job": { url: "https://pmvbry.epfindia.gov.in/" },
+  "pm-kisan": { url: "https://pmkisan.gov.in/", phone: "155261" },
+  "kisan-maandhan": { url: "https://maandhan.in/" },
+  kcc: { url: "https://pmkisan.gov.in/" },
+  pmfby: { url: "https://pmfby.gov.in/", phone: "14447" },
+  apy: { url: "https://www.jansuraksha.gov.in/" },
+  pmjjby: { url: "https://www.jansuraksha.gov.in/" },
+  pmsby: { url: "https://www.jansuraksha.gov.in/" },
+  "jan-dhan": { url: "https://pmjdy.gov.in/" },
+  "old-age-pension": { url: "https://nsap.nic.in/" },
+  "widow-pension": { url: "https://nsap.nic.in/" },
+  "disability-pension": { url: "https://nsap.nic.in/" },
+  vayoshri: { url: "https://www.alimco.in/" },
+  adip: { url: "https://www.alimco.in/" },
+  udid: { url: "https://www.swavlambancard.gov.in/" },
+  sukanya: { url: "https://www.indiapost.gov.in/" },
+  shg: { url: "https://aajeevika.gov.in/" },
+  "scholarship-category": { url: "https://scholarships.gov.in/" },
+  "scholarship-merit": { url: "https://scholarships.gov.in/" },
+  nmmss: { url: "https://scholarships.gov.in/" },
+};
+
+export const MYSCHEME_URL = "https://www.myscheme.gov.in/";

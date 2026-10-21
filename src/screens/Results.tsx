@@ -2,22 +2,33 @@ import { useState } from "react";
 import { Icon, type IconName } from "../components/Icon";
 import { reasonText } from "../content";
 import { longDate, moneyRange } from "../content/format";
-import { currentRuleset, programById, totalValue } from "../lib/eligibility/engine";
-import type { ProgramResult, Status } from "../lib/eligibility/types";
+import { totals, type ProgramResult, type Status } from "../lib/core";
 import { go, href } from "../lib/router";
 import { useApp } from "../lib/state";
 
+export const categoryIcon: Record<string, IconName> = {
+  food: "food",
+  health: "health",
+  money: "money",
+  home: "home",
+  family: "family",
+  work: "work",
+  farm: "farm",
+  security: "security",
+  education: "education",
+};
+
 export function Results() {
-  const { t, locale, results, done, reset } = useApp();
-  const r = t.ui.results;
+  const { t, c, pack, locale, results, countryDone, reset } = useApp();
+  const r = t.results;
   const [showUnlikely, setShowUnlikely] = useState(false);
 
-  if (!done || results.length === 0) {
+  if (!pack || !c || !countryDone || results.length === 0) {
     return (
       <div className="page">
         <h1 id="page-title" tabIndex={-1}>{r.title}</h1>
         <p>
-          <a className="button" href={href({ name: "screener", step: 1 })}>{t.ui.home.start}</a>
+          <a className="button" href={href({ name: "screener", step: 1 })}>{t.home.start}</a>
         </p>
       </div>
     );
@@ -27,25 +38,43 @@ export function Results() {
   const likely = by("likely");
   const possibly = by("possibly");
   const unlikely = by("unlikely");
-  const total = totalValue(results);
+  const sum = totals(results);
+  const range = (v: { low: number; high: number }) => moneyRange(v.low, v.high, locale, pack.currency, t.money.upTo);
 
   return (
     <div className="page">
       <h1 id="page-title" tabIndex={-1}>{r.title}</h1>
       <p className="lead">{likely.length + possibly.length > 0 ? r.summary(likely.length, possibly.length) : r.noneTitle}</p>
 
-      {total.high > 0 && (
+      {(sum.yearly.high > 0 || sum.once.high > 0) && (
         <section className="value-banner" aria-label={r.valueLabel}>
           <span className="value-label">{r.valueLabel}</span>
-          <strong className="value-amount">{moneyRange(total.low, total.high, locale)}</strong>
-          <span className="value-note">{r.valueNote}</span>
+          {sum.yearly.high > 0 && (
+            <>
+              <strong className="value-amount">{range(sum.yearly)}</strong>
+              <span className="value-note">{c.results.valueNote}</span>
+            </>
+          )}
+          {sum.once.high > 0 && <span className="value-once">{r.onceLabel(moneyRange(sum.once.high, sum.once.high, locale, pack.currency, t.money.upTo))}</span>}
         </section>
       )}
 
-      {likely.length + possibly.length === 0 && <p className="card">{r.noneBody}</p>}
+      {likely.length + possibly.length === 0 && <p className="card">{c.results.noneBody}</p>}
 
       <ResultGroup title={r.groupLikely} items={likely} />
       <ResultGroup title={r.groupPossibly} items={possibly} />
+
+      {c.results.extra && (
+        <section className="card extra-card">
+          <h2>{c.results.extra.title}</h2>
+          <p>{c.results.extra.body}</p>
+          {c.results.extra.links.map((l) => (
+            <a key={l.href} className="button secondary" href={l.href} target="_blank" rel="noopener noreferrer">
+              {l.label} <Icon name="external" size={18} />
+            </a>
+          ))}
+        </section>
+      )}
 
       {unlikely.length > 0 && (
         <section>
@@ -69,12 +98,10 @@ export function Results() {
           {r.startOver}
         </button>
       </div>
-      <p className="fine-print">{r.disclaimer(longDate(currentRuleset.effectiveFrom, locale))}</p>
+      <p className="fine-print">{r.disclaimer(longDate(pack.rules.effectiveFrom, locale))}</p>
     </div>
   );
 }
-
-const categoryIcon: Record<string, IconName> = { food: "food", health: "health", money: "money", home: "home", family: "family" };
 
 function ResultGroup({ title, items }: { title: string; items: ProgramResult[] }) {
   if (items.length === 0) return null;
@@ -93,33 +120,34 @@ function ResultGroup({ title, items }: { title: string; items: ProgramResult[] }
 }
 
 function ResultCard({ result }: { result: ProgramResult }) {
-  const { t, locale, plan } = useApp();
-  const p = t.programs[result.programId];
-  const category = programById[result.programId].category;
+  const { t, c, pack, locale, countryPlan } = useApp();
+  const p = c!.programs[result.programId];
+  const category = pack!.categoryOf(result.programId);
+  const v = result.value;
   return (
     <a className={`card result-card status-${result.status}`} href={href({ name: "program", id: result.programId })}>
       <div className="result-top">
         <span className="category">
-          <Icon name={categoryIcon[category]} size={16} />
-          {t.categories[category]}
+          <Icon name={categoryIcon[category] ?? "list"} size={16} />
+          {c!.categories[category]}
         </span>
-        {plan[result.programId] && (
+        {countryPlan[result.programId] && (
           <span className="chip">
             <Icon name="check" size={14} />
-            {t.ui.results.inPlan}
+            {t.results.inPlan}
           </span>
         )}
       </div>
       <h3>{p.name}</h3>
       <p className="muted">{p.short}</p>
-      {result.value && result.status !== "unlikely" && (
+      {v && result.status !== "unlikely" && (
         <p className="result-value">
-          {moneyRange(result.value.low, result.value.high, locale)} <span>{t.ui.results.perYear}</span>
+          {moneyRange(v.low, v.high, locale, pack!.currency, t.money.upTo)} <span>{v.once ? t.money.once : t.money.perYear}</span>
         </p>
       )}
-      <p className="reason">{reasonText(t, result.reasons[0])}</p>
+      <p className="reason">{reasonText(c!, result.reasons[0])}</p>
       <span className="card-link">
-        {t.ui.results.details} <Icon name="forward" size={16} />
+        {t.results.details} <Icon name="forward" size={16} />
       </span>
     </a>
   );

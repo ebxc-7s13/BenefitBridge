@@ -1,8 +1,7 @@
 import { Icon } from "../components/Icon";
 import { reasonText } from "../content";
 import { moneyRange } from "../content/format";
-import { applyUrl, programLinks } from "../content/links";
-import type { ProgramId } from "../lib/eligibility/types";
+import { linkUrl } from "../content/links";
 import { calendarFile, canSaveFiles, downloadCalendar } from "../lib/ics";
 import { href } from "../lib/router";
 import { useApp, type PlanStatus } from "../lib/state";
@@ -10,21 +9,21 @@ import { useApp, type PlanStatus } from "../lib/state";
 const STATUSES: PlanStatus[] = ["todo", "applying", "applied", "approved", "denied"];
 
 export function ProgramDetail({ id }: { id: string }) {
-  const { t, locale, results, plan, setPlanItem } = useApp();
-  const result = results.find((r) => r.programId === id);
-  const content = t.programs[id as ProgramId];
-  if (!content) {
+  const { t, c, pack, locale, results, countryPlan, setPlanItem } = useApp();
+  const content = c?.programs[id];
+  if (!pack || !c || !content) {
     return (
       <div className="page">
-        <h1 id="page-title" tabIndex={-1}>{t.ui.results.title}</h1>
-        <a href={href({ name: "results" })}>{t.ui.program.back}</a>
+        <h1 id="page-title" tabIndex={-1}>{t.results.title}</h1>
+        <a href={href({ name: "results" })}>{t.program.back}</a>
       </div>
     );
   }
-  const programId = id as ProgramId;
-  const ui = t.ui.program;
-  const item = plan[programId];
-  const link = programLinks[programId];
+  const result = results.find((r) => r.programId === id);
+  const ui = t.program;
+  const item = countryPlan[id];
+  const link = pack.links[id];
+  const url = linkUrl(link, locale);
 
   const toggleDoc = (i: number, on: boolean) => {
     const docs = new Set(item?.docs ?? []);
@@ -32,13 +31,12 @@ export function ProgramDetail({ id }: { id: string }) {
     else docs.delete(i);
     // Gathering papers means the person has started.
     const status = !item || item.status === "todo" ? "applying" : item.status;
-    setPlanItem(programId, { docs: [...docs].sort((a, b) => a - b), status });
+    setPlanItem(id, { docs: [...docs].sort((a, b) => a - b), status });
   };
 
   const addToCalendar = (kind: "interview" | "renewal", date: string) => {
     const title = kind === "interview" ? ui.calendarInterview(content.name) : ui.calendarRenewal(content.name);
-    const ics = calendarFile(title, date, `${content.name} — ${applyUrl(programId, locale)}`, `${programId}-${kind}-${date}`);
-    downloadCalendar(`${programId}-${kind}.ics`, ics);
+    downloadCalendar(`${id}-${kind}.ics`, calendarFile(title, date, `${content.name} — ${url}`, `${id}-${kind}-${date}`));
   };
 
   return (
@@ -55,19 +53,20 @@ export function ProgramDetail({ id }: { id: string }) {
           <h2>{ui.why}</h2>
           <ul className="reasons">
             {result.reasons.map((r) => (
-              <li key={r.key}>{reasonText(t, r)}</li>
+              <li key={r.key}>{reasonText(c, r)}</li>
             ))}
           </ul>
           {result.value && result.status !== "unlikely" && (
             <p className="result-value">
-              {ui.estimate}: {moneyRange(result.value.low, result.value.high, locale)} <span>{t.ui.money.perYear}</span>
+              {ui.estimate}: {moneyRange(result.value.low, result.value.high, locale, pack.currency, t.money.upTo)}{" "}
+              <span>{result.value.once ? t.money.once : t.money.perYear}</span>
             </p>
           )}
         </section>
       )}
 
       <div className="button-row">
-        <a className="button" href={applyUrl(programId, locale)} target="_blank" rel="noopener noreferrer">
+        <a className="button" href={url} target="_blank" rel="noopener noreferrer">
           {content.applyLabel} <Icon name="external" size={18} />
         </a>
         {link.phone && (
@@ -115,19 +114,19 @@ export function ProgramDetail({ id }: { id: string }) {
           <>
             <div className="field">
               <label htmlFor="plan-status">{ui.statusLabel}</label>
-              <select id="plan-status" value={item.status} onChange={(e) => setPlanItem(programId, { status: e.target.value as PlanStatus })}>
+              <select id="plan-status" value={item.status} onChange={(e) => setPlanItem(id, { status: e.target.value as PlanStatus })}>
                 {STATUSES.map((s) => (
                   <option key={s} value={s}>{ui.statuses[s]}</option>
                 ))}
               </select>
             </div>
-            {item.status === "denied" && <p className="notice">{ui.deniedHelp}</p>}
+            {item.status === "denied" && <p className="notice">{c.deniedHelp}</p>}
             <h3>{ui.dates}</h3>
             {(["interview", "renewal"] as const).map((kind) => (
               <div className="field date-field" key={kind}>
                 <label htmlFor={`date-${kind}`}>{kind === "interview" ? ui.interviewDate : ui.renewalDate}</label>
                 <div className="date-row">
-                  <input id={`date-${kind}`} type="date" value={item[kind] ?? ""} onChange={(e) => setPlanItem(programId, { [kind]: e.target.value || undefined })} />
+                  <input id={`date-${kind}`} type="date" value={item[kind] ?? ""} onChange={(e) => setPlanItem(id, { [kind]: e.target.value || undefined })} />
                   {item[kind] && canSaveFiles && (
                     <button type="button" className="button secondary small" onClick={() => addToCalendar(kind, item[kind]!)}>
                       <Icon name="calendar" size={18} /> {ui.addToCalendar}
@@ -136,12 +135,12 @@ export function ProgramDetail({ id }: { id: string }) {
                 </div>
               </div>
             ))}
-            <button type="button" className="link-button danger" onClick={() => setPlanItem(programId, null)}>
+            <button type="button" className="link-button danger" onClick={() => setPlanItem(id, null)}>
               {ui.removeFromPlan}
             </button>
           </>
         ) : (
-          <button type="button" className="button" onClick={() => setPlanItem(programId, {})}>
+          <button type="button" className="button" onClick={() => setPlanItem(id, {})}>
             <Icon name="plus" size={18} /> {ui.addToPlan}
           </button>
         )}

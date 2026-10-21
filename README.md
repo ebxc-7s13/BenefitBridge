@@ -1,59 +1,70 @@
 # BenefitBridge
 
-**Find the help you may already qualify for. It's private, in plain English and Spanish, and takes about 3 minutes.**
+**Find the government help your family may already qualify for. It's private, in plain language, and takes a few minutes.**
 
-Every year, tens of billions of dollars in food, health, cash, energy and child care help go
-unclaimed, because people don't know they qualify or the process is too confusing.
-BenefitBridge checks a household against **18 programs** and shows what they likely qualify
-for and about how much it's worth. It also helps them follow through: papers to gather, steps
-to apply, dates to remember, and printable plans.
+Every year, huge amounts of public support go unclaimed, because people don't know they qualify
+or the process is too confusing. BenefitBridge first asks **which country you live in**, then
+runs that country's own questionnaire. It shows the programs you likely qualify for, why, and
+about how much they're worth. It also helps you follow through: papers to gather, steps to
+apply, dates to remember, and printable plans.
+
+| Country | Programs | Languages |
+|---------|----------|-----------|
+| 🇮🇳 India | **39 central government schemes** | English, हिन्दी (Hindi) |
+| 🇺🇸 United States | **18 federal programs** | English, Español |
 
 <p>
-  <img src="docs/screenshots/1-home-light.png" width="200" alt="Home screen">
-  <img src="docs/screenshots/3-results-light.png" width="200" alt="Results with estimated yearly value">
-  <img src="docs/screenshots/4-program-dark.png" width="200" alt="Program page with tracking, in dark mode">
-  <img src="docs/screenshots/5-plan-light.png" width="200" alt="My plan with upcoming dates">
+  <img src="docs/screenshots/0-country-light.png" width="190" alt="Choose your country">
+  <img src="docs/screenshots/in-3-results-light.png" width="190" alt="India results with estimated value">
+  <img src="docs/screenshots/in-4-results-hindi-dark.png" width="190" alt="India results in Hindi, dark mode">
+  <img src="docs/screenshots/3-results-light.png" width="190" alt="United States results">
 </p>
 
 ## How it helps
 
-- **Finds money people miss.** One screen shows every program a family may qualify for. For
-  example, a family of 4 in Ohio earning $2,800 a month sees about **$16,500 a year** in food
-  and tax-credit help, before counting health coverage, school meals and child care.
-- **Explains why, plainly.** Every result gives its reasons ("Your income is under the $3,575
-  a month limit for 4 people"), so people can trust it and fix wrong answers.
-- **Gets it done.** For each program you get a checklist of papers, how to apply, the official
-  site and phone number, and answers to common questions.
-- **Helps people keep their benefits.** "My plan" tracks status and dates, adds interview and
-  renewal reminders to your phone's calendar, and prints a one-page plan for appointments.
-- **Safe and private.** No account, no name and no SSN, and nothing leaves the phone. There's a
-  quick-exit button, a one-tap "delete everything", and links to 211, legal aid, immigration
-  help and crisis lines.
-- **Works for everyone.** Full Spanish, large tap targets, light and dark themes, screen-reader
-  support (WCAG 2.1 AA is checked automatically on every screen), and it works offline once
-  installed.
+- **Finds money and support people miss.** For example, a poor farming family in Bihar sees
+  PM-KISAN, free ration, PM Awas, Ujjwala gas, 125 days of rural work, maternity benefits,
+  scholarships and more: about **₹18,000 a year in cash plus ₹1.27 lakh of one-time help**.
+  A family of 4 in Ohio sees about **$16,500 a year** in food and tax-credit help.
+- **Asks criteria-wise questions.** India's questionnaire covers the details schemes actually
+  depend on: state, village or town, age, women and children, 60+/70+, widows, disability
+  level, SC/ST/OBC/minority, ration card type, BPL list, income, income tax, government job,
+  PF/ESIC, farmland, work type, house type, LPG and bank account.
+- **Explains why, plainly.** Every result gives its reasons ("Everyone aged 70 or more is
+  covered under Ayushman Vay Vandana, whatever the income").
+- **Gets it done.** For each scheme you get the papers to gather, how to apply, the official
+  portal and national helpline number, and common questions.
+- **Helps people keep their benefits.** "My plan" tracks status and dates, adds reminders to the
+  phone's calendar, and prints a plan to take to the office.
+- **Safe and private.** No account, no name and no ID numbers, and nothing leaves the phone.
+  There's a quick-exit button, "delete everything", and country helplines (India: fraud 1930,
+  women 181, child 1098, legal aid 15100, Elderline 14567, Tele-MANAS 14416, emergency 112).
+- **Works for everyone.** Large tap targets, light and dark themes, screen-reader support
+  (WCAG 2.1 AA is checked automatically on every screen), and it works offline.
 
-## Programs checked
+## India: schemes checked
 
-| Category | Programs |
-|----------|----------|
-| Food | SNAP (with a monthly estimate), WIC, free or reduced-price school meals |
-| Health | Medicaid for adults, Medicaid for pregnancy, Medicaid and CHIP for kids, marketplace tax credits, Medicare Extra Help |
-| Money and taxes | EITC (estimate), Child Tax Credit (estimate), free tax filing help (VITA), SSI (estimate), TANF |
-| Home and bills | LIHEAP energy help, Lifeline phone/internet discount, Housing Choice Vouchers |
-| Kids and family | Head Start and Early Head Start, child care assistance |
+| Area | Schemes |
+|------|---------|
+| Food | Free ration (PMGKAY / NFSA, One Nation One Ration Card), Anganwadi / Poshan 2.0, PM POSHAN school meals |
+| Health | Ayushman Bharat PM-JAY (incl. Vay Vandana for everyone 70+), Janani Suraksha Yojana, PM Matru Vandana Yojana |
+| Home and energy | PMAY-Gramin, PMAY-Urban 2.0, PM Surya Ghar (rooftop solar), PM Ujjwala (LPG) |
+| Jobs and business | Rural jobs guarantee (VB-G RAM G, which replaced MGNREGA on 1 July 2026), e-Shram, PM Vishwakarma, PM SVANidhi, Mudra, PMEGP, Skill India, PM Internship, first-job bonus (PM-VBRY) |
+| Farmers | PM-KISAN, PM Kisan Maan-dhan, Kisan Credit Card, PM Fasal Bima |
+| Pensions, insurance and support | Old-age, widow and disability pensions (NSAP), Atal Pension, PM-SYM, PMJJBY, PMSBY, Jan Dhan, Rashtriya Vayoshri, ADIP, UDID card |
+| Women, children and students | Sukanya Samriddhi, self-help groups (DAY-NRLM / Lakhpati Didi), SC/ST/OBC/minority scholarships, Central Sector Scholarship, NMMSS |
 
-The rules use figures in effect on **October 1, 2026**:
-- 2026 HHS poverty guidelines
-- SNAP limits and benefit amounts for Oct 2026 – Sep 2027
-- Tax year 2026 EITC and Child Tax Credit
-- 2026 SSI and Medicare Extra Help amounts
-- Current Medicaid expansion status
-- The 2025 law's SNAP and Medicaid work rules
+States run hundreds more schemes of their own, so the results point to the government's
+**myScheme** portal for state schemes. Figures are those in force on 1 October 2026 (see
+[`src/lib/india/rules2026.ts`](src/lib/india/rules2026.ts)).
 
-Tests reproduce the published tables (for example the SNAP gross limits, the EITC maximums and
-phase-out amounts, and the Lifeline and school-meal limits). Sources are listed in
-[`src/lib/eligibility/rulesets/2026.ts`](src/lib/eligibility/rulesets/2026.ts).
+## United States: programs checked
+
+SNAP (with a monthly estimate), WIC, school meals, Medicaid (adults, pregnancy, kids/CHIP),
+marketplace tax credits, Medicare Extra Help, EITC and Child Tax Credit (estimates), free tax
+help, SSI (estimate), TANF, LIHEAP, Lifeline, Head Start, child care help and housing vouchers.
+Figures use the 2026 poverty guidelines, SNAP limits for Oct 2026 – Sep 2027 and tax year 2026
+credits (see [`src/lib/us/rulesets/2026.ts`](src/lib/us/rulesets/2026.ts)).
 
 ## Try it
 
@@ -67,7 +78,7 @@ phase-out amounts, and the Lifeline and school-meal limits). Sources are listed 
 ```bash
 npm install
 npm run dev            # http://localhost:5173
-npm test               # rules engine + content tests (Vitest)
+npm test               # rules engines + content tests (Vitest)
 npm run build          # dist/: installable PWA with offline service worker
 npm run build:single   # dist-single/index.html: one self-contained file
 npx playwright install chromium && npm run test:e2e   # end-to-end + accessibility tests
@@ -75,29 +86,35 @@ npx playwright install chromium && npm run test:e2e   # end-to-end + accessibili
 
 ```
 src/
-  lib/eligibility/       rules engine: one pure evaluate() per program, no UI or language
-    rulesets/2026.ts     every threshold, with sources (add a new file each year)
-    calc.ts              SNAP budget, EITC, CTC and SSI math
-    engine.test.ts       golden tests against official tables
-  content/               English and Spanish text: programs, reasons, checklists, FAQs
-  screens/               Home, Screener (5 steps), Results, Program, My plan, Help
-e2e/                     Playwright flows with axe accessibility checks
+  lib/core.ts            shared result types, ranking and totals
+  lib/us/                US rules engine (one pure evaluate() per program) + golden tests
+  lib/india/             India rules engine (one pure evaluate() per scheme) + golden tests
+  content/ui/            shared screen text in English, Spanish and Hindi
+  content/us/            US wording (en, es) and official links
+  content/india/         India wording (en, hi) and official portals
+  countries/             country packs (rules + content + currency + languages) and questionnaires
+  screens/               Country picker, Home, Results, Program, My plan, Help
+e2e/                     Playwright flows for both countries with axe accessibility checks
 docs/PLAN.md             vision, roadmap, architecture, status by phase
 ```
 
-**Updating rules:** poverty guidelines change every January, SNAP figures every October and
-tax figures every fall. Add a new ruleset file, point `currentRuleset` at it, and update the
-golden tests to the new official tables.
+**Adding a country:** write a rules engine under `src/lib/<country>/`, its wording under
+`src/content/<country>/`, a questionnaire component, and register a pack in
+`src/countries/index.ts`. The content tests check every language is complete.
+
+**Updating rules:** add a new dated rules file, point the engine at it, and update the golden
+tests to the new official figures. Never edit a published rules file.
 
 ## Releases and hosting
 
-- Pushing a tag like `v1.0.1`, or running `.github/workflows/release.yml` by hand with a version, tests the app, builds
-  it, and publishes a GitHub Release with `benefitbridge.html` and `benefitbridge-web.zip`.
+- Pushing a tag like `v1.1.1`, or running `.github/workflows/release.yml` by hand with a version,
+  tests the app, builds it, and publishes a GitHub Release with `benefitbridge.html` and
+  `benefitbridge-web.zip`.
 - `.github/workflows/pages.yml` deploys to GitHub Pages when run by hand. Enable Pages first
   (Settings → Pages → Source: GitHub Actions). Pages on a private repo needs a paid GitHub
   plan; otherwise make the repo public or use any static host.
 
 ## Disclaimer
 
-BenefitBridge is not a government service. Results are estimates, and the agency that runs each
-program makes the final decision. For free help from a person, call or text **211**.
+BenefitBridge is not a government service. Results are estimates, and the office that runs each
+program makes the final decision. Applying for government schemes is free — never pay an agent.

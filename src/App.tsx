@@ -1,13 +1,15 @@
 import { useEffect } from "react";
 import { Icon, type IconName } from "./components/Icon";
+import { InScreener } from "./countries/InScreener";
+import { UsScreener } from "./countries/UsScreener";
 import { href, useRoute, type Route } from "./lib/router";
 import { useApp } from "./lib/state";
+import { CountryPicker } from "./screens/CountryPicker";
 import { Help } from "./screens/Help";
 import { Home } from "./screens/Home";
 import { Plan } from "./screens/Plan";
 import { ProgramDetail } from "./screens/ProgramDetail";
 import { Results } from "./screens/Results";
-import { Screener } from "./screens/Screener";
 
 const EXIT_URL = "https://weather.com/";
 
@@ -19,57 +21,71 @@ function quickExit() {
   }
 }
 
+const screeners = { US: UsScreener, IN: InScreener };
+
 export function App() {
   const route = useRoute();
-  const { t, locale, update, done } = useApp();
+  const { t, locale, country, pack, countryDone, toggleLocale } = useApp();
 
   // Move focus to the new page's heading so screen readers announce it.
   useEffect(() => {
     window.scrollTo(0, 0);
     document.getElementById("page-title")?.focus({ preventScroll: true });
-  }, [route]);
+  }, [route, country]);
 
   const tabs: { route: Route; label: string; icon: IconName; show: boolean }[] = [
-    { route: { name: "home" }, label: t.ui.nav.home, icon: "home", show: true },
-    { route: { name: "results" }, label: t.ui.nav.results, icon: "search", show: done },
-    { route: { name: "plan" }, label: t.ui.nav.plan, icon: "list", show: true },
-    { route: { name: "help" }, label: t.ui.nav.help, icon: "help", show: true },
+    { route: { name: "home" }, label: t.nav.home, icon: "home", show: true },
+    { route: { name: "results" }, label: t.nav.results, icon: "search", show: countryDone },
+    { route: { name: "plan" }, label: t.nav.plan, icon: "list", show: !!country },
+    { route: { name: "help" }, label: t.nav.help, icon: "help", show: true },
   ];
-  const active = route.name === "program" ? "results" : route.name === "screener" ? "home" : route.name;
+  const active = route.name === "program" ? "results" : route.name === "screener" || route.name === "country" ? "home" : route.name;
+
+  const locales = pack ? pack.locales : (["en", "hi", "es"] as const);
+  const nextLocale = locales[(locales.indexOf(locale as never) + 1) % locales.length];
+  const Screener = country ? screeners[country] : null;
+  // Everything country-specific waits until a country is chosen.
+  const needsCountry = !country && route.name !== "help";
 
   return (
     <>
-      <a className="skip-link" href="#main">{t.ui.skipToContent}</a>
+      <a className="skip-link" href="#main">{t.skipToContent}</a>
       <header className="app-header">
-        <a className="brand" href={href({ name: "home" })} aria-label={`${t.ui.appName} — ${t.ui.nav.home}`}>
+        <a className="brand" href={href({ name: "home" })} aria-label={`${t.appName} — ${t.nav.home}`}>
           <svg aria-hidden="true" width="28" height="28" viewBox="0 0 512 512">
             <rect width="512" height="512" rx="112" fill="var(--brand)" />
             <path d="M96 340c40-90 100-136 160-136s120 46 160 136M96 340h320M176 340v-60M256 340v-80M336 340v-60" stroke="var(--on-brand)" strokeWidth="34" strokeLinecap="round" fill="none" />
           </svg>
-          <span>{t.ui.appName}</span>
+          <span>{t.appName}</span>
         </a>
         <div className="header-actions">
-          <button type="button" className="ghost-button" onClick={() => update({ locale: locale === "en" ? "es" : "en" })} lang={locale === "en" ? "es" : "en"}>
+          {country && (
+            <a className="ghost-button country-chip" href={href({ name: "country" })} aria-label={`${country} — ${t.country.change}`} title={t.country.names[country]}>
+              {country}
+            </a>
+          )}
+          <button type="button" className="ghost-button" onClick={toggleLocale} lang={nextLocale}>
             <Icon name="globe" size={18} />
-            {t.ui.language}
+            {nextLocale === "en" ? "English" : nextLocale === "es" ? "Español" : "हिन्दी"}
           </button>
-          <button type="button" className="exit-button" onClick={quickExit} title={t.ui.quickExitHint}>
+          <button type="button" className="exit-button" onClick={quickExit} title={t.quickExitHint}>
             <Icon name="exit" size={18} />
-            {t.ui.quickExit}
+            {t.quickExit}
           </button>
         </div>
       </header>
 
       <main id="main">
-        {route.name === "home" && <Home />}
-        {route.name === "screener" && <Screener step={route.step} />}
-        {route.name === "results" && <Results />}
-        {route.name === "program" && <ProgramDetail id={route.id} />}
-        {route.name === "plan" && <Plan />}
+        {(needsCountry || route.name === "country") && <CountryPicker />}
+        {!needsCountry && route.name === "home" && <Home />}
+        {!needsCountry && route.name === "screener" && Screener && <Screener step={route.step} />}
+        {!needsCountry && route.name === "results" && <Results />}
+        {!needsCountry && route.name === "program" && <ProgramDetail id={route.id} />}
+        {!needsCountry && route.name === "plan" && <Plan />}
         {route.name === "help" && <Help />}
       </main>
 
-      <nav className="tab-bar" aria-label={t.ui.appName}>
+      <nav className="tab-bar" aria-label={t.appName}>
         {tabs
           .filter((tab) => tab.show)
           .map((tab) => (
