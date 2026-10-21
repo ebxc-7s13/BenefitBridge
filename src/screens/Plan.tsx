@@ -2,6 +2,7 @@ import { Icon } from "../components/Icon";
 import { longDate, money } from "../content/format";
 import { applyUrl, programLinks } from "../content/links";
 import type { ProgramId } from "../lib/eligibility/types";
+import { canSaveFiles } from "../lib/ics";
 import { href } from "../lib/router";
 import { useApp } from "../lib/state";
 import { stateName } from "../lib/states";
@@ -97,9 +98,11 @@ export function Plan() {
             })}
           </ul>
 
-          <button type="button" className="button secondary screen-only" onClick={() => window.print()}>
-            <Icon name="print" size={18} /> {ui.print}
-          </button>
+          {canSaveFiles && (
+            <button type="button" className="button secondary screen-only" onClick={() => window.print()}>
+              <Icon name="print" size={18} /> {ui.print}
+            </button>
+          )}
         </>
       )}
     </div>

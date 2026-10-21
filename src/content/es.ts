@@ -168,6 +168,8 @@ export const es: Content = {
       saveHint: "Desactívelo si otras personas usan este teléfono. Sus respuestas se borrarán al cerrar la página.",
       deleteAll: "Borrar todo",
       deleteConfirm: "¿Borrar todas sus respuestas, resultados y su plan de este dispositivo?",
+      deleteYes: "Sí, borrar todo",
+      cancel: "Cancelar",
       deleted: "Todo se borró de este dispositivo.",
       aboutTitle: "Sobre estos resultados",
       aboutBody: (version, date) => `Versión de reglas ${version}, con cifras vigentes desde el ${date}. Revisamos las fuentes oficiales cada año cuando cambian los límites.`,

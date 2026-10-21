@@ -168,6 +168,8 @@ export const en: Content = {
       saveHint: "Turn off if others use this phone. Your answers will be forgotten when you close the page.",
       deleteAll: "Delete everything",
       deleteConfirm: "Delete all your answers, results and plan from this device?",
+      deleteYes: "Yes, delete everything",
+      cancel: "Cancel",
       deleted: "Everything was deleted from this device.",
       aboutTitle: "About these results",
       aboutBody: (version, date) => `Rules version ${version}, using figures in effect ${date}. We check official sources every year when limits change.`,

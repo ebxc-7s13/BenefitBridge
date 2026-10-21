@@ -89,8 +89,8 @@ test("help page can delete everything", async ({ page }) => {
   await completeScreener(page);
   await page.getByRole("link", { name: "Get help" }).click();
   await expectAccessible(page);
-  page.once("dialog", (d) => d.accept());
   await page.getByRole("button", { name: "Delete everything" }).click();
+  await page.getByRole("button", { name: "Yes, delete everything" }).click();
   await expect(page.getByText("Everything was deleted from this device.")).toBeVisible();
   await expect(page.getByRole("link", { name: "Results" })).toHaveCount(0);
 });

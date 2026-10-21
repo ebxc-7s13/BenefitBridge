@@ -11,6 +11,7 @@ export function Help() {
   const { t, locale, save, update, reset } = useApp();
   const ui = t.ui.help;
   const [deleted, setDeleted] = useState(false);
+  const [confirming, setConfirming] = useState(false);
 
   return (
     <div className="page help">
@@ -57,17 +58,38 @@ export function Help() {
         <p>{ui.privacyBody}</p>
         <Check label={ui.saveLabel} checked={save} onChange={(v) => update({ save: v })} />
         <p className="hint">{ui.saveHint}</p>
-        <button
-          type="button"
-          className="button danger"
-          onClick={() => {
-            if (!window.confirm(ui.deleteConfirm)) return;
-            reset();
-            setDeleted(true);
-          }}
-        >
-          <Icon name="trash" size={18} /> {ui.deleteAll}
-        </button>
+        {confirming ? (
+          <div className="confirm" role="group" aria-labelledby="delete-question">
+            <p id="delete-question"><strong>{ui.deleteConfirm}</strong></p>
+            <div className="button-row">
+              <button
+                type="button"
+                className="button danger"
+                onClick={() => {
+                  reset();
+                  setConfirming(false);
+                  setDeleted(true);
+                }}
+              >
+                <Icon name="trash" size={18} /> {ui.deleteYes}
+              </button>
+              <button type="button" className="button secondary" onClick={() => setConfirming(false)}>
+                {ui.cancel}
+              </button>
+            </div>
+          </div>
+        ) : (
+          <button
+            type="button"
+            className="button danger"
+            onClick={() => {
+              setDeleted(false);
+              setConfirming(true);
+            }}
+          >
+            <Icon name="trash" size={18} /> {ui.deleteAll}
+          </button>
+        )}
         <p role="status" className="notice-inline">
           {deleted ? ui.deleted : ""}
         </p>

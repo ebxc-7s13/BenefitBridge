@@ -181,6 +181,8 @@ export interface UiStrings {
     saveHint: string;
     deleteAll: string;
     deleteConfirm: string;
+    deleteYes: string;
+    cancel: string;
     deleted: string;
     aboutTitle: string;
     aboutBody: (version: string, date: string) => string;

@@ -1,3 +1,12 @@
+/** Downloads and printing are blocked when the app runs inside another page (sandboxed frames). */
+export const canSaveFiles = (() => {
+  try {
+    return window.self === window.top;
+  } catch {
+    return false;
+  }
+})();
+
 /** Build a one-event calendar file (all-day, with a reminder the day before). */
 export function calendarFile(title: string, isoDate: string, description: string, uid: string): string {
   const day = isoDate.replace(/-/g, "");

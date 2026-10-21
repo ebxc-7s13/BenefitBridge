@@ -3,7 +3,7 @@ import { reasonText } from "../content";
 import { moneyRange } from "../content/format";
 import { applyUrl, programLinks } from "../content/links";
 import type { ProgramId } from "../lib/eligibility/types";
-import { calendarFile, downloadCalendar } from "../lib/ics";
+import { calendarFile, canSaveFiles, downloadCalendar } from "../lib/ics";
 import { href } from "../lib/router";
 import { useApp, type PlanStatus } from "../lib/state";
 
@@ -128,7 +128,7 @@ export function ProgramDetail({ id }: { id: string }) {
                 <label htmlFor={`date-${kind}`}>{kind === "interview" ? ui.interviewDate : ui.renewalDate}</label>
                 <div className="date-row">
                   <input id={`date-${kind}`} type="date" value={item[kind] ?? ""} onChange={(e) => setPlanItem(programId, { [kind]: e.target.value || undefined })} />
-                  {item[kind] && (
+                  {item[kind] && canSaveFiles && (
                     <button type="button" className="button secondary small" onClick={() => addToCalendar(kind, item[kind]!)}>
                       <Icon name="calendar" size={18} /> {ui.addToCalendar}
                     </button>
