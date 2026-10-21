@@ -224,6 +224,15 @@ export const uiBn: UiStrings = {
     stateJobs: "রাজ্যের নিয়োগ আর কর্মসংস্থান",
     training: "বিনামূল্যে প্রশিক্ষণ আর অ্যাপ্রেন্টিসশিপ",
   },
+  tools: {
+    listen: "শুনুন",
+    stop: "থামান",
+    share: "শেয়ার",
+    copied: "কপি হয়েছে। মেসেজে পেস্ট করুন।",
+    shareFailed: "এখান থেকে শেয়ার করা গেল না।",
+    textSize: "লেখার মাপ",
+    sizes: { normal: "সাধারণ", large: "বড়", xlarge: "আরও বড়" },
+  },
   helplines: {
     title: "হেল্পলাইন",
     lead: "বিনামূল্যের সরকারি নম্বর। ফোন করতে টিপুন।",

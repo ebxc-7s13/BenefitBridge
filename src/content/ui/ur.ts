@@ -225,6 +225,15 @@ export const uiUr: UiStrings = {
     stateJobs: "ریاست کی بھرتیاں اور روزگار",
     training: "مفت تربیت اور اپرنٹس شپ",
   },
+  tools: {
+    listen: "سنیں",
+    stop: "روکیں",
+    share: "شیئر کریں",
+    copied: "کاپی ہو گیا۔ اسے کسی پیغام میں پیسٹ کریں۔",
+    shareFailed: "یہاں سے شیئر نہیں ہو سکا۔",
+    textSize: "لکھائی کا سائز",
+    sizes: { normal: "عام", large: "بڑا", xlarge: "بہت بڑا" },
+  },
   helplines: {
     title: "ہیلپ لائن",
     lead: "مفت سرکاری نمبر۔ فون کرنے کے لیے دبائیں۔",

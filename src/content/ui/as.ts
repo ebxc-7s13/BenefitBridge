@@ -231,6 +231,15 @@ export const uiAs: UiStrings = {
     state: (place) => `${place}`,
     emergency: "জৰুৰীকালীন: 112",
   },
+  tools: {
+    listen: "শুনক",
+    stop: "ৰখাওক",
+    share: "শ্বেয়াৰ কৰক",
+    copied: "কপি হ'ল। কোনো মেছেজত পেষ্ট কৰক।",
+    shareFailed: "ইয়াৰ পৰা শ্বেয়াৰ কৰিব পৰা নগ'ল।",
+    textSize: "আখৰৰ আকাৰ",
+    sizes: { normal: "সাধাৰণ", large: "ডাঙৰ", xlarge: "বৰ ডাঙৰ" },
+  },
   updates: {
     title: "শেহতীয়া খবৰ",
     new: "নতুন",
