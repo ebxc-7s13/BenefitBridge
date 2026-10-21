@@ -9,6 +9,8 @@ import type { CountryCode, CountryContent, Locale } from "../content/types";
 import { usEn } from "../content/us/en";
 import { usEs } from "../content/us/es";
 import { usLinks } from "../content/us/links";
+import { withStateContent as withUsStateContent } from "../content/us/stateContent";
+import { statePortals as usPortals } from "../content/us/statePortals";
 import type { UsWizard } from "../content/us/types";
 import type { ProgramResult } from "../lib/core";
 import { categoryOf as inCategoryOf, currentRules, emptyHousehold as emptyIn, screen as screenIn } from "../lib/india/engine";
@@ -16,7 +18,9 @@ import { statePortals, stateSchemes } from "../lib/india/stateSchemes";
 import { inStateName } from "../lib/india/states";
 import type { InHousehold } from "../lib/india/types";
 import { stateName } from "../lib/states";
-import { currentRuleset, emptyHousehold as emptyUs, programById, screen as screenUs } from "../lib/us/engine";
+import { categoryOf as usCategoryOf, currentRuleset, emptyHousehold as emptyUs, screen as screenUs } from "../lib/us/engine";
+import { stateCreditTable } from "../lib/us/rulesets/stateCredits2026";
+import { stateCtcId, stateEitcId } from "../lib/us/stateCredits";
 import type { Household } from "../lib/us/types";
 
 export interface Answers {
@@ -52,12 +56,30 @@ export const US: CountryPack<"US", UsWizard> = {
   currency: "USD",
   rules: currentRuleset,
   steps: 5,
-  content: { en: usEn, es: usEs },
-  links: usLinks,
-  categoryOf: (id) => programById[id as keyof typeof programById].category,
+  content: { en: withUsStateContent(usEn, "en"), es: withUsStateContent(usEs, "es") },
+  links: {
+    ...usLinks,
+    ...Object.fromEntries(
+      Object.entries(stateCreditTable.states).flatMap(([state, c]) => [
+        ...(c.eitc ? [[stateEitcId(state), { url: c.tax.url }]] : []),
+        ...(c.ctc ? [[stateCtcId(state), { url: c.tax.url }]] : []),
+      ]),
+    ),
+  },
+  categoryOf: usCategoryOf,
   empty: emptyUs,
   screen: screenUs,
-  local: () => null,
+  local: (a) => {
+    const p = usPortals[a.state];
+    if (!p) return null;
+    return {
+      place: stateName(a.state),
+      links: [
+        { label: p.portal.name, href: p.portal.url },
+        { label: p.agency.name, href: p.agency.url },
+      ],
+    };
+  },
   summary: (a, locale) =>
     `${stateName(a.state)} · ${a.size} · ${money(a.monthlyEarned + a.monthlyOther, locale, "USD")}/${locale === "es" ? "mes" : "mo"}`,
 };

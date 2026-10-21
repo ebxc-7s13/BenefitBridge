@@ -8,7 +8,8 @@ export type Route =
   | { name: "results" }
   | { name: "program"; id: string }
   | { name: "plan" }
-  | { name: "help" };
+  | { name: "help" }
+  | { name: "world"; code?: string };
 
 export function parse(hash: string): Route {
   const [, a, b] = hash.replace(/^#/, "").split("/");
@@ -25,6 +26,8 @@ export function parse(hash: string): Route {
       return { name: "country" };
     case "help":
       return { name: "help" };
+    case "world":
+      return b ? { name: "world", code: decodeURIComponent(b).toUpperCase() } : { name: "world" };
     default:
       return { name: "home" };
   }
@@ -38,6 +41,8 @@ export function href(route: Route): string {
       return `#/screener/${route.step}`;
     case "program":
       return `#/program/${encodeURIComponent(route.id)}`;
+    case "world":
+      return route.code ? `#/world/${route.code}` : "#/world";
     default:
       return `#/${route.name}`;
   }

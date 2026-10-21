@@ -5,8 +5,10 @@ import { acaMarketplace, medicaidAdults, medicaidChip, medicaidPregnancy, medica
 import { housingVoucher, lifeline, liheap } from "./programs/home";
 import { ctc, eitc, freeTaxHelp, ssi, tanf } from "./programs/money";
 import { ruleset2026 } from "./rulesets/2026";
+import { stateCreditTable } from "./rulesets/stateCredits2026";
+import { evaluateStateCtc, evaluateStateEitc, stateCtcId, stateEitcId, type StateCreditTable } from "./stateCredits";
 import { rank, totals } from "../core";
-import type { Context, Household, Program, ProgramId, ProgramResult, Ruleset } from "./types";
+import type { Context, Household, Program, ProgramId, ProgramResult as FederalResult, Ruleset } from "./types";
 
 export const currentRuleset = ruleset2026;
 
@@ -19,6 +21,15 @@ export const programs: Program[] = [
 ];
 
 export const programById = Object.fromEntries(programs.map((p) => [p.id, p])) as Record<ProgramId, Program>;
+
+/** Category of any program, federal or a state tax credit. */
+export const categoryOf = (id: string): string => programById[id as ProgramId]?.category ?? "money";
+
+export interface ProgramResult extends Omit<FederalResult, "programId"> {
+  programId: string;
+  /** Set for a state program. */
+  state?: string;
+}
 
 const clean = (n: number) => (Number.isFinite(n) && n > 0 ? n : 0);
 const count = (n: number) => Math.floor(clean(n));
@@ -63,11 +74,17 @@ export function buildContext(h: Household, ruleset: Ruleset): Context {
   };
 }
 
-/** Screen a household against every program. Likely results come first, then by estimated value. */
-export function screen(household: Household, ruleset: Ruleset = currentRuleset, list: Program[] = programs): ProgramResult[] {
+/** Screen a household against every federal program and its state's tax credits. Likely results come first, then by estimated value. */
+export function screen(household: Household, ruleset: Ruleset = currentRuleset, list: Program[] = programs, credits: StateCreditTable = stateCreditTable): ProgramResult[] {
   const h = normalize(household);
   const ctx = buildContext(h, ruleset);
-  return rank(list.map((p) => ({ programId: p.id, ...p.evaluate(h, ctx) })));
+  const federal: ProgramResult[] = list.map((p) => ({ programId: p.id, ...p.evaluate(h, ctx) }));
+  const state: ProgramResult[] = [];
+  const own = credits.states[h.state];
+  const fedEitc = federal.find((r) => r.programId === "eitc");
+  if (own?.eitc && fedEitc) state.push({ programId: stateEitcId(h.state), state: h.state, ...evaluateStateEitc(own.eitc, fedEitc as FederalResult) });
+  if (own?.ctc) state.push({ programId: stateCtcId(h.state), state: h.state, ...evaluateStateCtc(own.ctc, h, ctx.annualIncome) });
+  return rank([...federal, ...state]);
 }
 
 /** Total estimated yearly value of the results that are likely or possible. */

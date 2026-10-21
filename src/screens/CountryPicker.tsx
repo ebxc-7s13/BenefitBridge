@@ -1,6 +1,7 @@
 import { Icon } from "../components/Icon";
 import type { CountryCode } from "../content";
-import { go } from "../lib/router";
+import { world } from "../content/world/directory";
+import { go, href } from "../lib/router";
 import { useApp } from "../lib/state";
 
 const COUNTRIES: CountryCode[] = ["IN", "US"];
@@ -33,6 +34,16 @@ export function CountryPicker() {
           </li>
         ))}
       </ul>
+      {world.length > 0 && (
+        <section>
+          <h2>{t.world.pickerTitle}</h2>
+          <p>{t.world.pickerBody}</p>
+          <a className="button secondary" href={href({ name: "world" })}>
+            {t.world.title} <Icon name="forward" />
+          </a>
+          <p className="muted language-row" lang="en">{world.map((x) => x.name).join(" · ")}</p>
+        </section>
+      )}
       <section className="card privacy-card">
         <Icon name="shield" size={28} />
         <div>

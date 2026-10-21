@@ -146,6 +146,22 @@ export interface UiStrings {
     install: string;
     installBody: string;
   };
+  world: {
+    title: string;
+    lead: string;
+    note: string;
+    portal: string;
+    helpline: string;
+    whoFor: string;
+    gives: string;
+    documents: string;
+    apply: string;
+    official: string;
+    back: string;
+    count: (n: number) => string;
+    pickerTitle: string;
+    pickerBody: string;
+  };
   updates: {
     title: string;
     new: string;

@@ -379,3 +379,13 @@ select:focus, input:focus { border-color: var(--brand); }
 .language-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
 .value-once { font-size: 0.95rem; font-weight: 650; margin-top: 0.3rem; }
 .extra-card { border-style: dashed; }
+
+/* Other countries */
+a.country-card { text-decoration: none; }
+.world-list { list-style: none; padding: 0; margin: 1rem 0; display: grid; gap: 0.9rem; }
+.world-card h2 { display: flex; align-items: center; gap: 0.45rem; font-size: 1.15rem; margin: 0 0 0.5rem; }
+.world-card h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); margin: 0.6rem 0 0.15rem; }
+.world-card p { margin: 0; }
+.world-card details { margin: 0.6rem 0 0.75rem; }
+.world-card summary { cursor: pointer; font-weight: 650; min-height: 44px; display: flex; align-items: center; color: var(--brand); }
+.world-card ul, .world-card ol { margin: 0.2rem 0 0.4rem; padding-left: 1.3rem; }

@@ -11,6 +11,7 @@ import { Home } from "./screens/Home";
 import { Plan } from "./screens/Plan";
 import { ProgramDetail } from "./screens/ProgramDetail";
 import { Results } from "./screens/Results";
+import { World } from "./screens/World";
 
 const EXIT_URL = "https://weather.com/";
 
@@ -41,13 +42,13 @@ export function App() {
     { route: { name: "plan" }, label: t.nav.plan, icon: "list", show: !!country },
     { route: { name: "help" }, label: t.nav.help, icon: "help", show: true },
   ];
-  const active = route.name === "program" ? "results" : route.name === "screener" || route.name === "country" ? "home" : route.name;
+  const active = route.name === "program" ? "results" : route.name === "screener" || route.name === "country" || route.name === "world" ? "home" : route.name;
 
   const locales = pack ? pack.locales : (["en", "hi", "es"] as const);
   const nextLocale = locales[(locales.indexOf(locale as never) + 1) % locales.length];
   const Screener = country ? screeners[country] : null;
   // Everything country-specific waits until a country is chosen.
-  const needsCountry = !country && route.name !== "help";
+  const needsCountry = !country && route.name !== "help" && route.name !== "world";
 
   return (
     <>
@@ -85,6 +86,7 @@ export function App() {
         {!needsCountry && route.name === "program" && <ProgramDetail id={route.id} />}
         {!needsCountry && route.name === "plan" && <Plan />}
         {route.name === "help" && <Help />}
+        {route.name === "world" && <World code={route.code} />}
       </main>
 
       <nav className="tab-bar" aria-label={t.appName}>
