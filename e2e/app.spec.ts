@@ -73,6 +73,8 @@ test("a family finds benefits, tracks one, and sees it in their plan", async ({ 
     await expect(likely.getByRole("heading", { name })).toBeVisible();
   }
   await expect(page.locator(".value-amount")).toContainText("$");
+  const state = page.locator("section.extra-card").filter({ has: page.getByRole("heading", { name: "Apply in Texas" }) });
+  await expect(state.getByRole("link", { name: /Your Texas Benefits/ })).toHaveAttribute("href", "https://www.yourtexasbenefits.com/");
   await expectAccessible(page);
 
   await likely.getByRole("link", { name: /SNAP \(food stamps\)/ }).click();
