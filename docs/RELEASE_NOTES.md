@@ -1,4 +1,4 @@
-## BenefitBridge 1.0.0
+## BenefitBridge 1.0.1
 
 Find food, health, cash, energy and child care help you may qualify for. It's private,
 free, and in English and Spanish.
@@ -34,3 +34,8 @@ These use figures in effect on October 1, 2026:
 - Current Medicaid expansion status
 
 Results are estimates; the agency makes the final decision.
+
+### Changes since 1.0.0
+- "Delete everything" now asks for confirmation on the page itself, so it works in every browser and app view.
+- Print and calendar buttons are hidden when the app is opened inside another page, where they cannot work.
+- The top bar stays clear of the phone's status bar.
