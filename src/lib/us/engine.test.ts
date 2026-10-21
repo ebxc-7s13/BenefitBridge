@@ -148,9 +148,10 @@ describe("normalize()", () => {
 describe("screen()", () => {
   const family = make({ state: "OH", size: 4, childrenUnder5: 1, children5to16: 1, married: true, monthlyEarned: 2_600 });
 
-  it("returns every program exactly once, likely first", () => {
+  it("returns every federal program exactly once, likely first", () => {
     const results = screen(family);
-    expect(results.map((x) => x.programId).sort()).toEqual(programs.map((p) => p.id).sort());
+    expect(results.filter((x) => !x.state).map((x) => x.programId).sort()).toEqual(programs.map((p) => p.id).sort());
+    expect(results.every((x) => !x.state || x.state === family.state)).toBe(true);
     const ranks = results.map((x) => ["likely", "possibly", "unlikely"].indexOf(x.status));
     expect(ranks).toEqual([...ranks].sort((a, b) => a - b));
   });

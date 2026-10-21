@@ -14,7 +14,7 @@ export const uiEs: UiStrings = {
     change: "Cambiar de país",
     names: { US: "Estados Unidos", IN: "India" },
     blurbs: {
-      US: "18 programas: SNAP, Medicaid, créditos tributarios, WIC y más. En inglés o español.",
+      US: "18 programas federales, créditos estatales y el sitio oficial de beneficios de cada estado: SNAP, Medicaid, WIC y más. En inglés o español.",
       IN: "39 programas centrales, 89 estatales y el portal oficial de cada estado: raciones, Ayushman Bharat, PM-KISAN, pensiones, apoyo a mujeres y más. En inglés o hindi.",
     },
   },

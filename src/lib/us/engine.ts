@@ -82,8 +82,8 @@ export function screen(household: Household, ruleset: Ruleset = currentRuleset, 
   const state: ProgramResult[] = [];
   const own = credits.states[h.state];
   const fedEitc = federal.find((r) => r.programId === "eitc");
-  if (own?.eitc && fedEitc) state.push({ programId: stateEitcId(h.state), state: h.state, ...evaluateStateEitc(own.eitc, fedEitc as FederalResult) });
-  if (own?.ctc) state.push({ programId: stateCtcId(h.state), state: h.state, ...evaluateStateCtc(own.ctc, h, ctx.annualIncome) });
+  if (own?.eitc && fedEitc) state.push({ programId: stateEitcId(h.state), state: h.state, ...evaluateStateEitc(own.eitc, fedEitc as FederalResult, ctx.children) });
+  if (own?.ctc) state.push({ programId: stateCtcId(h.state), state: h.state, ...evaluateStateCtc(own.ctc, h, ctx.annualIncome, fedEitc as FederalResult) });
   return rank([...federal, ...state]);
 }
 

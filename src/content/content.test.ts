@@ -4,15 +4,20 @@ import type { Reason } from "../lib/core";
 import { emptyHousehold as emptyIn } from "../lib/india/engine";
 import { IN_STATES } from "../lib/india/states";
 import { emptyHousehold as emptyUs } from "../lib/us/engine";
+import { STATES } from "../lib/states";
 import { ui } from "./index";
 import type { CountryContent } from "./types";
 
-/** US households that reach every branch of every program. */
+/** US households that reach every branch of every program, and every state's own tax credits. */
 function* usHouseholds(): Generator<Answers["US"]> {
-  for (const state of ["CA", "TX", "AK"])
-    for (const earned of [0, 400, 1_200, 2_000, 3_000, 4_500, 7_000, 20_000])
+  const everywhere: [string, number[], number[]][] = [
+    ...["CA", "TX", "AK"].map((s): [string, number[], number[]] => [s, [0, 400, 1_200, 2_000, 3_000, 4_500, 7_000, 20_000], [0, 1, 3]]),
+    ...STATES.map(([s]): [string, number[], number[]] => [s, [0, 1_500, 4_000, 20_000], [0, 1, 4]]),
+  ];
+  for (const [state, earnings, kidCounts] of everywhere)
+    for (const earned of earnings)
       for (const other of [0, 900])
-        for (const kids of [0, 1, 3])
+        for (const kids of kidCounts)
           for (const flag of [0, 1, 2, 3, 4, 5])
             for (const gets of [null, "snap", "medicaid", "ssi", "medicare"] as const) {
               const h = emptyUs();

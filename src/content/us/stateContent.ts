@@ -61,9 +61,13 @@ function reasons(lang: Lang): Record<string, (p: Params) => string> {
         "stateEitc.needsFederal": () => "You need to qualify for the federal EITC first.",
         "stateEitc.pct": (p) => `Worth ${p.pct}% of your federal EITC.`,
         "stateEitc.formula": () => "The state uses its own formula, based on your pay and family.",
-        "stateEitc.refundable": () => "Refundable: you get it even if you owe no state tax.",
-        "stateEitc.nonRefundable": () => "It lowers the state tax you owe, but isn't paid out beyond that.",
+        "stateEitc.needsChildren": () => "This state's credit is only for workers with children.",
+        "stateCredit.refundable": () => "Refundable: you get it even if you owe no state tax.",
+        "stateCredit.nonRefundable": () => "It lowers the state tax you owe, but isn't paid out beyond that.",
         "stateCtc.amount": (p) => `Up to ${$(p.max)} per child under ${p.age}.`,
+        "stateCtc.tiers": (p) => `Up to ${$(p.max)} per child under ${p.age}, and ${$(p.max2)} per child under ${p.age2}.`,
+        "stateCtc.perReturn": (p) => `Up to ${$(p.max)} per family with a child under ${p.age}.`,
+        "stateCtc.phaseOut": () => "The credit gets smaller as income goes up.",
         "stateCtc.income": (p) => `For families with income up to ${$(p.limit)} a year.`,
         "stateCtc.miss.children": (p) => `For families with children under ${p.age}.`,
         "stateCtc.miss.income": (p) => `Your income is above the limit of about ${$(p.limit)} a year.`,
@@ -73,9 +77,13 @@ function reasons(lang: Lang): Record<string, (p: Params) => string> {
         "stateEitc.needsFederal": () => "Primero tiene que calificar para el EITC federal.",
         "stateEitc.pct": (p) => `Equivale al ${p.pct}% de su EITC federal.`,
         "stateEitc.formula": () => "El estado usa su propia fórmula, según su sueldo y su familia.",
-        "stateEitc.refundable": () => "Reembolsable: lo recibe aunque no deba impuestos estatales.",
-        "stateEitc.nonRefundable": () => "Reduce los impuestos estatales que debe, pero no se paga más allá de eso.",
+        "stateEitc.needsChildren": () => "El crédito de este estado es solo para trabajadores con hijos.",
+        "stateCredit.refundable": () => "Reembolsable: lo recibe aunque no deba impuestos estatales.",
+        "stateCredit.nonRefundable": () => "Reduce los impuestos estatales que debe, pero no se paga más allá de eso.",
         "stateCtc.amount": (p) => `Hasta ${$(p.max)} por cada hijo menor de ${p.age} años.`,
+        "stateCtc.tiers": (p) => `Hasta ${$(p.max)} por cada hijo menor de ${p.age} años y ${$(p.max2)} por cada hijo menor de ${p.age2}.`,
+        "stateCtc.perReturn": (p) => `Hasta ${$(p.max)} por familia con un hijo menor de ${p.age} años.`,
+        "stateCtc.phaseOut": () => "El crédito baja a medida que suben los ingresos.",
         "stateCtc.income": (p) => `Para familias con ingresos de hasta ${$(p.limit)} al año.`,
         "stateCtc.miss.children": (p) => `Para familias con hijos menores de ${p.age} años.`,
         "stateCtc.miss.income": (p) => `Sus ingresos superan el límite de unos ${$(p.limit)} al año.`,
@@ -95,6 +103,7 @@ export function withStateContent<W>(c: CountryContent<W>, lang: Lang): CountryCo
   // Only wording for credits some state actually has.
   const used = Object.entries(reasons(lang)).filter(([k]) =>
     k.startsWith("stateEitc.") ? statesWith("eitc").length > 0 : k.startsWith("stateCtc.") ? statesWith("ctc").length > 0 : stateCreditIds.length > 0,
+
   );
   return { ...c, programs: { ...c.programs, ...programs }, reasons: { ...c.reasons, ...Object.fromEntries(used) } };
 }

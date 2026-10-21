@@ -74,10 +74,7 @@ export const US: CountryPack<"US", UsWizard> = {
     if (!p) return null;
     return {
       place: stateName(a.state),
-      links: [
-        { label: p.portal.name, href: p.portal.url },
-        { label: p.agency.name, href: p.agency.url },
-      ],
+      links: [...(p.portal ? [{ label: p.portal.name, href: p.portal.url }] : []), { label: p.agency.name, href: p.agency.url }],
     };
   },
   summary: (a, locale) =>
