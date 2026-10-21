@@ -92,5 +92,9 @@ export function withStateContent<W>(c: CountryContent<W>, lang: Lang): CountryCo
     ...statesWith("eitc").map((s) => [stateEitcId(s), eitc(s, lang)]),
     ...statesWith("ctc").map((s) => [stateCtcId(s), ctc(s, lang)]),
   ]);
-  return { ...c, programs: { ...c.programs, ...programs }, reasons: { ...c.reasons, ...reasons(lang) } };
+  // Only wording for credits some state actually has.
+  const used = Object.entries(reasons(lang)).filter(([k]) =>
+    k.startsWith("stateEitc.") ? statesWith("eitc").length > 0 : k.startsWith("stateCtc.") ? statesWith("ctc").length > 0 : stateCreditIds.length > 0,
+  );
+  return { ...c, programs: { ...c.programs, ...programs }, reasons: { ...c.reasons, ...Object.fromEntries(used) } };
 }
