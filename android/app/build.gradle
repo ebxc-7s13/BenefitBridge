@@ -8,8 +8,8 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         // Set by the release workflow from the version tag (e.g. v1.3.0 -> 10300).
-        versionCode (System.getenv("APP_VERSION_CODE") ?: "1") as Integer
-        versionName System.getenv("APP_VERSION_NAME") ?: "dev"
+        versionCode Integer.parseInt(System.getenv("APP_VERSION_CODE") ?: "1")
+        versionName(System.getenv("APP_VERSION_NAME") ?: "dev")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
