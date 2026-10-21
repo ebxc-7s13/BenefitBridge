@@ -241,3 +241,28 @@ test("people in other countries find official programs and where to apply", asyn
   await expect(uc.getByRole("link", { name: /Official website/ })).toHaveAttribute("href", /^https:\/\/www\.gov\.uk\//);
   await expectAccessible(page);
 });
+
+test("after choosing a state, the questionnaire can switch to the state's language", async ({ page }) => {
+  await chooseCountry(page, "India");
+  await page.getByRole("link", { name: "Check what I qualify for" }).click();
+  await page.getByLabel("State or union territory").selectOption("TN");
+  const tamil = page.getByRole("button", { name: "தமிழ்" });
+  await expect(page.getByRole("group", { name: "Choose your language" }).getByRole("button")).toHaveText(["English", "हिन्दी", "தமிழ்"]);
+  await tamil.click();
+  await expect(tamil).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator("html")).toHaveAttribute("lang", "ta");
+  await expect(page.getByRole("heading", { level: 1, name: "நீங்கள் எங்கே வசிக்கிறீர்கள்?" })).toBeVisible();
+  await expectAccessible(page);
+
+  // Urdu is written right to left.
+  await page.locator("#in-state").selectOption("JK");
+  await page.getByRole("button", { name: "اردو" }).click();
+  await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+  await expectAccessible(page);
+
+  // A state without its own language offers English and Hindi only, and falls back to English.
+  await page.locator("#in-state").selectOption("UP");
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
+  await expect(page.getByRole("group", { name: "Choose your language" }).getByRole("button")).toHaveText(["English", "हिन्दी"]);
+});
