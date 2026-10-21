@@ -59,6 +59,8 @@ test("asks for the country first, and every start page is accessible", async ({ 
   await page.getByRole("link", { name: /Change country/ }).first().click();
   await page.getByRole("button", { name: /India/ }).click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Find the government schemes your family can get.");
+  await expect(page.getByRole("heading", { name: "Updates" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Beware of fake scheme messages" })).toBeVisible();
   await expectAccessible(page);
 });
 
@@ -185,8 +187,17 @@ test("an Indian farming family finds its schemes and how to apply", async ({ pag
     await expect(likely.getByRole("heading", { name, exact: true })).toBeVisible();
   }
   await expect(page.locator(".value-amount")).toContainText("₹");
-  await expect(page.getByRole("heading", { name: "Your state has more schemes" })).toBeVisible();
+  const state = page.locator("section.extra-card").filter({ has: page.getByRole("heading", { name: "Schemes in Uttar Pradesh" }) });
+  await expect(state.getByRole("link", { name: /up\.gov\.in/ })).toHaveAttribute("href", "https://up.gov.in/");
   await expectAccessible(page);
+
+  // The state's own schemes come with their papers and the official website.
+  await page.getByRole("link", { name: /Mukhyamantri Kanya Sumangala Yojana \(Uttar Pradesh\)/ }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Mukhyamantri Kanya Sumangala Yojana (Uttar Pradesh)" })).toBeFocused();
+  await expect(page.getByRole("checkbox").first()).toBeVisible();
+  await expect(page.getByRole("link", { name: /Official website/ })).toHaveAttribute("href", /^https:\/\/[a-z0-9.-]+\.gov\.in\//);
+  await expectAccessible(page);
+  await page.goBack();
 
   await likely.getByRole("link", { name: /PM-KISAN/ }).first().click();
   await expect(page.getByRole("heading", { level: 1, name: "PM-KISAN" })).toBeFocused();

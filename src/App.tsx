@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Icon, type IconName } from "./components/Icon";
+import { useUnread } from "./components/Updates";
 import { InScreener } from "./countries/InScreener";
 import { UsScreener } from "./countries/UsScreener";
 import { href, useRoute, type Route } from "./lib/router";
@@ -26,6 +27,7 @@ const screeners = { US: UsScreener, IN: InScreener };
 export function App() {
   const route = useRoute();
   const { t, locale, country, pack, countryDone, toggleLocale } = useApp();
+  const unread = useUnread();
 
   // Move focus to the new page's heading so screen readers announce it.
   useEffect(() => {
@@ -92,6 +94,12 @@ export function App() {
             <a key={tab.route.name} href={href(tab.route)} aria-current={active === tab.route.name ? "page" : undefined}>
               <Icon name={tab.icon} size={22} />
               <span>{tab.label}</span>
+              {tab.route.name === "home" && unread > 0 && active !== "home" && (
+                <span className="tab-badge">
+                  <span aria-hidden="true">{unread}</span>
+                  <span className="visually-hidden">{t.updates.unread(unread)}</span>
+                </span>
+              )}
             </a>
           ))}
       </nav>

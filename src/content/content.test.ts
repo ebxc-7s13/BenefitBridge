@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { packs, type Answers, type CountryPack } from "../countries";
 import type { Reason } from "../lib/core";
 import { emptyHousehold as emptyIn } from "../lib/india/engine";
+import { IN_STATES } from "../lib/india/states";
 import { emptyHousehold as emptyUs } from "../lib/us/engine";
 import { ui } from "./index";
 import type { CountryContent } from "./types";
@@ -33,12 +34,23 @@ function* usHouseholds(): Generator<Answers["US"]> {
             }
 }
 
-/** India households that reach every branch of every scheme. */
+/** India households that reach every branch of every central scheme, plus every state's own schemes. */
 function* inHouseholds(): Generator<Answers["IN"]> {
+  const everywhere: [string, string, number[], number[]][] = [
+    ...([["UP", "rural"], ["KL", "urban"], ["UK", "rural"], ["MH", "urban"]] as const).map(([state, area]): [string, string, number[], number[]] => [
+      state,
+      area,
+      [0, 100_000, 190_000, 240_000, 280_000, 340_000, 500_000, 850_000, 1_200_000],
+      [0, 17, 22, 35, 45, 55, 65, 75],
+    ]),
+    ...IN_STATES.flatMap(([state]) =>
+      (["rural", "urban"] as const).map((area): [string, string, number[], number[]] => [state, area, [60_000, 150_000, 300_000, 1_200_000], [0, 12, 20, 30, 50, 65]]),
+    ),
+  ];
   const works = [{}, { farmer: true }, { worker: true }, { vendor: true, business: true }, { artisan: true }, { student: true, jobseeker: true }, { homemaker: true }];
-  for (const [state, area] of [["UP", "rural"], ["KL", "urban"], ["UK", "rural"], ["MH", "urban"]] as const)
-    for (const annualIncome of [0, 100_000, 190_000, 240_000, 280_000, 340_000, 500_000, 850_000, 1_200_000])
-      for (const age of [0, 17, 22, 35, 45, 55, 65, 75])
+  for (const [state, area, incomes, ages] of everywhere)
+    for (const annualIncome of incomes)
+      for (const age of ages)
         for (const flag of [0, 1, 2, 3, 4, 5, 6])
           for (const work of works)
             for (const variant of [0, 1]) {

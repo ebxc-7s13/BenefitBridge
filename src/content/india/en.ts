@@ -1,6 +1,5 @@
 import { money } from "../format";
 import type { CountryContent } from "../types";
-import { MYSCHEME_URL } from "./links";
 import type { InWizard } from "./types";
 
 const r = (n: number | string) => money(Number(n), "en", "INR");
@@ -8,7 +7,7 @@ const r = (n: number | string) => money(Number(n), "en", "INR");
 export const inEn: CountryContent<InWizard> = {
   home: {
     title: "Find the government schemes your family can get.",
-    lead: "Answer a few questions to check 39 central government schemes for food, health, housing, gas, jobs, farmers, pensions, insurance, students and women. It takes about 4 minutes.",
+    lead: "Answer a few questions to check 39 central government schemes and your own state's schemes for food, health, housing, gas, jobs, farmers, pensions, insurance, students and women. It takes about 4 minutes.",
     programsTitle: "What we check",
     programsBody:
       "Free ration, Ayushman Bharat (PM-JAY), maternity benefits, PM Awas (rural and urban), rooftop solar, Ujjwala gas, 125 days of rural work, e-Shram, PM-KISAN, crop insurance, Kisan Credit Card, old-age, widow and disability pensions, Atal Pension, ₹20 and ₹436 insurance, Mudra and PMEGP loans, PM Vishwakarma, PM SVANidhi, scholarships, Sukanya Samriddhi, self-help groups and more.",
@@ -114,12 +113,11 @@ export const inEn: CountryContent<InWizard> = {
   },
   results: {
     valueNote: "a year in cash, from the schemes we can estimate. Free ration, health cover and insurance are worth much more on top.",
-    noneBody: "That doesn't mean there's no help. Your state has its own schemes: search them on myScheme, or ask at your gram panchayat, ward office or Common Service Centre (CSC).",
-    extra: {
-      title: "Your state has more schemes",
-      body: "States run hundreds of their own schemes, like monthly support for women, girls' education, farmers and pensions. The government's myScheme portal lets you search them all by your details.",
-      links: [{ label: "myScheme.gov.in", href: MYSCHEME_URL }],
+    local: {
+      title: (state) => `Schemes in ${state}`,
+      body: "Your state's own schemes are listed above with the papers you need. The state portal and myScheme have every other scheme and the latest forms.",
     },
+    noneBody: "That doesn't mean there's no help. Your state has its own schemes: search them on myScheme, or ask at your gram panchayat, ward office or Common Service Centre (CSC).",
   },
   deniedHelp: "Rejected? Ask for the reason in writing. You can appeal to the block or district officer or the scheme's grievance portal. Free legal help: call 15100 (NALSA).",
   resources: [

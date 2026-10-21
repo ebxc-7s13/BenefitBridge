@@ -1,6 +1,7 @@
 import { inEn } from "../content/india/en";
 import { inHi } from "../content/india/hi";
-import { indiaLinks } from "../content/india/links";
+import { indiaLinks, MYSCHEME_URL } from "../content/india/links";
+import { withStateContent } from "../content/india/stateContent";
 import type { InWizard } from "../content/india/types";
 import { money, type Currency } from "../content/format";
 import type { Link } from "../content/links";
@@ -10,7 +11,8 @@ import { usEs } from "../content/us/es";
 import { usLinks } from "../content/us/links";
 import type { UsWizard } from "../content/us/types";
 import type { ProgramResult } from "../lib/core";
-import { currentRules, emptyHousehold as emptyIn, schemeById, screen as screenIn } from "../lib/india/engine";
+import { categoryOf as inCategoryOf, currentRules, emptyHousehold as emptyIn, screen as screenIn } from "../lib/india/engine";
+import { statePortals, stateSchemes } from "../lib/india/stateSchemes";
 import { inStateName } from "../lib/india/states";
 import type { InHousehold } from "../lib/india/types";
 import { stateName } from "../lib/states";
@@ -35,9 +37,14 @@ export interface CountryPack<C extends CountryCode = CountryCode, W = unknown> {
   categoryOf(programId: string): string;
   empty(): Answers[C];
   screen(answers: Answers[C]): ProgramResult[];
+  /** The household's own state and its official links, for the card under the results. */
+  local(answers: Answers[C], locale: Locale): { place: string; links: { label: string; href: string }[] } | null;
   /** One line describing the household for the printed plan. */
   summary(answers: Answers[C], locale: Locale): string;
 }
+
+/** "up.gov.in" from "https://www.up.gov.in/". */
+const hostOf = (url: string) => new URL(url).hostname.replace(/^www\./, "");
 
 export const US: CountryPack<"US", UsWizard> = {
   code: "US",
@@ -50,6 +57,7 @@ export const US: CountryPack<"US", UsWizard> = {
   categoryOf: (id) => programById[id as keyof typeof programById].category,
   empty: emptyUs,
   screen: screenUs,
+  local: () => null,
   summary: (a, locale) =>
     `${stateName(a.state)} · ${a.size} · ${money(a.monthlyEarned + a.monthlyOther, locale, "USD")}/${locale === "es" ? "mes" : "mo"}`,
 };
@@ -60,11 +68,22 @@ export const IN: CountryPack<"IN", InWizard> = {
   currency: "INR",
   rules: currentRules,
   steps: 6,
-  content: { en: inEn, hi: inHi },
-  links: indiaLinks,
-  categoryOf: (id) => schemeById[id as keyof typeof schemeById].category,
+  content: { en: withStateContent(inEn, "en"), hi: withStateContent(inHi, "hi") },
+  links: { ...indiaLinks, ...Object.fromEntries(stateSchemes.map((s) => [s.id, { url: s.url, phone: s.phone }])) },
+  categoryOf: inCategoryOf,
   empty: emptyIn,
   screen: screenIn,
+  local: (a, locale) => {
+    const portal = statePortals[a.state];
+    if (!portal) return null;
+    return {
+      place: inStateName(a.state, locale),
+      links: [
+        { label: hostOf(portal), href: portal },
+        { label: "myScheme.gov.in", href: `${MYSCHEME_URL}search/state/${encodeURIComponent(inStateName(a.state, "en"))}` },
+      ],
+    };
+  },
   summary: (a, locale) =>
     `${inStateName(a.state, locale)} · ${a.size} · ${money(a.annualIncome, locale, "INR")}/${locale === "hi" ? "साल" : "yr"}`,
 };

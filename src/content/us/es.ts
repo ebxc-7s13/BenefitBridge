@@ -63,6 +63,10 @@ export const usEs: CountryContent<UsWizard> = {
   },
   results: {
     valueNote: "al año, de los programas que podemos estimar. La cobertura médica, las comidas y el cuidado de niños valen más, además de esto.",
+    local: {
+      title: (state) => `Cómo solicitar en ${state}`,
+      body: "SNAP, Medicaid y la ayuda en efectivo los maneja su estado. Solicite en línea en el sitio oficial de beneficios del estado, o llame al 211 para recibir ayuda cerca de usted.",
+    },
     noneBody: "Eso no quiere decir que no haya ayuda. Llame o envíe un mensaje de texto al 211 para hablar con alguien sobre programas locales.",
   },
   deniedHelp: "¿Se lo negaron? Tiene derecho a apelar. La carta dice cómo y antes de qué fecha. La ayuda legal gratuita puede ayudarle: lawhelp.org.",

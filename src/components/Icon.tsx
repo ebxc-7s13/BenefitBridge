@@ -23,6 +23,7 @@ const paths = {
   work: "M4 8h16v11H4zM9 8V5h6v3M4 13h16",
   farm: "M12 21v-9M12 12C12 8 9 5.5 5 5.5c0 4 3 6.5 7 6.5zM12 12c0-4 3-6.5 7-6.5 0 4-3 6.5-7 6.5zM6 21h12",
   security: "M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6zM9 12l2 2 4-4",
+  bell: "M6 16v-5a6 6 0 0 1 12 0v5l2 2H4zM10 21a2 2 0 0 0 4 0",
   education: "M3 9l9-5 9 5-9 5zM7 11v5c3 2 7 2 10 0v-5M21 9v6",
 } as const;
 

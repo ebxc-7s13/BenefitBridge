@@ -33,6 +33,8 @@ export interface Saved {
   /** The questionnaire has been finished at least once, per country. */
   done: Record<CountryCode, boolean>;
   plan: Record<CountryCode, Plan>;
+  /** Ids of the home-page updates already shown. */
+  seen: string[];
 }
 
 const browserLocale = (): Locale => {
@@ -50,6 +52,7 @@ function initial(): Saved {
     inIncome: { amount: "", frequency: "monthly" },
     done: { US: false, IN: false },
     plan: { US: {}, IN: {} },
+    seen: [],
   };
 }
 
@@ -83,6 +86,7 @@ function load(): Saved {
     },
     done: { ...fresh.done, ...stored.done },
     plan: { ...fresh.plan, ...stored.plan },
+    seen: Array.isArray(stored.seen) ? stored.seen.filter((x) => typeof x === "string").slice(-300) : [],
   };
 }
 
@@ -99,6 +103,7 @@ interface AppState extends Saved {
   chooseCountry(code: CountryCode): void;
   setAnswers<K extends CountryCode>(code: K, patch: Partial<Answers[K]>): void;
   setPlanItem(id: string, patch: Partial<PlanItem> | null): void;
+  markSeen(ids: string[]): void;
   /** Switch to the country's next language. */
   toggleLocale(): void;
   reset(): void;
@@ -150,12 +155,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
           else plan[id] = { status: "todo", docs: [], ...plan[id], ...patch };
           return { ...s, plan: { ...s.plan, [s.country]: plan } };
         }),
+      markSeen: (ids) =>
+        setState((s) => {
+          const fresh = ids.filter((id) => !s.seen.includes(id));
+          return fresh.length ? { ...s, seen: [...s.seen, ...fresh].slice(-300) } : s;
+        }),
       toggleLocale: () =>
         setState((s) => {
           const i = locales.indexOf(s.locale);
           return { ...s, locale: locales[(i + 1) % locales.length] };
         }),
-      reset: () => setState((s) => ({ ...initial(), locale: s.locale, save: s.save })),
+      reset: () => setState((s) => ({ ...initial(), locale: s.locale, save: s.save, seen: s.seen })),
     };
   }, [state, pack, results, countryDone]);
 

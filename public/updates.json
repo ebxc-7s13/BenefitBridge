@@ -1,0 +1,4 @@
+{
+  "about": "Live updates for the BenefitBridge home page. Add an item here (newest first) and push to main: every copy of the app shows it the next time it's online. Fields: id (a-z, 0-9, -), date (YYYY-MM-DD), country (ALL, US or IN), optional state (two-letter code), title and body ({ en, es?, hi? }), optional url (https, official sites only). Updates dated in the future appear on that date.",
+  "updates": []
+}

@@ -31,6 +31,8 @@ export interface CountryContent<W = unknown> {
     noneBody: string;
     /** An extra card under the results, e.g. a pointer to state schemes. */
     extra?: Resource;
+    /** The card for the household's own state: its official portal and where to find more. */
+    local: { title: (place: string) => string; body: string };
   };
   deniedHelp: string;
   /** People and services to contact, shown on the help page. */
@@ -143,6 +145,19 @@ export interface UiStrings {
     sources: string;
     install: string;
     installBody: string;
+  };
+  updates: {
+    title: string;
+    new: string;
+    details: string;
+    checking: string;
+    checked: (when: string) => string;
+    offline: string;
+    refresh: string;
+    empty: string;
+    unread: (n: number) => string;
+    more: (n: number) => string;
+    less: string;
   };
   money: { perMonth: string; perYear: string; upTo: string; once: string };
   status: Record<Status, string>;

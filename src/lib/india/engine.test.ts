@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { emptyHousehold, normalize, schemes, screen } from "./engine";
+import { stateSchemes } from "./stateSchemes";
 import type { InHousehold, SchemeId } from "./types";
 
 type Patch = Omit<Partial<InHousehold>, "work" | "receives"> & {
@@ -147,9 +148,12 @@ describe("students and families", () => {
 describe("screen()", () => {
   const family = make({ state: "BR", area: "rural", size: 5, age: 34, gender: "female", childrenUnder6: 1, girlsUnder10: 1, schoolChildren: 2, rationCard: "phh", bpl: "yes", annualIncome: 110_000, work: { farmer: true, farmLabour: true }, landAcres: 1, home: "kutcha", hasLpg: false });
 
-  it("returns every scheme once, likely first", () => {
+  it("returns every central scheme once plus the family's own state schemes, likely first", () => {
     const results = screen(family);
-    expect(results.map((r) => r.programId).sort()).toEqual(schemes.map((s) => s.id).sort());
+    expect(results.filter((r) => !r.state).map((r) => r.programId).sort()).toEqual(schemes.map((s) => s.id).sort());
+    const own = stateSchemes.filter((s) => s.state === family.state).map((s) => s.id);
+    expect(results.filter((r) => r.state).map((r) => r.programId).sort()).toEqual(own.sort());
+    expect(results.every((r) => !r.state || r.state === family.state)).toBe(true);
     const ranks = results.map((r) => ["likely", "possibly", "unlikely"].indexOf(r.status));
     expect(ranks).toEqual([...ranks].sort((a, b) => a - b));
   });

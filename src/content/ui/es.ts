@@ -15,7 +15,7 @@ export const uiEs: UiStrings = {
     names: { US: "Estados Unidos", IN: "India" },
     blurbs: {
       US: "18 programas: SNAP, Medicaid, créditos tributarios, WIC y más. En inglés o español.",
-      IN: "39 programas del gobierno central: raciones, Ayushman Bharat, PM-KISAN, pensiones, vivienda y más. En inglés o hindi.",
+      IN: "39 programas centrales, 89 estatales y el portal oficial de cada estado: raciones, Ayushman Bharat, PM-KISAN, pensiones, apoyo a mujeres y más. En inglés o hindi.",
     },
   },
   home: {
@@ -115,6 +115,19 @@ export const uiEs: UiStrings = {
     sources: "Fuentes oficiales",
     install: "Agréguela a su pantalla de inicio",
     installBody: "En el menú de su navegador, elija «Agregar a la pantalla de inicio» o «Instalar app». Después funciona sin internet.",
+  },
+  updates: {
+    title: "Novedades",
+    new: "Nuevo",
+    details: "Detalles oficiales",
+    checking: "Buscando novedades…",
+    checked: (when) => `Novedades revisadas ${when}.`,
+    offline: "No se pudieron buscar novedades. Se muestran las guardadas en este dispositivo.",
+    refresh: "Buscar de nuevo",
+    empty: "No hay novedades por ahora.",
+    unread: (n) => `${n} novedad${n === 1 ? "" : "es"} sin leer`,
+    more: (n) => `Mostrar ${n} anteriores`,
+    less: "Mostrar menos",
   },
   money: { perMonth: "/ mes", perYear: "/ año", upTo: "hasta", once: "una sola vez" },
   status: { likely: "Probablemente califica", possibly: "Quizás califica", unlikely: "Probablemente no califica" },

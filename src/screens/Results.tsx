@@ -19,7 +19,7 @@ export const categoryIcon: Record<string, IconName> = {
 };
 
 export function Results() {
-  const { t, c, pack, locale, results, countryDone, reset } = useApp();
+  const { t, c, pack, locale, country, answers, results, countryDone, reset } = useApp();
   const r = t.results;
   const [showUnlikely, setShowUnlikely] = useState(false);
 
@@ -39,6 +39,7 @@ export function Results() {
   const possibly = by("possibly");
   const unlikely = by("unlikely");
   const sum = totals(results);
+  const local = country ? pack.local(answers[country] as never, locale) : null;
   const range = (v: { low: number; high: number }) => moneyRange(v.low, v.high, locale, pack.currency, t.money.upTo);
 
   return (
@@ -63,6 +64,18 @@ export function Results() {
 
       <ResultGroup title={r.groupLikely} items={likely} />
       <ResultGroup title={r.groupPossibly} items={possibly} />
+
+      {local && (
+        <section className="card extra-card">
+          <h2>{c.results.local.title(local.place)}</h2>
+          <p>{c.results.local.body}</p>
+          {local.links.map((l) => (
+            <a key={l.href} className="button secondary" href={l.href} target="_blank" rel="noopener noreferrer">
+              {l.label} <Icon name="external" size={18} />
+            </a>
+          ))}
+        </section>
+      )}
 
       {c.results.extra && (
         <section className="card extra-card">

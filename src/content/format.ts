@@ -28,3 +28,8 @@ export function longDate(iso: string, locale: Locale): string {
   const tags: Record<Locale, string> = { en: "en-US", es: "es-US", hi: "hi-IN" };
   return new Intl.DateTimeFormat(tags[locale], { year: "numeric", month: "long", day: "numeric", numberingSystem: "latn" }).format(new Date(y, m - 1, d));
 }
+
+export function dateTime(iso: string, locale: Locale): string {
+  const tags: Record<Locale, string> = { en: "en-US", es: "es-US", hi: "hi-IN" };
+  return new Intl.DateTimeFormat(tags[locale], { dateStyle: "medium", timeStyle: "short", numberingSystem: "latn" }).format(new Date(iso));
+}

@@ -63,6 +63,10 @@ export const usEn: CountryContent<UsWizard> = {
   },
   results: {
     valueNote: "a year, from the programs we can estimate. Health coverage, meals and child care are worth more on top.",
+    local: {
+      title: (state) => `Apply in ${state}`,
+      body: "SNAP, Medicaid and cash help are run by your state. Apply online on the state's official benefits site, or call 211 for help near you.",
+    },
     noneBody: "That doesn't mean there's no help. Call or text 211 to talk with someone about local programs.",
   },
   deniedHelp: "Denied? You have the right to appeal. The letter tells you how and by when. Free legal aid can help: lawhelp.org.",

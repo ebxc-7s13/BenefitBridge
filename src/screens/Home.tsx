@@ -1,4 +1,5 @@
 import { Icon } from "../components/Icon";
+import { Updates } from "../components/Updates";
 import { href } from "../lib/router";
 import { useApp } from "../lib/state";
 
@@ -25,6 +26,8 @@ export function Home() {
           )}
         </div>
       </section>
+
+      <Updates />
 
       <section className="card privacy-card">
         <Icon name="shield" size={28} />

@@ -15,7 +15,7 @@ export const uiEn: UiStrings = {
     names: { US: "United States", IN: "India" },
     blurbs: {
       US: "18 programs: SNAP, Medicaid, tax credits, WIC and more. English or Spanish.",
-      IN: "39 central government schemes: ration, Ayushman Bharat, PM-KISAN, pensions, housing and more. English or Hindi.",
+      IN: "39 central schemes, 89 state schemes and every state's official portal: ration, Ayushman Bharat, PM-KISAN, pensions, women's support and more. English or Hindi.",
     },
   },
   home: {
@@ -115,6 +115,19 @@ export const uiEn: UiStrings = {
     sources: "Official sources",
     install: "Add to your home screen",
     installBody: "In your browser menu, choose “Add to Home screen” or “Install app.” It works without internet after that.",
+  },
+  updates: {
+    title: "Updates",
+    new: "New",
+    details: "Official details",
+    checking: "Checking for updates…",
+    checked: (when) => `Checked for updates ${when}.`,
+    offline: "Couldn't check for new updates. Showing the ones saved on this device.",
+    refresh: "Check again",
+    empty: "No updates right now.",
+    unread: (n) => `${n} new update${n === 1 ? "" : "s"}`,
+    more: (n) => `Show ${n} older`,
+    less: "Show fewer",
   },
   money: { perMonth: "/ month", perYear: "/ year", upTo: "up to", once: "one-time" },
   status: { likely: "Likely eligible", possibly: "May be eligible", unlikely: "Probably not eligible" },

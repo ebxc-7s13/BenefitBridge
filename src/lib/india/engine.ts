@@ -7,6 +7,8 @@ import { jsy, pmjay, pmmvy } from "./schemes/health";
 import { pmayGramin, pmayUrban, suryaGhar, ujjwala } from "./schemes/home";
 import { adip, apy, disabilityPension, oldAgePension, pmjjby, pmsby, udid, vayoshri, widowPension } from "./schemes/security";
 import { eshram, firstJob, internship, mudra, pmegp, pmSym, ruralJobs, skillIndia, svanidhi, vishwakarma } from "./schemes/work";
+import { evaluateStateScheme } from "./stateRules";
+import { stateSchemes } from "./stateSchemes";
 import type { Context, InHousehold, Rules, Scheme, SchemeId, SchemeResult } from "./types";
 
 export const currentRules = rules2026;
@@ -22,6 +24,11 @@ export const schemes: Scheme[] = [
 ];
 
 export const schemeById = Object.fromEntries(schemes.map((s) => [s.id, s])) as Record<SchemeId, Scheme>;
+
+/** Category of any scheme, central or state. */
+export function categoryOf(id: string): string {
+  return (schemeById[id as SchemeId] ?? stateSchemes.find((s) => s.id === id))?.category ?? "security";
+}
 
 const clean = (n: number) => (Number.isFinite(n) && n > 0 ? n : 0);
 const count = (n: number) => Math.floor(clean(n));
@@ -58,10 +65,19 @@ export function buildContext(h: InHousehold, rules: Rules): Context {
   };
 }
 
-export function screen(household: InHousehold, rules: Rules = currentRules, list: Scheme[] = schemes): SchemeResult[] {
+export interface Result extends Omit<SchemeResult, "programId"> {
+  programId: string;
+  /** Set for a state or UT scheme. */
+  state?: string;
+}
+
+/** Central schemes plus the schemes of the household's own state. */
+export function screen(household: InHousehold, rules: Rules = currentRules, list: Scheme[] = schemes): Result[] {
   const h = normalize(household);
   const ctx = buildContext(h, rules);
-  return rank(list.map((s) => ({ programId: s.id, ...s.evaluate(h, ctx) })));
+  const central: Result[] = list.map((s) => ({ programId: s.id, ...s.evaluate(h, ctx) }));
+  const state: Result[] = stateSchemes.filter((s) => s.state === h.state).map((s) => ({ programId: s.id, state: s.state, ...evaluateStateScheme(s, h) }));
+  return rank([...central, ...state]);
 }
 
 export function emptyHousehold(): InHousehold {

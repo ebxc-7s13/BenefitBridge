@@ -1,6 +1,6 @@
 // BenefitBridge service worker: the app shell works offline after the first visit.
-// Pages use network-first (so updates arrive), hashed assets use cache-first.
-const CACHE = "benefitbridge-v1";
+// Pages and updates.json use network-first (so updates arrive), hashed assets use cache-first.
+const CACHE = "benefitbridge-v2";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(["./", "./index.html", "./manifest.webmanifest"])));
@@ -16,6 +16,22 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const { request } = event;
   if (request.method !== "GET" || new URL(request.url).origin !== self.location.origin) return;
+
+  // Live updates: always try the network, fall back to the last copy.
+  if (new URL(request.url).pathname.endsWith("/updates.json")) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE).then((cache) => cache.put(request, copy));
+          }
+          return response;
+        })
+        .catch(() => caches.match(request).then((cached) => cached || Response.error())),
+    );
+    return;
+  }
 
   if (request.mode === "navigate") {
     event.respondWith(

@@ -307,10 +307,33 @@ select:focus, input:focus { border-color: var(--brand); }
   padding: 0.5rem 0.25rem 0.55rem; min-height: 60px;
   font-size: 0.8rem; font-weight: 600; color: var(--muted); text-decoration: none;
 }
+.tab-bar a { position: relative; }
+.tab-badge {
+  position: absolute; top: 0.3rem; left: calc(50% + 0.45rem);
+  min-width: 1.15rem; height: 1.15rem; padding: 0 0.3rem; border-radius: 99px;
+  background: var(--danger); color: #fff; font-size: 0.7rem; font-weight: 800; line-height: 1.15rem; text-align: center;
+}
 .tab-bar a[aria-current="page"] { color: var(--brand); }
 .tab-bar a[aria-current="page"] svg { stroke-width: 2.6; }
 
 .print-only { display: none; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.updates { margin: 1.5rem 0; }
+.updates-head { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; }
+.updates-head h2 { display: flex; align-items: center; gap: 0.4rem; margin: 0; }
+.updates .small { font-size: 0.85rem; margin: 0.25rem 0 0.75rem; }
+.update-list { list-style: none; padding: 0; margin: 0 0 0.5rem; display: grid; gap: 0.75rem; }
+.update-card { padding: 1rem 1.1rem; }
+.update-card h3 { font-size: 1.05rem; margin: 0.15rem 0 0.35rem; }
+.update-card p { margin: 0 0 0.4rem; }
+.update-card a { display: inline-flex; align-items: center; gap: 0.25rem; font-weight: 700; }
+.update-meta { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--muted); }
+.new-chip { background: var(--possibly-soft); color: var(--possibly); }
 
 @media (max-width: 440px) {
   .brand span { display: none; }
