@@ -1,57 +1,19 @@
 import { usedStateReasonKeys } from "../../lib/india/stateReasons";
 import { inStateName } from "../../lib/india/states";
 import { money } from "../format";
+import { DOCS, STEPS, type Doc, type StateLocal, type StateReason, type Step } from "./stateText";
 import type { CountryContent, Params, ProgramContent } from "../types";
 
 type Lang = "en" | "hi";
 
-const DOCS = {
-  aadhaar: ["Aadhaar card", "आधार कार्ड"],
-  domicile: ["Residence (domicile) certificate of the state", "राज्य का निवास (मूल निवास) प्रमाणपत्र"],
-  income: ["Income certificate", "आय प्रमाणपत्र"],
-  bank: ["Bank account linked to Aadhaar", "आधार से जुड़ा बैंक खाता"],
-  ration: ["Ration card", "राशन कार्ड"],
-  caste: ["Caste certificate, if applicable", "जाति प्रमाणपत्र, अगर लागू हो"],
-  photo: ["Passport-size photo", "पासपोर्ट साइज़ फ़ोटो"],
-  birth: ["Child's birth certificate", "बच्चे का जन्म प्रमाणपत्र"],
-  land: ["Land records", "ज़मीन के कागज़"],
-  marks: ["Marksheet and admission proof", "मार्कशीट और दाख़िले का प्रमाण"],
-  age: ["Age proof", "उम्र का प्रमाण"],
-  death: ["Husband's death certificate", "पति का मृत्यु प्रमाणपत्र"],
-  marriage: ["Wedding card or marriage certificate", "शादी का कार्ड या विवाह प्रमाणपत्र"],
-  electricity: ["Electricity bill or consumer number", "बिजली का बिल या उपभोक्ता नंबर"],
-  familyId: ["Family ID (Parivar Pehchan Patra)", "परिवार पहचान पत्र"],
-  school: ["School or college enrolment proof", "स्कूल या कॉलेज में दाख़िले का प्रमाण"],
-  samagra: ["Samagra family ID", "समग्र परिवार आईडी"],
-  janAadhaar: ["Jan Aadhaar card", "जन आधार कार्ड"],
-  labour: ["Worker registration card, if you have one", "श्रमिक पंजीकरण कार्ड, अगर हो"],
-  noPapers: ["No papers needed", "कोई कागज़ नहीं चाहिए"],
-} as const;
-
-const STEPS = {
-  portal: ["Apply on the official website (button below), or at a Common Service Centre (CSC).", "नीचे दिए बटन से सरकारी वेबसाइट पर, या कॉमन सर्विस सेंटर (CSC) पर आवेदन करें।"],
-  office: ["Or apply at your gram panchayat, block office or ward office.", "या ग्राम पंचायत, ब्लॉक या वार्ड दफ़्तर में आवेदन करें।"],
-  secretariat: ["Apply at your village or ward secretariat.", "अपने गाँव या वार्ड सचिवालय में आवेदन करें।"],
-  school: ["Apply through your school or college.", "अपने स्कूल या कॉलेज के ज़रिए आवेदन करें।"],
-  anganwadi: ["Register through your anganwadi worker or the hospital where the child is born.", "आंगनवाड़ी कार्यकर्ता या जिस अस्पताल में बच्चे का जन्म हो, उसके ज़रिए पंजीकरण कराएँ।"],
-  auto: ["No separate form: eligible people are added automatically. Check your status on the website.", "अलग फ़ॉर्म नहीं भरना है: पात्र लोग अपने आप जुड़ जाते हैं। वेबसाइट पर अपनी स्थिति देखें।"],
-  verify: ["Officials check your details; the money comes straight to your bank account (DBT).", "अधिकारी आपकी जानकारी जाँचते हैं; पैसे सीधे बैंक खाते में आते हैं (DBT)।"],
-  ekyc: ["Keep e-KYC done and Aadhaar linked to your bank so payments don't stop.", "ई-केवाईसी पूरा रखें और आधार बैंक से जुड़ा रखें ताकि भुगतान न रुके।"],
-  card: ["Get the scheme card online or at a registration centre.", "योजना का कार्ड ऑनलाइन या पंजीकरण केंद्र पर बनवाएँ।"],
-  hospital: ["Show the card or Aadhaar at a listed hospital for cashless treatment.", "बिना पैसे इलाज के लिए सूचीबद्ध अस्पताल में कार्ड या आधार दिखाएँ।"],
-  showId: ["Show your card or a government ID to the conductor.", "कंडक्टर को अपना कार्ड या सरकारी पहचान पत्र दिखाएँ।"],
-  rationShop: ["Collect it at your ration shop with your card and fingerprint.", "राशन दुकान पर कार्ड और अँगूठा लगाकर लें।"],
-  schoolMeal: ["Enrol your child in a government school; the meal is served every school day.", "बच्चे का सरकारी स्कूल में दाख़िला कराएँ; खाना स्कूल के हर दिन मिलता है।"],
-} as const;
-
-type Doc = keyof typeof DOCS;
-type Step = keyof typeof STEPS;
 
 interface Entry {
   en: [name: string, short: string, about: string];
   hi: [name: string, short: string, about: string];
   docs: Doc[];
   steps: Step[];
+  /** Set on a state's general social security pension (shared wording). */
+  pensionOf?: string;
 }
 
 /** A state's own social security pension, for states without a separately named one. */
@@ -69,6 +31,7 @@ function socialPension(state: string): Entry {
     ],
     docs: ["aadhaar", "age", "bank", "domicile"],
     steps: ["office", "verify"],
+    pensionOf: state,
   };
 }
 
@@ -680,6 +643,39 @@ function reasons(lang: Lang): Record<string, (p: Params) => string> {
     out[key] = key.startsWith("state.miss.") ? (p) => miss(render(p)) : render;
   }
   return out;
+}
+
+/** State scheme wording in a state language, falling back to English for anything not translated. */
+function localPrograms(l: StateLocal): Record<string, ProgramContent> {
+  const en = programs("en");
+  return Object.fromEntries(
+    Object.entries(entries).map(([id, e]) => {
+      const text = e.pensionOf
+        ? ([l.socialPension.name(l.stateNames[e.pensionOf] ?? inStateName(e.pensionOf, "en")), l.socialPension.short, l.socialPension.about] as const)
+        : l.entries[id];
+      const [name, short, about] = text ?? [en[id].name, en[id].short, en[id].about];
+      return [id, { ...en[id], name, short, about, documents: e.docs.map((d) => l.docs[d]), steps: e.steps.map((st) => l.steps[st]), applyLabel: l.applyLabel }];
+    }),
+  );
+}
+
+function localReasons(l: StateLocal): Record<string, (p: Params) => string> {
+  const f = (p: Params) => ({
+    money: (n: number | string) => money(Number(n), l.locale, "INR"),
+    list: String(p.list ?? "").split(",").filter(Boolean).map((c) => l.categories[c as keyof StateLocal["categories"]]).join(", "),
+  });
+  const out: Record<string, (p: Params) => string> = {};
+  for (const key of usedStateReasonKeys()) {
+    const base = key.replace(/^state\.(miss\.)?/, "") as StateReason;
+    const render = (p: Params) => l.reasons[base](p, f(p));
+    out[key] = key.startsWith("state.miss.") ? (p) => l.miss(render(p)) : render;
+  }
+  return out;
+}
+
+/** Add state scheme wording to India's content in a state language. */
+export function withLocalStateContent<W>(c: CountryContent<W>, l: StateLocal): CountryContent<W> {
+  return { ...c, programs: { ...c.programs, ...localPrograms(l) }, reasons: { ...c.reasons, ...localReasons(l) } };
 }
 
 /** Add state scheme wording to India's content for one language. */

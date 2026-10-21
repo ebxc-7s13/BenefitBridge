@@ -26,6 +26,8 @@ export interface Evaluation {
 
 export interface ProgramResult extends Evaluation {
   programId: string;
+  /** Set for a program run by a state (or UT), not the national government. */
+  state?: string;
 }
 
 const order: Record<Status, number> = { likely: 0, possibly: 1, unlikely: 2 };

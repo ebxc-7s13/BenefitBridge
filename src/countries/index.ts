@@ -1,11 +1,15 @@
 import { inEn } from "../content/india/en";
 import { inHi } from "../content/india/hi";
 import { indiaLinks, MYSCHEME_URL } from "../content/india/links";
-import { withStateContent } from "../content/india/stateContent";
+import { withLocalStateContent, withStateContent } from "../content/india/stateContent";
+import { stateNameFor } from "../content/india/stateNames";
+import { STATE_LANGUAGE } from "../content/languages";
+import { regionalIndia, regionalStateText } from "../content/regional";
 import type { InWizard } from "../content/india/types";
 import { money, type Currency } from "../content/format";
+import { uiFor } from "../content";
 import type { Link } from "../content/links";
-import type { CountryCode, CountryContent, Locale } from "../content/types";
+import type { CountryCode, CountryContent, IndianLocale, Locale } from "../content/types";
 import { usEn } from "../content/us/en";
 import { usEs } from "../content/us/es";
 import { usLinks } from "../content/us/links";
@@ -33,6 +37,8 @@ export interface CountryPack<C extends CountryCode = CountryCode, W = unknown> {
   code: C;
   /** Supported languages; the first is the default. */
   locales: Locale[];
+  /** Languages offered for these answers (India adds the chosen state's language). */
+  localesFor(answers: Answers[C]): Locale[];
   currency: Currency;
   rules: { version: string; effectiveFrom: string; sources: string[] };
   steps: number;
@@ -53,6 +59,7 @@ const hostOf = (url: string) => new URL(url).hostname.replace(/^www\./, "");
 export const US: CountryPack<"US", UsWizard> = {
   code: "US",
   locales: ["en", "es"],
+  localesFor: () => ["en", "es"],
   currency: "USD",
   rules: currentRuleset,
   steps: 5,
@@ -84,10 +91,20 @@ export const US: CountryPack<"US", UsWizard> = {
 export const IN: CountryPack<"IN", InWizard> = {
   code: "IN",
   locales: ["en", "hi"],
+  localesFor: (a) => {
+    const own = STATE_LANGUAGE[a.state];
+    return own && regionalIndia[own] ? ["en", "hi", own] : ["en", "hi"];
+  },
   currency: "INR",
   rules: currentRules,
   steps: 6,
-  content: { en: withStateContent(inEn, "en"), hi: withStateContent(inHi, "hi") },
+  content: {
+    en: withStateContent(inEn, "en"),
+    hi: withStateContent(inHi, "hi"),
+    ...Object.fromEntries(
+      Object.entries(regionalIndia).map(([l, c]) => [l, regionalStateText[l as IndianLocale] ? withLocalStateContent(c, regionalStateText[l as IndianLocale]!) : c]),
+    ),
+  },
   links: { ...indiaLinks, ...Object.fromEntries(stateSchemes.map((s) => [s.id, { url: s.url, phone: s.phone }])) },
   categoryOf: inCategoryOf,
   empty: emptyIn,
@@ -96,7 +113,7 @@ export const IN: CountryPack<"IN", InWizard> = {
     const portal = statePortals[a.state];
     if (!portal) return null;
     return {
-      place: inStateName(a.state, locale),
+      place: stateNameFor(a.state, locale),
       links: [
         { label: hostOf(portal), href: portal },
         { label: "myScheme.gov.in", href: `${MYSCHEME_URL}search/state/${encodeURIComponent(inStateName(a.state, "en"))}` },
@@ -104,7 +121,7 @@ export const IN: CountryPack<"IN", InWizard> = {
     };
   },
   summary: (a, locale) =>
-    `${inStateName(a.state, locale)} · ${a.size} · ${money(a.annualIncome, locale, "INR")}/${locale === "hi" ? "साल" : "yr"}`,
+    `${stateNameFor(a.state, locale)} · ${a.size} · ${money(a.annualIncome, locale, "INR")} ${uiFor(locale).money.perYear}`,
 };
 
 export const packs = { US, IN } as const;

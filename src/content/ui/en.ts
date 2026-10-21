@@ -38,6 +38,7 @@ export const uiEn: UiStrings = {
     next: "Next",
     finish: "See my results",
     privacyNote: "Your answers stay on this device.",
+    language: "Choose your language",
     minus: (label) => `Fewer: ${label}`,
     plus: (label) => `More: ${label}`,
   },
@@ -58,6 +59,8 @@ export const uiEn: UiStrings = {
     editAnswers: "Change my answers",
     startOver: "Start over",
     disclaimer: (date) => `Estimates use rules in effect ${date}. The office that runs each program makes the final decision.`,
+    stateTitle: (place) => `${place} government schemes`,
+    stateLead: "Programs run by your state, checked against your answers. Each card says whether it may fit your family.",
   },
   program: {
     back: "All results",

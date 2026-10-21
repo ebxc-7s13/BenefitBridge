@@ -42,3 +42,10 @@ jobs:
             --target "$GITHUB_SHA" \
             --title "BenefitBridge $VERSION" \
             --notes-file docs/RELEASE_NOTES.md
+
+  android:
+    needs: release
+    uses: ./.github/workflows/android.yml
+    with:
+      version: ${{ inputs.version || github.ref_name }}
+    secrets: inherit

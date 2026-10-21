@@ -1,3 +1,4 @@
+import { LANGUAGES } from "../content/languages";
 import type { CountryCode, Locale } from "../content/types";
 
 /** One dated notice on the home page: a rule change, a deadline or a new feature. */
@@ -17,7 +18,7 @@ export interface Update {
 /** Published updates: the repository first (always current), then the copy deployed with the app. */
 export const UPDATE_SOURCES = ["https://raw.githubusercontent.com/ebxc-7s13/BenefitBridge/main/public/updates.json", "./updates.json"];
 
-const LOCALES: Locale[] = ["en", "es", "hi"];
+const LOCALES = Object.keys(LANGUAGES) as Locale[];
 const COUNTRIES = ["ALL", "US", "IN"];
 
 function text(v: unknown, max: number): Update["title"] | null {
@@ -63,6 +64,7 @@ export function updatesFor(all: Update[], country: CountryCode, state: string, t
   return all.filter((u) => (u.country === "ALL" || u.country === country) && (!u.state || u.state === state) && u.date <= today);
 }
 
+/** The text in the reader's language, or English. */
 export const localized = (t: Update["title"], locale: Locale) => t[locale] ?? t.en;
 
 /** Fetch published updates when online; null when no source could be reached. Never sends anything about the user. */

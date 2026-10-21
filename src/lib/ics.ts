@@ -1,7 +1,16 @@
-/** Downloads and printing are blocked when the app runs inside another page (sandboxed frames). */
+/** The Android app (Capacitor) runs the web app in a WebView, which can't save downloads or print. */
+export const isNativeApp = (() => {
+  try {
+    return !!(window as { Capacitor?: { isNativePlatform?(): boolean } }).Capacitor?.isNativePlatform?.();
+  } catch {
+    return false;
+  }
+})();
+
+/** Downloads and printing are blocked when the app runs inside another page (sandboxed frames) or the Android app. */
 export const canSaveFiles = (() => {
   try {
-    return window.self === window.top;
+    return window.self === window.top && !isNativeApp;
   } catch {
     return false;
   }

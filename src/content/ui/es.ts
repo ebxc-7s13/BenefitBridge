@@ -38,6 +38,7 @@ export const uiEs: UiStrings = {
     next: "Siguiente",
     finish: "Ver mis resultados",
     privacyNote: "Sus respuestas se quedan en este dispositivo.",
+    language: "Elija su idioma",
     minus: (label) => `Menos: ${label}`,
     plus: (label) => `Más: ${label}`,
   },
@@ -58,6 +59,8 @@ export const uiEs: UiStrings = {
     editAnswers: "Cambiar mis respuestas",
     startOver: "Empezar de nuevo",
     disclaimer: (date) => `Las estimaciones usan las reglas vigentes desde el ${date}. La oficina que administra cada programa toma la decisión final.`,
+    stateTitle: (place) => `Programas del estado de ${place}`,
+    stateLead: "Programas de su estado, revisados con sus respuestas. Cada tarjeta dice si podría corresponderle a su familia.",
   },
   program: {
     back: "Todos los resultados",

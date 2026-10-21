@@ -34,7 +34,11 @@ export function Results() {
     );
   }
 
-  const by = (s: Status) => results.filter((x) => x.status === s);
+  // National programs first, in groups by status; the state's own programs get their own section below.
+  const national = results.filter((x) => !x.state);
+  const ownState = results.filter((x) => x.state);
+  const by = (s: Status) => national.filter((x) => x.status === s);
+  const stateFits = ownState.filter((x) => x.status !== "unlikely").length;
   const likely = by("likely");
   const possibly = by("possibly");
   const unlikely = by("unlikely");
@@ -45,7 +49,11 @@ export function Results() {
   return (
     <div className="page">
       <h1 id="page-title" tabIndex={-1}>{r.title}</h1>
-      <p className="lead">{likely.length + possibly.length > 0 ? r.summary(likely.length, possibly.length) : r.noneTitle}</p>
+      <p className="lead">
+        {likely.length + possibly.length + stateFits > 0
+          ? r.summary(likely.length + ownState.filter((x) => x.status === "likely").length, possibly.length + ownState.filter((x) => x.status === "possibly").length)
+          : r.noneTitle}
+      </p>
 
       {(sum.yearly.high > 0 || sum.once.high > 0) && (
         <section className="value-banner" aria-label={r.valueLabel}>
@@ -60,10 +68,33 @@ export function Results() {
         </section>
       )}
 
-      {likely.length + possibly.length === 0 && <p className="card">{c.results.noneBody}</p>}
+      {likely.length + possibly.length + stateFits === 0 && <p className="card">{c.results.noneBody}</p>}
 
       <ResultGroup title={r.groupLikely} items={likely} />
       <ResultGroup title={r.groupPossibly} items={possibly} />
+
+      {unlikely.length > 0 && (
+        <section>
+          <button type="button" className="link-button" aria-expanded={showUnlikely} onClick={() => setShowUnlikely(!showUnlikely)}>
+            {showUnlikely ? r.hideUnlikely : r.showUnlikely(unlikely.length)}
+          </button>
+          {showUnlikely && <ResultGroup title={r.groupUnlikely} items={unlikely} />}
+        </section>
+      )}
+
+      {ownState.length > 0 && local && (
+        <section className="result-group state-group" aria-labelledby="state-schemes">
+          <h2 id="state-schemes">{r.stateTitle(local.place)}</h2>
+          <p className="muted">{r.stateLead}</p>
+          <ul className="result-list">
+            {ownState.map((item) => (
+              <li key={item.programId}>
+                <ResultCard result={item} showStatus />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {local && (
         <section className="card extra-card">
@@ -86,15 +117,6 @@ export function Results() {
               {l.label} <Icon name="external" size={18} />
             </a>
           ))}
-        </section>
-      )}
-
-      {unlikely.length > 0 && (
-        <section>
-          <button type="button" className="link-button" aria-expanded={showUnlikely} onClick={() => setShowUnlikely(!showUnlikely)}>
-            {showUnlikely ? r.hideUnlikely : r.showUnlikely(unlikely.length)}
-          </button>
-          {showUnlikely && <ResultGroup title={r.groupUnlikely} items={unlikely} />}
         </section>
       )}
 
@@ -132,7 +154,7 @@ function ResultGroup({ title, items }: { title: string; items: ProgramResult[] }
   );
 }
 
-function ResultCard({ result }: { result: ProgramResult }) {
+function ResultCard({ result, showStatus }: { result: ProgramResult; showStatus?: boolean }) {
   const { t, c, pack, locale, countryPlan } = useApp();
   const p = c!.programs[result.programId];
   const category = pack!.categoryOf(result.programId);
@@ -144,6 +166,7 @@ function ResultCard({ result }: { result: ProgramResult }) {
           <Icon name={categoryIcon[category] ?? "list"} size={16} />
           {c!.categories[category]}
         </span>
+        {showStatus && <span className={`chip status-chip status-${result.status}`}>{t.status[result.status]}</span>}
         {countryPlan[result.programId] && (
           <span className="chip">
             <Icon name="check" size={14} />

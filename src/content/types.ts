@@ -1,6 +1,8 @@
 import type { Status } from "../lib/core";
 
-export type Locale = "en" | "es" | "hi";
+/** English, Spanish, Hindi, and the official languages of Indian states (offered after choosing the state). */
+export type Locale = "en" | "es" | "hi" | IndianLocale;
+export type IndianLocale = "bn" | "mr" | "ta" | "te" | "kn" | "ml" | "gu" | "pa" | "or" | "as" | "ur";
 export type CountryCode = "US" | "IN";
 export type Params = Record<string, number | string>;
 
@@ -69,6 +71,8 @@ export interface UiStrings {
     next: string;
     finish: string;
     privacyNote: string;
+    /** Label above the language buttons shown after choosing an Indian state. */
+    language: string;
     minus: (label: string) => string;
     plus: (label: string) => string;
   };
@@ -88,6 +92,9 @@ export interface UiStrings {
     editAnswers: string;
     startOver: string;
     disclaimer: (date: string) => string;
+    /** Heading of the section listing the chosen state's own programs. */
+    stateTitle: (place: string) => string;
+    stateLead: string;
   };
   program: {
     back: string;

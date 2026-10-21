@@ -3,6 +3,7 @@ import { Icon, type IconName } from "./components/Icon";
 import { useUnread } from "./components/Updates";
 import { InScreener } from "./countries/InScreener";
 import { UsScreener } from "./countries/UsScreener";
+import { LANGUAGES } from "./content/languages";
 import { href, useRoute, type Route } from "./lib/router";
 import { useApp } from "./lib/state";
 import { CountryPicker } from "./screens/CountryPicker";
@@ -27,7 +28,7 @@ const screeners = { US: UsScreener, IN: InScreener };
 
 export function App() {
   const route = useRoute();
-  const { t, locale, country, pack, countryDone, toggleLocale } = useApp();
+  const { t, locale, locales, country, countryDone, toggleLocale } = useApp();
   const unread = useUnread();
 
   // Move focus to the new page's heading so screen readers announce it.
@@ -44,8 +45,7 @@ export function App() {
   ];
   const active = route.name === "program" ? "results" : route.name === "screener" || route.name === "country" || route.name === "world" ? "home" : route.name;
 
-  const locales = pack ? pack.locales : (["en", "hi", "es"] as const);
-  const nextLocale = locales[(locales.indexOf(locale as never) + 1) % locales.length];
+  const nextLocale = locales[(locales.indexOf(locale) + 1) % locales.length];
   const Screener = country ? screeners[country] : null;
   // Everything country-specific waits until a country is chosen.
   const needsCountry = !country && route.name !== "help" && route.name !== "world";
@@ -69,7 +69,7 @@ export function App() {
           )}
           <button type="button" className="ghost-button" onClick={toggleLocale} lang={nextLocale}>
             <Icon name="globe" size={18} />
-            {nextLocale === "en" ? "English" : nextLocale === "es" ? "Español" : "हिन्दी"}
+            {LANGUAGES[nextLocale].name}
           </button>
           <button type="button" className="exit-button" onClick={quickExit} title={t.quickExitHint}>
             <Icon name="exit" size={18} />

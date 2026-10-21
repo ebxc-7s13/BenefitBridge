@@ -38,6 +38,7 @@ export const uiHi: UiStrings = {
     next: "आगे",
     finish: "मेरे नतीजे देखें",
     privacyNote: "आपके जवाब इसी फ़ोन में रहते हैं।",
+    language: "अपनी भाषा चुनें",
     minus: (label) => `कम करें: ${label}`,
     plus: (label) => `बढ़ाएँ: ${label}`,
   },
@@ -58,6 +59,8 @@ export const uiHi: UiStrings = {
     editAnswers: "अपने जवाब बदलें",
     startOver: "फिर से शुरू करें",
     disclaimer: (date) => `अनुमान ${date} से लागू नियमों पर आधारित हैं। आख़िरी फ़ैसला योजना चलाने वाला दफ़्तर करता है।`,
+    stateTitle: (place) => `${place} सरकार की योजनाएँ`,
+    stateLead: "आपके राज्य की अपनी योजनाएँ, आपके जवाबों से जाँची गईं। हर कार्ड बताता है कि यह आपके परिवार के लिए हो सकती है या नहीं।",
   },
   program: {
     back: "सभी नतीजे",

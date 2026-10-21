@@ -1,0 +1,10 @@
+{
+  "appId": "io.github.ebxc7s13.benefitbridge",
+  "appName": "BenefitBridge",
+  "webDir": "dist-single",
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": false,
+    "webContentsDebuggingEnabled": false
+  }
+}

@@ -389,3 +389,11 @@ a.country-card { text-decoration: none; }
 .world-card details { margin: 0.6rem 0 0.75rem; }
 .world-card summary { cursor: pointer; font-weight: 650; min-height: 44px; display: flex; align-items: center; color: var(--brand); }
 .world-card ul, .world-card ol { margin: 0.2rem 0 0.4rem; padding-left: 1.3rem; }
+
+/* The state's own programs */
+.state-group { margin-top: 2rem; padding-top: 1.25rem; border-top: 2px solid var(--border); }
+.state-group > .muted { margin-top: -0.25rem; }
+.status-chip.status-likely { background: var(--likely-soft); color: var(--likely); }
+.status-chip.status-possibly { background: var(--possibly-soft); color: var(--possibly); }
+.status-chip.status-unlikely { background: var(--unlikely-soft); color: var(--unlikely); }
+.result-top { flex-wrap: wrap; gap: 0.4rem; }

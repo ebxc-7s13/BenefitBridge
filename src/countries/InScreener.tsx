@@ -4,7 +4,8 @@ import { WizardShell } from "../components/Wizard";
 import type { InWizard } from "../content/india/types";
 import { money } from "../content/format";
 import { toMonthly, type IncomeInput } from "../lib/income";
-import { IN_STATES } from "../lib/india/states";
+import { statesFor } from "../content/india/stateNames";
+import { LANGUAGES } from "../content/languages";
 import type { InHousehold } from "../lib/india/types";
 import { useApp } from "../lib/state";
 
@@ -47,7 +48,7 @@ export function InScreener({ step }: { step: number }) {
 }
 
 function WhereStep({ errors, clear }: { errors: { state?: string; area?: string }; clear(): void }) {
-  const { w, a, set, locale } = useIn();
+  const { t, w, a, set, locale, locales, setLocale } = useIn();
   return (
     <>
       <div className="field">
@@ -63,12 +64,32 @@ function WhereStep({ errors, clear }: { errors: { state?: string; area?: string 
           }}
         >
           <option value="">{w.where.statePlaceholder}</option>
-          {IN_STATES.map(([code, en, hi]) => (
-            <option key={code} value={code}>{locale === "hi" ? hi : en}</option>
+          {statesFor(locale).map(([code, name]) => (
+            <option key={code} value={code}>{name}</option>
           ))}
         </select>
         {errors.state && <p className="error" id="in-state-error" role="alert">{errors.state}</p>}
       </div>
+      {a.state && (
+        <fieldset className="field language-choice">
+          <legend>{t.wizard.language}</legend>
+          <div className="language-row">
+            {locales.map((l) => (
+              <button
+                key={l}
+                type="button"
+                className={`button ${l === locale ? "" : "secondary"}`}
+                aria-pressed={l === locale}
+                lang={l}
+                dir={LANGUAGES[l].rtl ? "rtl" : undefined}
+                onClick={() => setLocale(l)}
+              >
+                {LANGUAGES[l].name}
+              </button>
+            ))}
+          </div>
+        </fieldset>
+      )}
       <RadioGroup
         legend={w.where.area}
         name="area"

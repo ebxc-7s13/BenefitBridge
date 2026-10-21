@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { ui, type CountryCode, type CountryContent, type Locale, type UiStrings } from "../content";
+import { uiFor, type CountryCode, type CountryContent, type Locale, type UiStrings } from "../content";
+import { LANGUAGES } from "../content/languages";
 import { contentFor, packFor, packs, type Answers, type CountryPack } from "../countries";
 import type { ProgramResult } from "./core";
 import type { IncomeInput } from "./income";
@@ -104,6 +105,9 @@ interface AppState extends Saved {
   setAnswers<K extends CountryCode>(code: K, patch: Partial<Answers[K]>): void;
   setPlanItem(id: string, patch: Partial<PlanItem> | null): void;
   markSeen(ids: string[]): void;
+  /** Languages offered now (India adds the chosen state's language). */
+  locales: Locale[];
+  setLocale(locale: Locale): void;
   /** Switch to the country's next language. */
   toggleLocale(): void;
   reset(): void;
@@ -119,6 +123,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     else storage.remove(KEY);
     storage.remove(OLD_KEY);
     document.documentElement.lang = state.locale;
+    document.documentElement.dir = LANGUAGES[state.locale]?.rtl ? "rtl" : "ltr";
   }, [state]);
 
   const pack = state.country ? packFor(state.country) : null;
@@ -131,10 +136,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [pack, state.country, countryDone, state.answers]);
 
   const value = useMemo<AppState>(() => {
-    const locales: Locale[] = pack ? pack.locales : ["en", "hi", "es"];
+    const locales: Locale[] = pack && state.country ? pack.localesFor(state.answers[state.country] as never) : ["en", "hi", "es"];
     return {
       ...state,
-      t: ui[state.locale],
+      t: uiFor(state.locale),
+      locales,
       pack,
       c: pack ? contentFor(pack, state.locale) : null,
       results,
@@ -143,10 +149,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
       update: (patch) => setState((s) => ({ ...s, ...patch })),
       chooseCountry: (code) =>
         setState((s) => {
-          const supported = packFor(code).locales;
+          const supported = packFor(code).localesFor(s.answers[code] as never);
           return { ...s, country: code, locale: supported.includes(s.locale) ? s.locale : supported[0] };
         }),
-      setAnswers: (code, patch) => setState((s) => ({ ...s, answers: { ...s.answers, [code]: { ...s.answers[code], ...patch } } })),
+      setAnswers: (code, patch) =>
+        setState((s) => {
+          const answers = { ...s.answers, [code]: { ...s.answers[code], ...patch } };
+          // A new state may not offer the language in use (e.g. Tamil after moving from Tamil Nadu).
+          const offered = packFor(code).localesFor(answers[code] as never);
+          return { ...s, answers, locale: s.country !== code || offered.includes(s.locale) ? s.locale : offered[0] };
+        }),
+      setLocale: (locale) => setState((s) => ({ ...s, locale })),
       setPlanItem: (id, patch) =>
         setState((s) => {
           if (!s.country) return s;
