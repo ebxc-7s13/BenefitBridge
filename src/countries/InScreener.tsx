@@ -21,10 +21,14 @@ function useIn() {
   };
 }
 
-export function InScreener({ step }: { step: number }) {
+/** Steps 1–2 are the basic details asked once (profile mode). */
+const PROFILE_STEPS = 2;
+
+export function InScreener({ step, mode = "screener" }: { step: number; mode?: "screener" | "profile" }) {
   const { w, a } = useIn();
   const [errors, setErrors] = useState<{ state?: string; area?: string }>({});
-  const current = Math.min(step, TOTAL);
+  const total = mode === "profile" ? PROFILE_STEPS : TOTAL;
+  const current = Math.min(step, total);
   const titles = [w.where.title, w.family.title, w.cards.title, w.money.title, w.work.title, w.home.title];
 
   const validate = () => {
@@ -36,7 +40,7 @@ export function InScreener({ step }: { step: number }) {
   };
 
   return (
-    <WizardShell step={current} total={TOTAL} title={titles[current - 1]} validate={validate}>
+    <WizardShell mode={mode} step={current} total={total} title={titles[current - 1]} validate={validate}>
       {current === 1 && <WhereStep errors={errors} clear={() => setErrors({})} />}
       {current === 2 && <FamilyStep />}
       {current === 3 && <CardsStep />}

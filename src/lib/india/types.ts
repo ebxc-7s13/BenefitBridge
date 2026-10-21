@@ -34,6 +34,8 @@ export interface InHousehold {
   rationCard: "none" | "aay" | "phh" | "other";
   bpl: "yes" | "no" | "unknown";
   hasBank: boolean;
+  /** Highest education, asked on the jobs page (not used for schemes). */
+  education?: "" | "none" | "8th" | "10th" | "12th" | "iti" | "diploma" | "graduate" | "postgraduate";
   work: {
     farmer: boolean;
     farmLabour: boolean;

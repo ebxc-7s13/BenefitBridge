@@ -121,6 +121,9 @@ export function Results() {
       )}
 
       <div className="button-row">
+        <a className="button" href={href({ name: "plan" })}>
+          <Icon name="list" size={18} /> {t.nav.plan}
+        </a>
         <a className="button secondary" href={href({ name: "screener", step: 1 })}>{r.editAnswers}</a>
         <button
           type="button"

@@ -85,7 +85,9 @@ test("a family finds benefits, tracks one, and sees it in their plan", async ({ 
   await expect(page.getByRole("button", { name: "Add to my calendar" })).toBeVisible();
   await expectAccessible(page);
 
-  await page.getByRole("link", { name: "My plan" }).click();
+  // My plan is on the home page.
+  await page.getByRole("link", { name: "Home", exact: true }).click();
+  await page.getByRole("link", { name: /My plan/ }).click();
   await expect(page.getByRole("heading", { level: 2, name: "SNAP (food stamps)" })).toBeVisible();
   await expect(page.getByText("1 of 6 papers ready")).toBeVisible();
   await expect(page.getByText("January 15, 2030")).toBeVisible();
@@ -107,12 +109,12 @@ test("works in Spanish", async ({ page }) => {
 
 test("help page can delete everything", async ({ page }) => {
   await completeScreener(page);
-  await page.getByRole("link", { name: "Get help" }).click();
+  await page.getByRole("link", { name: "Help", exact: true }).click();
   await expectAccessible(page);
   await page.getByRole("button", { name: "Delete everything" }).click();
   await page.getByRole("button", { name: "Yes, delete everything" }).click();
   await expect(page.getByText("Everything was deleted from this device.")).toBeVisible();
-  await expect(page.getByRole("link", { name: "Results" })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "Schemes", exact: true })).toHaveCount(0);
 });
 
 test("the single-file release works offline, straight from a file", async ({ page, context }) => {
@@ -265,4 +267,43 @@ test("after choosing a state, the questionnaire can switch to the state's langua
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.locator("html")).toHaveAttribute("dir", "ltr");
   await expect(page.getByRole("group", { name: "Choose your language" }).getByRole("button")).toHaveText(["English", "हिन्दी"]);
+});
+
+test("the hub: basic details once, then services, jobs and helplines for the state", async ({ page }) => {
+  await chooseCountry(page, "India");
+  await page.getByRole("link", { name: "Add my details" }).click();
+  await page.locator("#in-state").selectOption("MH");
+  await pick(page, "Town or city (urban area)");
+  await page.getByRole("button", { name: "Next" }).click();
+  await page.getByLabel("Your age").fill("24");
+  await expectAccessible(page);
+  await page.getByRole("button", { name: "Save and continue" }).click();
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Find the government schemes your family can get.");
+  await expect(page.getByText(/^Maharashtra · /)).toBeVisible();
+  await expectAccessible(page);
+
+  // Services: the state's own first, and search finds national ones too.
+  await page.getByRole("link", { name: "Services", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Maharashtra" })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator(".dir-item").first()).toBeVisible();
+  await page.getByRole("searchbox").fill("aadhaar");
+  await expect(page.locator(".dir-item h3").filter({ hasText: /Aadhaar/ }).first()).toBeVisible();
+  for (const link of await page.locator(".dir-item a.button[href^='http']").all()) {
+    expect(await link.getAttribute("href")).toMatch(/^https:\/\//);
+  }
+  await expectAccessible(page);
+
+  // Jobs: education and age decide what you can apply for.
+  await page.getByRole("link", { name: "Jobs", exact: true }).click();
+  await page.getByLabel("Your highest education").selectOption("graduate");
+  const cgl = page.locator(".dir-item").filter({ hasText: "Combined Graduate Level" });
+  await expect(cgl.getByText("You can apply")).toBeVisible();
+  await expectAccessible(page);
+
+  // Helplines: tap to call.
+  await page.getByRole("link", { name: "Home", exact: true }).click();
+  await page.getByRole("link", { name: /Helplines/ }).click();
+  await expect(page.locator('a[href="tel:112"]').first()).toBeVisible();
+  await expectAccessible(page);
 });

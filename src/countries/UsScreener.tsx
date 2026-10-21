@@ -20,10 +20,14 @@ function useUs() {
   };
 }
 
-export function UsScreener({ step }: { step: number }) {
+/** Steps 1–2 are the basic details asked once (profile mode). */
+const PROFILE_STEPS = 2;
+
+export function UsScreener({ step, mode = "screener" }: { step: number; mode?: "screener" | "profile" }) {
   const { w, a, set } = useUs();
   const [error, setError] = useState("");
-  const current = Math.min(step, TOTAL);
+  const total = mode === "profile" ? PROFILE_STEPS : TOTAL;
+  const current = Math.min(step, total);
   const titles = [w.state.title, w.household.title, w.income.title, w.expenses.title, w.current.title];
 
   const validate = () => {
@@ -37,7 +41,7 @@ export function UsScreener({ step }: { step: number }) {
   };
 
   return (
-    <WizardShell step={current} total={TOTAL} title={titles[current - 1]} validate={validate}>
+    <WizardShell mode={mode} step={current} total={total} title={titles[current - 1]} validate={validate}>
       {current === 1 && (
         <div className="field">
           <label htmlFor="state">{w.state.label}</label>

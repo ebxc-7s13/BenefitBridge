@@ -9,6 +9,10 @@ export type Route =
   | { name: "program"; id: string }
   | { name: "plan" }
   | { name: "help" }
+  | { name: "profile"; step: number }
+  | { name: "services"; category?: string }
+  | { name: "jobs" }
+  | { name: "helplines" }
   | { name: "world"; code?: string };
 
 export function parse(hash: string): Route {
@@ -26,6 +30,14 @@ export function parse(hash: string): Route {
       return { name: "country" };
     case "help":
       return { name: "help" };
+    case "profile":
+      return { name: "profile", step: Math.max(1, Number(b) || 1) };
+    case "services":
+      return b ? { name: "services", category: decodeURIComponent(b) } : { name: "services" };
+    case "jobs":
+      return { name: "jobs" };
+    case "helplines":
+      return { name: "helplines" };
     case "world":
       return b ? { name: "world", code: decodeURIComponent(b).toUpperCase() } : { name: "world" };
     default:
@@ -43,6 +55,10 @@ export function href(route: Route): string {
       return `#/program/${encodeURIComponent(route.id)}`;
     case "world":
       return route.code ? `#/world/${route.code}` : "#/world";
+    case "profile":
+      return `#/profile/${route.step}`;
+    case "services":
+      return route.category ? `#/services/${route.category}` : "#/services";
     default:
       return `#/${route.name}`;
   }

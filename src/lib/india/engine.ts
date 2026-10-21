@@ -105,6 +105,7 @@ export function emptyHousehold(): InHousehold {
     rationCard: "none",
     bpl: "unknown",
     hasBank: true,
+    education: "",
     work: { farmer: false, farmLabour: false, worker: false, vendor: false, artisan: false, business: false, salaried: false, student: false, jobseeker: false, homemaker: false },
     landAcres: 0,
     firstJob: false,

@@ -176,7 +176,7 @@ describe("shared interface text", () => {
 
   it("has every string in every language", () => {
     for (const [locale, strings] of Object.entries(ui)) {
-      expect(shape(strings!), locale).toEqual(shape(ui.en));
+      expect(shape(strings!).sort(), locale).toEqual(shape(ui.en).sort());
       expect(strings!.locale, locale).toBe(locale);
     }
   });

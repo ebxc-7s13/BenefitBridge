@@ -12,6 +12,9 @@ import { Home } from "./screens/Home";
 import { Plan } from "./screens/Plan";
 import { ProgramDetail } from "./screens/ProgramDetail";
 import { Results } from "./screens/Results";
+import { Helplines } from "./screens/Helplines";
+import { Jobs } from "./screens/Jobs";
+import { Services } from "./screens/Services";
 import { World } from "./screens/World";
 
 const EXIT_URL = "https://weather.com/";
@@ -28,7 +31,7 @@ const screeners = { US: UsScreener, IN: InScreener };
 
 export function App() {
   const route = useRoute();
-  const { t, locale, locales, country, countryDone, toggleLocale } = useApp();
+  const { t, locale, locales, country, toggleLocale } = useApp();
   const unread = useUnread();
 
   // Move focus to the new page's heading so screen readers announce it.
@@ -39,11 +42,21 @@ export function App() {
 
   const tabs: { route: Route; label: string; icon: IconName; show: boolean }[] = [
     { route: { name: "home" }, label: t.nav.home, icon: "home", show: true },
-    { route: { name: "results" }, label: t.nav.results, icon: "search", show: countryDone },
-    { route: { name: "plan" }, label: t.nav.plan, icon: "list", show: !!country },
+    { route: { name: "results" }, label: t.nav.results, icon: "sparkle", show: !!country },
+    { route: { name: "services" }, label: t.nav.services, icon: "id", show: !!country },
+    { route: { name: "jobs" }, label: t.nav.jobs, icon: "work", show: !!country },
     { route: { name: "help" }, label: t.nav.help, icon: "help", show: true },
   ];
-  const active = route.name === "program" ? "results" : route.name === "screener" || route.name === "country" || route.name === "world" ? "home" : route.name;
+  const sections: Partial<Record<Route["name"], Route["name"]>> = {
+    program: "results",
+    screener: "results",
+    plan: "results",
+    helplines: "help",
+    profile: "home",
+    country: "home",
+    world: "home",
+  };
+  const active = sections[route.name] ?? route.name;
 
   const nextLocale = locales[(locales.indexOf(locale) + 1) % locales.length];
   const Screener = country ? screeners[country] : null;
@@ -87,6 +100,10 @@ export function App() {
         {!needsCountry && route.name === "plan" && <Plan />}
         {route.name === "help" && <Help />}
         {route.name === "world" && <World code={route.code} />}
+        {!needsCountry && route.name === "profile" && Screener && <Screener step={route.step} mode="profile" />}
+        {!needsCountry && route.name === "services" && <Services key={route.category ?? ""} category={route.category} />}
+        {!needsCountry && route.name === "jobs" && <Jobs />}
+        {!needsCountry && route.name === "helplines" && <Helplines />}
       </main>
 
       <nav className="tab-bar" aria-label={t.appName}>

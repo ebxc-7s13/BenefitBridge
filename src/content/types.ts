@@ -6,6 +6,14 @@ export type IndianLocale = "bn" | "mr" | "ta" | "te" | "kn" | "ml" | "gu" | "pa"
 export type CountryCode = "US" | "IN";
 export type Params = Record<string, number | string>;
 
+export type HubTile = "schemes" | "services" | "jobs" | "documents" | "helplines" | "plan" | "updates" | "world";
+export const SERVICE_CATEGORIES = [
+  "identity", "certificates", "welfare", "food", "health", "money", "pension", "tax", "land", "housing", "farm",
+  "education", "jobs", "business", "transport", "travel", "utilities", "police", "legal", "grievance",
+] as const;
+export type ServiceCategory = (typeof SERVICE_CATEGORIES)[number];
+export type Education = "none" | "8th" | "10th" | "12th" | "iti" | "diploma" | "graduate" | "postgraduate";
+
 export interface ProgramContent {
   name: string;
   /** One line shown on result cards. */
@@ -53,7 +61,7 @@ export interface UiStrings {
   skipToContent: string;
   quickExit: string;
   quickExitHint: string;
-  nav: { home: string; results: string; plan: string; help: string };
+  nav: { home: string; results: string; plan: string; help: string; services: string; jobs: string };
   country: { title: string; lead: string; change: string; names: Record<CountryCode, string>; blurbs: Record<CountryCode, string> };
   home: {
     start: string;
@@ -169,6 +177,55 @@ export interface UiStrings {
     pickerTitle: string;
     pickerBody: string;
   };
+  /** The home hub. */
+  hub: {
+    greeting: string;
+    profileTitle: string;
+    profileEmpty: string;
+    profileAdd: string;
+    profileEdit: string;
+    profileSummary: (place: string, people: number) => string;
+    explore: string;
+    tiles: Record<HubTile, [title: string, subtitle: string]>;
+  };
+  /** Basic details, asked once and used everywhere. */
+  profile: { title: string; lead: string; save: string };
+  services: {
+    title: string;
+    lead: string;
+    search: string;
+    national: string;
+    state: (place: string) => string;
+    noState: string;
+    all: string;
+    categories: Record<ServiceCategory, string>;
+    open: string;
+    call: (n: string) => string;
+    papers: string;
+    steps: string;
+    none: string;
+    verify: string;
+    count: (n: number) => string;
+  };
+  jobs: {
+    title: string;
+    lead: string;
+    education: string;
+    educationLevels: Record<Education, string>;
+    needAge: string;
+    eligible: string;
+    notEligible: string;
+    check: string;
+    age: (min: number, max: number) => string;
+    relaxed: (years: number) => string;
+    minEducation: (level: string) => string;
+    usually: (when: string) => string;
+    apply: string;
+    statePsc: (place: string) => string;
+    stateJobs: string;
+    training: string;
+  };
+  helplines: { title: string; lead: string; national: string; state: (place: string) => string; emergency: string };
   updates: {
     title: string;
     new: string;
