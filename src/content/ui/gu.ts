@@ -225,6 +225,15 @@ export const uiGu: UiStrings = {
     stateJobs: "રાજ્યની ભરતી અને રોજગાર",
     training: "મફત તાલીમ અને એપ્રેન્ટિસશિપ",
   },
+  tools: {
+    listen: "સાંભળો",
+    stop: "બંધ કરો",
+    share: "શેર કરો",
+    copied: "કૉપી થઈ ગયું. મેસેજમાં પેસ્ટ કરો.",
+    shareFailed: "અહીંથી શેર ન થઈ શક્યું.",
+    textSize: "અક્ષરનું કદ",
+    sizes: { normal: "સામાન્ય", large: "મોટા", xlarge: "ખૂબ મોટા" },
+  },
   helplines: {
     title: "હેલ્પલાઇન",
     lead: "મફત સરકારી નંબર. ફોન કરવા દબાવો.",

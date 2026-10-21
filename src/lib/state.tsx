@@ -36,6 +36,7 @@ export interface Saved {
   plan: Record<CountryCode, Plan>;
   /** Ids of the home-page updates already shown. */
   seen: string[];
+  textSize: "normal" | "large" | "xlarge";
 }
 
 const browserLocale = (): Locale => {
@@ -54,6 +55,7 @@ function initial(): Saved {
     done: { US: false, IN: false },
     plan: { US: {}, IN: {} },
     seen: [],
+    textSize: "normal",
   };
 }
 
@@ -124,6 +126,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     storage.remove(OLD_KEY);
     document.documentElement.lang = state.locale;
     document.documentElement.dir = LANGUAGES[state.locale]?.rtl ? "rtl" : "ltr";
+    document.documentElement.style.fontSize = { normal: "", large: "112.5%", xlarge: "125%" }[state.textSize] ?? "";
   }, [state]);
 
   const pack = state.country ? packFor(state.country) : null;
@@ -178,7 +181,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           const i = locales.indexOf(s.locale);
           return { ...s, locale: locales[(i + 1) % locales.length] };
         }),
-      reset: () => setState((s) => ({ ...initial(), locale: s.locale, save: s.save, seen: s.seen })),
+      reset: () => setState((s) => ({ ...initial(), locale: s.locale, save: s.save, seen: s.seen, textSize: s.textSize })),
     };
   }, [state, pack, results, countryDone]);
 

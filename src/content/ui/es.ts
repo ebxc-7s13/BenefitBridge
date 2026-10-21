@@ -224,6 +224,15 @@ export const uiEs: UiStrings = {
     stateJobs: "Empleo en su estado",
     training: "Capacitación gratuita y aprendizaje",
   },
+  tools: {
+    listen: "Escuchar",
+    stop: "Detener",
+    share: "Compartir",
+    copied: "Copiado. Péguelo en un mensaje.",
+    shareFailed: "No se pudo compartir desde aquí.",
+    textSize: "Tamaño del texto",
+    sizes: { normal: "Normal", large: "Grande", xlarge: "Muy grande" },
+  },
   helplines: {
     title: "Líneas de ayuda",
     lead: "Números gratuitos. Toque para llamar.",

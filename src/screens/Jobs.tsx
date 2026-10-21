@@ -1,9 +1,10 @@
 import { Icon } from "../components/Icon";
 import { directoryFor } from "../content/directory";
 import { stateNameFor } from "../content/india/stateNames";
+import { directoryText } from "../content/india/directory";
 import { jobText } from "../content/india/jobs";
 import { pick } from "../content/directory/types";
-import type { Education } from "../content/types";
+import type { Education, IndianLocale } from "../content/types";
 import { evaluateJob, type JobFit } from "../lib/jobs";
 import { jobs2026 } from "../lib/india/jobs2026";
 import { href } from "../lib/router";
@@ -44,7 +45,7 @@ export function Jobs() {
   const a = answers.IN;
   const person = { age: a.age, education: a.education ?? "", category: a.category };
   const results = jobs2026
-    .map((rule) => ({ rule, r: evaluateJob(rule, person), text: jobText[rule.id] }))
+    .map((rule) => ({ rule, r: evaluateJob(rule, person), text: jobText[rule.id], local: directoryText[locale as IndianLocale]?.jobs[rule.id] }))
     .filter((x) => x.text)
     .sort((x, y) => order[x.r.status] - order[y.r.status]);
   const label = (fit: JobFit) => (fit === "yes" ? j.eligible : fit === "no" ? j.notEligible : j.check);
@@ -76,14 +77,14 @@ export function Jobs() {
 
       <h2>{t.hub.tiles.jobs[0]}</h2>
       <ul className="dir-list">
-        {results.map(({ rule, r, text }) => (
+        {results.map(({ rule, r, text, local }) => (
           <li key={rule.id} className="card dir-item tone-work">
             <div className="dir-head">
               <span className="tone-icon" aria-hidden="true"><Icon name="work" size={22} /></span>
               <div>
                 <span className={`job-status ${r.status}`}>{label(r.status)}</span>
-                <h3>{pick(text.name, locale)}</h3>
-                <p>{pick(text.what, locale)}</p>
+                <h3>{local?.name ?? pick(text.name, locale)}</h3>
+                <p>{local?.what ?? pick(text.what, locale)}</p>
               </div>
             </div>
             <p className="muted small job-facts">
@@ -91,7 +92,7 @@ export function Jobs() {
               {rule.minEducation === "b.ed" && <span>{j.minEducation("B.Ed")}</span>}
               {rule.ageMin !== undefined && r.ageMax !== undefined && <span>{j.age(rule.ageMin, r.ageMax)}</span>}
               {r.relaxed > 0 && <span>{j.relaxed(r.relaxed)}</span>}
-              {text.usual && <span>{j.usually(pick(text.usual, locale))}</span>}
+              {text.usual && <span>{j.usually(local?.usual ?? pick(text.usual, locale))}</span>}
             </p>
             <div className="dir-actions">
               <a className="button" href={rule.url} target="_blank" rel="noopener noreferrer">

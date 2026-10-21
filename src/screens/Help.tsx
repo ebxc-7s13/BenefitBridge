@@ -6,7 +6,7 @@ import { href } from "../lib/router";
 import { useApp } from "../lib/state";
 
 export function Help() {
-  const { t, c, pack, locale, save, update, reset } = useApp();
+  const { t, c, pack, locale, save, textSize, update, reset } = useApp();
   const ui = t.help;
   const [deleted, setDeleted] = useState(false);
   const [confirming, setConfirming] = useState(false);
@@ -15,6 +15,23 @@ export function Help() {
     <div className="page help">
       <h1 id="page-title" tabIndex={-1}>{ui.title}</h1>
       <p className="lead">{ui.lead}</p>
+
+      <section className="card" aria-labelledby="text-size">
+        <h2 id="text-size">{t.tools.textSize}</h2>
+        <div className="size-row" role="group" aria-labelledby="text-size">
+          {(["normal", "large", "xlarge"] as const).map((size) => (
+            <button key={size} type="button" className={`button small ${size === textSize ? "" : "secondary"}`} aria-pressed={size === textSize} onClick={() => update({ textSize: size })}>
+              {t.tools.sizes[size]}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <p>
+        <a className="button secondary" href={href({ name: "helplines" })}>
+          <Icon name="phone" size={18} /> {t.helplines.title}
+        </a>
+      </p>
 
       {c ? (
         <ul className="help-list">

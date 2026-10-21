@@ -1,4 +1,5 @@
 import { Icon } from "../components/Icon";
+import { ListenButton, ShareButton } from "../components/Tools";
 import { reasonText } from "../content";
 import { moneyRange } from "../content/format";
 import { linkUrl } from "../content/links";
@@ -47,6 +48,10 @@ export function ProgramDetail({ id }: { id: string }) {
       <h1 id="page-title" tabIndex={-1}>{content.name}</h1>
       {result && <span className={`badge status-${result.status}`}>{t.status[result.status]}</span>}
       <p className="lead">{content.short}</p>
+      <div className="tools">
+        <ListenButton text={[content.name, content.short, content.about, ...content.steps].join(". ")} />
+        <ShareButton title={content.name} text={content.short} url={url} />
+      </div>
 
       {result && (
         <section className="card">

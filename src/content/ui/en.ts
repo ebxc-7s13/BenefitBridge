@@ -224,6 +224,15 @@ export const uiEn: UiStrings = {
     stateJobs: "State recruitment and employment",
     training: "Free training and apprenticeships",
   },
+  tools: {
+    listen: "Listen",
+    stop: "Stop",
+    share: "Share",
+    copied: "Copied. Paste it in a message.",
+    shareFailed: "Couldn't share from here.",
+    textSize: "Text size",
+    sizes: { normal: "Normal", large: "Large", xlarge: "Extra large" },
+  },
   helplines: {
     title: "Helplines",
     lead: "Free government numbers. Tap to call.",

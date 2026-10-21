@@ -35,3 +35,9 @@ export const pickList = (t: TextList | undefined, locale: Locale) => (t ? (t[loc
 
 /** "tel:" link for a printed number such as "1800-11-4000". */
 export const telHref = (n: string) => `tel:${n.replace(/[^\d+]/g, "")}`;
+
+/** Service and job wording in one more language, by id (anything missing shows in English). */
+export interface DirectoryText {
+  services: Record<string, { name: string; what: string; docs?: string[]; steps?: string[] }>;
+  jobs: Record<string, { name: string; what: string; usual?: string }>;
+}

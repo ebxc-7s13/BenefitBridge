@@ -245,6 +245,15 @@ export const uiTa: UiStrings = {
     state: (place) => `${place}`,
     emergency: "அவசர உதவி: 112",
   },
+  tools: {
+    listen: "கேளுங்கள்",
+    stop: "நிறுத்து",
+    share: "பகிர்",
+    copied: "நகலெடுக்கப்பட்டது. செய்தியில் ஒட்டுங்கள்.",
+    shareFailed: "இங்கிருந்து பகிர முடியவில்லை.",
+    textSize: "எழுத்து அளவு",
+    sizes: { normal: "சாதாரணம்", large: "பெரியது", xlarge: "மிகப் பெரியது" },
+  },
   money: { perMonth: "/ மாதம்", perYear: "/ ஆண்டு", upTo: "வரை", once: "ஒரு முறை" },
   status: { likely: "கிடைக்க வாய்ப்பு அதிகம்", possibly: "கிடைக்கலாம்", unlikely: "கிடைக்காது போலிருக்கிறது" },
 };

@@ -225,6 +225,15 @@ export const uiMr: UiStrings = {
     stateJobs: "राज्य भरती आणि रोजगार",
     training: "मोफत प्रशिक्षण आणि अप्रेंटिसशिप",
   },
+  tools: {
+    listen: "ऐका",
+    stop: "थांबवा",
+    share: "शेअर करा",
+    copied: "कॉपी झाले. मेसेजमध्ये पेस्ट करा.",
+    shareFailed: "इथून शेअर करता आले नाही.",
+    textSize: "अक्षरांचा आकार",
+    sizes: { normal: "नेहमीचा", large: "मोठा", xlarge: "खूप मोठा" },
+  },
   helplines: {
     title: "हेल्पलाइन",
     lead: "मोफत सरकारी क्रमांक. फोन करण्यासाठी दाबा.",
