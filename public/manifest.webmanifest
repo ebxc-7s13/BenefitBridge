@@ -1,0 +1,10 @@
+{
+  "name": "BenefitBridge",
+  "short_name": "BenefitBridge",
+  "description": "Find the benefits you qualify for, privately, in 3 minutes.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f6f2",
+  "theme_color": "#1f5f4a",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
