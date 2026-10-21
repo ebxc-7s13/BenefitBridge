@@ -193,8 +193,11 @@ test("an Indian farming family finds its schemes and how to apply", async ({ pag
   await expect(state.getByRole("link", { name: /up\.gov\.in/ })).toHaveAttribute("href", "https://up.gov.in/");
   await expectAccessible(page);
 
-  // The state's own schemes come with their papers and the official website.
-  await page.getByRole("link", { name: /Mukhyamantri Kanya Sumangala Yojana \(Uttar Pradesh\)/ }).click();
+  // The state's own schemes have their own section below the national ones, with papers and the official website.
+  const stateSection = page.locator("section.state-group").filter({ has: page.getByRole("heading", { level: 2, name: "Uttar Pradesh government schemes" }) });
+  await expect(stateSection.locator("li")).not.toHaveCount(0);
+  await expect(likely.getByRole("link", { name: /Uttar Pradesh/ })).toHaveCount(0);
+  await stateSection.getByRole("link", { name: /Mukhyamantri Kanya Sumangala Yojana \(Uttar Pradesh\)/ }).click();
   await expect(page.getByRole("heading", { level: 1, name: "Mukhyamantri Kanya Sumangala Yojana (Uttar Pradesh)" })).toBeFocused();
   await expect(page.getByRole("checkbox").first()).toBeVisible();
   await expect(page.getByRole("link", { name: /Official website/ })).toHaveAttribute("href", /^https:\/\/[a-z0-9.-]+\.gov\.in\//);
