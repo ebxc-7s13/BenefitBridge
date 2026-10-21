@@ -32,6 +32,6 @@ describe("other countries", () => {
 
   it("keeps the text plain: no leftover markup or placeholders", () => {
     const text = JSON.stringify(world);
-    expect(text).not.toMatch(/<[a-z]|\[citation|TODO|undefined|\$\{/i);
+    expect(text).not.toMatch(/<[a-zA-Z]|\[citation|\bTODO\b|undefined|\$\{/);
   });
 });

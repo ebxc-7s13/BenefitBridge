@@ -224,3 +224,17 @@ test("India works in Hindi, and each country keeps its own answers", async ({ pa
   await page.getByRole("button", { name: /India/ }).click();
   await expect(page.getByRole("link", { name: "See my results" })).toBeVisible();
 });
+
+test("people in other countries find official programs and where to apply", async ({ page }) => {
+  await page.goto("./");
+  await page.getByRole("link", { name: /Help in other countries/ }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Help in other countries" })).toBeFocused();
+  await expectAccessible(page);
+  await page.getByRole("link", { name: /United Kingdom/ }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "United Kingdom" })).toBeFocused();
+  const uc = page.locator(".world-card").filter({ has: page.getByRole("heading", { name: "Universal Credit" }) });
+  await uc.locator("summary").click();
+  await expect(uc.getByRole("heading", { name: "How to apply" })).toBeVisible();
+  await expect(uc.getByRole("link", { name: /Official website/ })).toHaveAttribute("href", /^https:\/\/www\.gov\.uk\//);
+  await expectAccessible(page);
+});

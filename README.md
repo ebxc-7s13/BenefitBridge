@@ -10,8 +10,13 @@ apply, dates to remember, and printable plans.
 
 | Country | Programs | Languages |
 |---------|----------|-----------|
-| 🇮🇳 India | **39 central government schemes** | English, हिन्दी (Hindi) |
-| 🇺🇸 United States | **18 federal programs** | English, Español |
+| 🇮🇳 India | **39 central schemes + 89 state and UT schemes**, official portal of all 36 states and UTs | English, हिन्दी (Hindi) |
+| 🇺🇸 United States | **18 federal programs + state EITCs (33) and child tax credits (18)**, official benefits site of all 50 states and DC | English, Español |
+| 🌍 19 more countries | **119 official programs** (directory: who it's for, papers, how to apply, official link) | English |
+
+The home page shows **dated updates** (rule changes, deadlines, fraud alerts) for your country
+and state. New ones are published in [`public/updates.json`](public/updates.json) and reach
+every copy of the app the next time it's online.
 
 <p>
   <img src="docs/screenshots/0-country-light.png" width="190" alt="Choose your country">
@@ -54,8 +59,17 @@ apply, dates to remember, and printable plans.
 | Pensions, insurance and support | Old-age, widow and disability pensions (NSAP), Atal Pension, PM-SYM, PMJJBY, PMSBY, Jan Dhan, Rashtriya Vayoshri, ADIP, UDID card |
 | Women, children and students | Sukanya Samriddhi, self-help groups (DAY-NRLM / Lakhpati Didi), SC/ST/OBC/minority scholarships, Central Sector Scholarship, NMMSS |
 
-States run hundreds more schemes of their own, so the results point to the government's
-**myScheme** portal for state schemes. Figures are those in force on 1 October 2026 (see
+**State and UT schemes.** After you choose your state, the results add its own flagship
+schemes, checked against the same answers: for example Ladki Bahin (Maharashtra), Gruha Lakshmi
+and Shakti (Karnataka), Kalaignar Magalir Urimai Thogai and Pudhumai Penn (Tamil Nadu), Subhadra
+(Odisha), Lakshmir Bhandar and Kanyashree (West Bengal), Ladli Behna (Madhya Pradesh), Rythu
+Bharosa and Mahalakshmi (Telangana), Kanya Sumangala (Uttar Pradesh) and Mahtari Vandan
+(Chhattisgarh). Each comes with the papers to gather, the steps to apply and a link to its
+official website. State schemes change often, so most are shown as "may qualify" with a note
+to check the website. Every state and UT also gets a card with its official portal and its
+myScheme page. See [`src/lib/india/stateSchemes.ts`](src/lib/india/stateSchemes.ts).
+
+Central figures are those in force on 1 October 2026 (see
 [`src/lib/india/rules2026.ts`](src/lib/india/rules2026.ts)).
 
 ## United States: programs checked
@@ -65,6 +79,20 @@ marketplace tax credits, Medicare Extra Help, EITC and Child Tax Credit (estimat
 help, SSI (estimate), TANF, LIHEAP, Lifeline, Head Start, child care help and housing vouchers.
 Figures use the 2026 poverty guidelines, SNAP limits for Oct 2026 – Sep 2027 and tax year 2026
 credits (see [`src/lib/us/rulesets/2026.ts`](src/lib/us/rulesets/2026.ts)).
+
+**State by state:** every state and DC gets a card with its official site to apply for SNAP,
+Medicaid and cash help (for example BenefitsCal, Your Texas Benefits, myBenefits NY). The
+results add your state's own earned income tax credit (as a share of the federal EITC where
+the state uses one) and child tax credit, for tax year 2026 (see
+[`src/lib/us/rulesets/stateCredits2026.ts`](src/lib/us/rulesets/stateCredits2026.ts)).
+
+## Other countries
+
+A directory of official government programs in the United Kingdom, Canada, Australia, New
+Zealand, Ireland, Germany, France, Spain, Mexico, Brazil, the Philippines, Indonesia, Pakistan,
+Bangladesh, Nepal, Sri Lanka, Kenya, South Africa and Singapore: who each program is for, what
+it gives, the papers to gather, how to apply and the official link. It doesn't check
+eligibility yet (see [`src/content/world/directory.ts`](src/content/world/directory.ts)).
 
 ## Try it
 
@@ -91,9 +119,11 @@ src/
   lib/india/             India rules engine (one pure evaluate() per scheme) + golden tests
   content/ui/            shared screen text in English, Spanish and Hindi
   content/us/            US wording (en, es) and official links
-  content/india/         India wording (en, hi) and official portals
+  content/india/         India wording (en, hi), state scheme wording and official portals
+  content/world/         directory of official programs in 19 more countries
+  content/updates.ts     dated home-page updates shipped with the app (live ones: public/updates.json)
   countries/             country packs (rules + content + currency + languages) and questionnaires
-  screens/               Country picker, Home, Results, Program, My plan, Help
+  screens/               Country picker, Home, Results, Program, My plan, Help, Other countries
 e2e/                     Playwright flows for both countries with axe accessibility checks
 docs/PLAN.md             vision, roadmap, architecture, status by phase
 ```
@@ -101,6 +131,9 @@ docs/PLAN.md             vision, roadmap, architecture, status by phase
 **Adding a country:** write a rules engine under `src/lib/<country>/`, its wording under
 `src/content/<country>/`, a questionnaire component, and register a pack in
 `src/countries/index.ts`. The content tests check every language is complete.
+
+**Publishing an update:** add an item to `public/updates.json` (the file explains the fields) and
+push to `main`. No release is needed.
 
 **Updating rules:** add a new dated rules file, point the engine at it, and update the golden
 tests to the new official figures. Never edit a published rules file.

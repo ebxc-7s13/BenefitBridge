@@ -104,6 +104,19 @@ screens. Planned India follow-ups are deeper rules for the largest states' own s
 (Ladli Behna, Ladki Bahin and similar), and more Indian languages (Bengali, Marathi, Tamil,
 Telugu).
 
+### Update: v1.2.0 (October 2026) — state by state, live updates, more countries
+
+- **India:** 89 state and UT schemes in 30 states, screened from the same answers, with papers,
+  steps and official links in English and Hindi, plus the official portal of all 36 states and UTs.
+- **United States:** every state's official benefits site, and state EITCs and child tax credits
+  for tax year 2026. This covers part of Phase 4's "state-by-state rules".
+- **Live updates** on the home page: bundled notices plus `public/updates.json`, fetched when
+  online without sending anything about the user.
+- **19 more countries** in a directory of 119 official programs (no eligibility check yet).
+
+Next: verify the links marked in the 1.2.0 notes; eligibility rules for the largest directory
+countries (UK, Canada, Philippines, Mexico); more Indian languages.
+
 ## 5. Architecture
 
 ```

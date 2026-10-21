@@ -1,46 +1,44 @@
-## BenefitBridge 1.1.0: now for India 🇮🇳
-
-Find the government help your family may qualify for. It's private and free, in English,
-हिन्दी and Español.
+## BenefitBridge 1.2.0: state by state, live updates and more countries 🌍
 
 **Try it on a phone:** download `benefitbridge.html` below and open it. It's one file that
-works offline, with no install, no account and no internet needed.
-**Host it:** unzip `benefitbridge-web.zip` onto any static host to get the installable app.
+works offline. **Host it:** unzip `benefitbridge-web.zip` onto any static host.
 
-### New: choose your country first
-The app now starts by asking where you live, then uses that country's own questions, schemes,
-currency, helplines and languages. Answers and plans are kept separately for each country.
+### New: India state and UT schemes
+- **89 state and UT schemes in 30 states**, checked against your answers after you choose
+  your state. Examples: Ladki Bahin, Gruha Lakshmi, Shakti, Magalir Urimai Thogai, Pudhumai
+  Penn, Subhadra, Lakshmir Bhandar, Kanyashree, Ladli Behna, Rythu Bharosa, Mahalakshmi, Kanya
+  Sumangala, Mahtari Vandan, Orunodoi, Krishak Bandhu, and state old-age and widow pensions.
+- Each scheme lists who it's for, the papers to gather, the steps to apply and its official
+  website, in English and Hindi. Amounts appear where the state publishes them; Rythu Bharosa
+  is worked out per acre.
+- Every one of the **36 states and UTs** gets a card with its official portal and its myScheme
+  page.
 
-### New: India, in English and Hindi
-- **39 central government schemes:**
-  - Food: free ration, Anganwadi, PM POSHAN
-  - Health: Ayushman Bharat PM-JAY (with Vay Vandana for everyone 70+), JSY, PM Matru Vandana
-  - Home and energy: PMAY-Gramin, PMAY-Urban 2.0, PM Surya Ghar, Ujjwala
-  - Jobs and business: the new 125-day rural jobs guarantee (VB-G RAM G), e-Shram,
-    PM Vishwakarma, PM SVANidhi, Mudra, PMEGP, Skill India, PM Internship, the first-job bonus
-  - Farmers: PM-KISAN, Kisan Maan-dhan, KCC, crop insurance
-  - Pensions and insurance: NSAP pensions, Atal Pension, PM-SYM, ₹20 and ₹436 insurance,
-    Jan Dhan
-  - Disability and seniors: Vayoshri, ADIP, UDID
-  - Women and students: Sukanya Samriddhi, self-help groups, scholarships and NMMSS
-- **A criteria-wise questionnaire:**
-  - Where you live: state and village or town
-  - Your family: age, women, children, seniors, widows and disability level
-  - Category and cards: SC/ST/OBC/minority, ration card, BPL list
-  - Money and jobs: income, income tax, government job, PF/ESIC
-  - Work: farmland and type of work
-  - Home: house type and LPG
-- Amounts in rupees with Indian digit grouping, separating yearly cash (e.g. PM-KISAN ₹6,000)
-  from one-time help (e.g. PMAY-G ₹1.2 lakh).
-- Official portals and national helplines for every scheme. The help page covers fraud (1930),
-  women (181), children (1098), free legal aid (15100), seniors (14567), mental health (14416)
-  and emergency (112).
-- A pointer to myScheme for your state's own schemes.
+### New: US state by state
+- Every state and DC gets a card with its **official site to apply** for SNAP, Medicaid and
+  cash help, and the agency that runs them.
+- **State earned income tax credits** (33 states and DC). Most are estimated as a share of
+  your federal EITC.
+- **State child tax credits** (18 states and DC), with age limits, income limits and per-child
+  amounts.
 
-### Rules
-- India: figures in force on 1 October 2026.
-- United States: unchanged from 1.0. It uses 2026 poverty guidelines, SNAP limits for
-  Oct 2026 – Sep 2027 and tax year 2026 credits.
+### New: live updates on the home page
+- Dated notices for your country and state, such as rule changes, deadlines and fraud alerts.
+  New ones get a "New" badge, and the Home tab shows how many are unread.
+- New updates are published online and reach the app the next time it connects, with no new
+  release needed. Checking for updates sends nothing about you.
 
-Results are estimates; the office that runs each scheme makes the final decision. Applying is
+### New: help in 19 more countries
+A directory of **119 official programs** in the UK, Canada, Australia, New Zealand, Ireland,
+Germany, France, Spain, Mexico, Brazil, the Philippines, Indonesia, Pakistan, Bangladesh,
+Nepal, Sri Lanka, Kenya, South Africa and Singapore. Each lists who it's for, what it gives,
+the papers to gather, how to apply and the official link. It doesn't check eligibility yet.
+
+### Please check before relying on it
+State schemes and credits change often. Some official links (about 50 US state sites, and
+most South Africa and Singapore program pages) came from long-standing official addresses
+that couldn't be re-checked online in this release. South Africa and Singapore programs link
+to the official SASSA and SupportGoWhere portals. Always confirm on the official website.
+
+Results are estimates; the office that runs each program makes the final decision. Applying is
 always free — never pay an agent.
