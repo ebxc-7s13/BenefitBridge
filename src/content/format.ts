@@ -4,7 +4,8 @@ export type Currency = "USD" | "INR";
 
 /** Rupees use Indian digit grouping (₹1,20,000) in every language. */
 const tag = (locale: Locale, currency: Currency) =>
-  currency === "INR" ? (locale === "es" ? "en-IN" : `${locale}-IN`) : locale === "es" ? "es-US" : "en-US";
+  // Some Indian locales (e.g. mr-IN) don't use lakh grouping in every runtime, so rupees always format as en-IN.
+  currency === "INR" ? "en-IN" : locale === "es" ? "es-US" : "en-US";
 
 /** Languages that put "up to" after the amount ("₹5,000 तक"). */
 const AMOUNT_FIRST: Locale[] = ["hi", "bn", "mr", "ta", "te", "kn", "ml", "gu", "pa", "or", "as", "ur"];

@@ -174,8 +174,10 @@ describe("shared interface text", () => {
   const shape = (o: object): string[] =>
     Object.entries(o).flatMap(([k, v]) => (v && typeof v === "object" && !Array.isArray(v) ? shape(v).map((s) => `${k}.${s}`) : [k]));
 
-  it("has every string in English, Spanish and Hindi", () => {
-    expect(shape(ui.es)).toEqual(shape(ui.en));
-    expect(shape(ui.hi)).toEqual(shape(ui.en));
+  it("has every string in every language", () => {
+    for (const [locale, strings] of Object.entries(ui)) {
+      expect(shape(strings!), locale).toEqual(shape(ui.en));
+      expect(strings!.locale, locale).toBe(locale);
+    }
   });
 });
