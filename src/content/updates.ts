@@ -6,6 +6,20 @@ import type { Update } from "../lib/updates";
  */
 export const bundledUpdates: Update[] = [
   {
+    id: "app-2026-10-languages",
+    date: "2026-10-21",
+    country: "IN",
+    title: {
+      en: "New: 240 state schemes, your language and an Android app",
+      hi: "नया: राज्यों की 240 योजनाएँ, आपकी भाषा और एंड्रॉयड ऐप",
+    },
+    body: {
+      en: "Your state's own schemes now have their own section in the results. After choosing your state, you can use the app in English, Hindi or your state's language. An Android app (APK) is on the releases page.",
+      hi: "आपके राज्य की अपनी योजनाएँ अब नतीजों में अलग हिस्से में हैं। राज्य चुनने के बाद आप ऐप अंग्रेज़ी, हिन्दी या अपने राज्य की भाषा में चला सकते हैं। एंड्रॉयड ऐप (APK) रिलीज़ पेज पर है।",
+    },
+    url: "https://github.com/ebxc-7s13/BenefitBridge/releases/latest",
+  },
+  {
     id: "app-2026-10-states",
     date: "2026-10-21",
     country: "ALL",

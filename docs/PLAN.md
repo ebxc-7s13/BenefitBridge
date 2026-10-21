@@ -117,6 +117,15 @@ Telugu).
 Next: verify the links marked in the 1.2.0 notes; eligibility rules for the largest directory
 countries (UK, Canada, Philippines, Mexico); more Indian languages.
 
+### Update: v1.3.0 (October 2026) — states, languages, Android
+
+- **India:** 240 state and UT schemes in all 36 states and UTs, listed in their own section of the
+  results; the app is available in 11 state languages, offered after the state is chosen.
+- **Android:** a Capacitor wrapper built for free on GitHub Actions and attached to each release.
+
+Next: native-speaker review of translations; Konkani, Manipuri, Mizo, Khasi and Nepali for the
+remaining states; a signed build on Google Play.
+
 ## 5. Architecture
 
 ```

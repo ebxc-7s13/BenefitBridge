@@ -105,7 +105,7 @@ export const IN: CountryPack<"IN", InWizard> = {
       Object.entries(regionalIndia).map(([l, c]) => [l, regionalStateText[l as IndianLocale] ? withLocalStateContent(c, regionalStateText[l as IndianLocale]!) : c]),
     ),
   },
-  links: { ...indiaLinks, ...Object.fromEntries(stateSchemes.map((s) => [s.id, { url: s.url, phone: s.phone }])) },
+  links: { ...indiaLinks, ...Object.fromEntries(stateSchemes.map((s) => [s.id, { url: s.url ?? statePortals[s.state], phone: s.phone }])) },
   categoryOf: inCategoryOf,
   empty: emptyIn,
   screen: screenIn,

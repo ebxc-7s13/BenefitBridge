@@ -10,7 +10,7 @@ apply, dates to remember, and printable plans.
 
 | Country | Programs | Languages |
 |---------|----------|-----------|
-| 🇮🇳 India | **39 central schemes + 89 state and UT schemes**, official portal of all 36 states and UTs | English, हिन्दी (Hindi) |
+| 🇮🇳 India | **39 central schemes + 240 state and UT schemes** in all 36 states and UTs, each state's official portal | English, हिन्दी, and the state's own language: বাংলা, मराठी, தமிழ், తెలుగు, ಕನ್ನಡ, മലയാളം, ગુજરાતી, ਪੰਜਾਬੀ, ଓଡ଼ିଆ, অসমীয়া, اردو |
 | 🇺🇸 United States | **18 federal programs + state EITCs (33) and child tax credits (18)**, official benefits site of all 50 states and DC | English, Español |
 | 🌍 19 more countries | **119 official programs** (directory: who it's for, papers, how to apply, official link) | English |
 
@@ -96,6 +96,9 @@ eligibility yet (see [`src/content/world/directory.ts`](src/content/world/direct
 
 ## Try it
 
+- **Android app:** download `benefitbridge.apk` from the [latest release](../../releases/latest),
+  open it, and allow your browser or file manager to "install unknown apps" when Android asks.
+  It works offline and keeps your answers only on the phone.
 - **On a phone, no install:** download `benefitbridge.html` from the
   [latest release](../../releases/latest) and open it. It's a single file that works offline.
 - **As an installable app:** host the `benefitbridge-web.zip` contents on any static host, or
@@ -120,6 +123,7 @@ src/
   content/ui/            shared screen text in English, Spanish and Hindi
   content/us/            US wording (en, es) and official links
   content/india/         India wording (en, hi), state scheme wording and official portals
+  content/regional.ts    the 11 Indian state languages (ui/<lang>.ts, india/<lang>.ts, india/local/<lang>.ts)
   content/world/         directory of official programs in 19 more countries
   content/updates.ts     dated home-page updates shipped with the app (live ones: public/updates.json)
   countries/             country packs (rules + content + currency + languages) and questionnaires
@@ -139,6 +143,24 @@ push to `main`. No release is needed.
 tests to the new official figures. Never edit a published rules file.
 
 ## Releases and hosting
+
+- **Android (free):** [`android/`](android/) is a [Capacitor](https://capacitorjs.com/) wrapper around
+  the single-file build. `.github/workflows/android.yml` builds the APK on GitHub Actions (free)
+  and the release workflow attaches it to every release. To build locally: `npm run build:single
+  && npx cap sync android && cd android && ./gradlew assembleDebug` (needs JDK 21 and the
+  Android SDK).
+- **Signing the APK:** without signing secrets the APK is debug-signed with a new key each time,
+  so people must uninstall the old version before installing a new one. For updates that
+  install over the old version, create a key once and add four repository secrets
+  (Settings → Secrets and variables → Actions):
+  ```bash
+  keytool -genkeypair -v -keystore release.keystore -alias benefitbridge -keyalg RSA -keysize 4096 -validity 10000
+  base64 -w0 release.keystore   # paste the output as ANDROID_KEYSTORE_BASE64
+  ```
+  Then add `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` (`benefitbridge`) and
+  `ANDROID_KEY_PASSWORD`. Keep `release.keystore` safe and never commit it: losing it means
+  users must reinstall.
+- **Google Play** is optional (a one-time $25 developer fee); the same signed build can be uploaded.
 
 - Pushing a tag like `v1.1.1`, or running `.github/workflows/release.yml` by hand with a version,
   tests the app, builds it, and publishes a GitHub Release with `benefitbridge.html` and

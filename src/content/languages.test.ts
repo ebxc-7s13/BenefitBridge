@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { packs } from "../countries";
 import { IN_STATES } from "../lib/india/states";
 import { stateSchemes } from "../lib/india/stateSchemes";
+import { entries } from "./india/stateEntries";
 import { ui } from "./index";
 import { STATE_LANGUAGE } from "./languages";
 import { regionalIndia, regionalStateText, regionalUi } from "./regional";
@@ -27,14 +28,18 @@ describe("Indian state languages", () => {
   });
 
   it("names every state and UT, and translates every scheme of its own states", () => {
+    // General social security pensions share one translated wording.
+    const shared = (id: string) => entries[id].en[0].startsWith("Social security pension (");
+    const missing: string[] = [];
     for (const l of offered) {
       const text = regionalStateText[l];
       if (!text) continue;
       expect(text.locale).toBe(l);
       for (const [code] of IN_STATES) expect(text.stateNames[code], `${l} ${code}`).toBeTruthy();
       const own = Object.entries(STATE_LANGUAGE).filter(([, x]) => x === l).map(([s]) => s);
-      const ids = stateSchemes.filter((s) => own.includes(s.state) && !s.id.endsWith("-social-pension")).map((s) => s.id);
-      expect(ids.filter((id) => !text.entries[id]), `${l} untranslated schemes`).toEqual([]);
+      const ids = stateSchemes.filter((s) => own.includes(s.state) && !shared(s.id)).map((s) => s.id);
+      missing.push(...ids.filter((id) => !text.entries[id]).map((id) => `${l}: ${id}`));
     }
+    expect(missing, "untranslated schemes").toEqual([]);
   });
 });

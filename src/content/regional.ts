@@ -16,6 +16,9 @@ import { uiMl } from "./ui/ml";
 import { inGu } from "./india/gu";
 import { localGu } from "./india/local/gu";
 import { uiGu } from "./ui/gu";
+import { inPa } from "./india/pa";
+import { localPa } from "./india/local/pa";
+import { uiPa } from "./ui/pa";
 import { inOr } from "./india/or";
 import { localOr } from "./india/local/or";
 import { uiOr } from "./ui/or";
@@ -30,6 +33,6 @@ import type { StateLocal } from "./india/stateText";
 import type { CountryContent, IndianLocale, UiStrings } from "./types";
 
 /** Screen text, India content and state scheme wording in each Indian state language. */
-export const regionalUi: Partial<Record<IndianLocale, UiStrings>> = { bn: uiBn, mr: uiMr, ta: uiTa, te: uiTe, ml: uiMl, gu: uiGu, or: uiOr, as: uiAs, ur: uiUr };
-export const regionalIndia: Partial<Record<IndianLocale, CountryContent<InWizard>>> = { bn: inBn, mr: inMr, ta: inTa, te: inTe, ml: inMl, gu: inGu, or: inOr, as: inAs, ur: inUr };
-export const regionalStateText: Partial<Record<IndianLocale, StateLocal>> = { bn: localBn, mr: localMr, ta: localTa, te: localTe, ml: localMl, gu: localGu, or: localOr, as: localAs, ur: localUr };
+export const regionalUi: Partial<Record<IndianLocale, UiStrings>> = { bn: uiBn, mr: uiMr, ta: uiTa, te: uiTe, ml: uiMl, gu: uiGu, pa: uiPa, or: uiOr, as: uiAs, ur: uiUr };
+export const regionalIndia: Partial<Record<IndianLocale, CountryContent<InWizard>>> = { bn: inBn, mr: inMr, ta: inTa, te: inTe, ml: inMl, gu: inGu, pa: inPa, or: inOr, as: inAs, ur: inUr };
+export const regionalStateText: Partial<Record<IndianLocale, StateLocal>> = { bn: localBn, mr: localMr, ta: localTa, te: localTe, ml: localMl, gu: localGu, pa: localPa, or: localOr, as: localAs, ur: localUr };

@@ -27,8 +27,9 @@ describe("bundled updates", () => {
     }
   });
 
-  it("link only to official sites", () => {
-    for (const u of bundledUpdates) if (u.url) expect(u.url, u.id).toMatch(/^https:\/\/[a-z0-9.-]+\.(gov|gov\.in|nic\.in)\//);
+  it("link only to official sites, or this app's own releases", () => {
+    const own = "https://github.com/ebxc-7s13/BenefitBridge/";
+    for (const u of bundledUpdates) if (u.url && !u.url.startsWith(own)) expect(u.url, u.id).toMatch(/^https:\/\/[a-z0-9.-]+\.(gov|gov\.in|nic\.in)\//);
   });
 
   it("match the published file's format", async () => {

@@ -51,7 +51,8 @@ export interface StateScheme {
   value?: Value;
   /** Yearly value per acre of farmland (replaces `value`). */
   perAcre?: number;
-  url: string;
+  /** The scheme's official page; null when it has none of its own (the state portal is used). */
+  url: string | null;
   phone?: string;
 }
 

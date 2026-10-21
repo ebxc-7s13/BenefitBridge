@@ -1,44 +1,37 @@
-## BenefitBridge 1.2.0: state by state, live updates and more countries 🌍
+## BenefitBridge 1.3.0: your state's schemes, in your language, as an Android app 📱
 
-**Try it on a phone:** download `benefitbridge.html` below and open it. It's one file that
-works offline. **Host it:** unzip `benefitbridge-web.zip` onto any static host.
+**Android:** download `benefitbridge.apk` below, open it and allow "install unknown apps" when
+asked. **Any phone:** download `benefitbridge.html` and open it; it works offline.
+**Host it:** unzip `benefitbridge-web.zip` onto any static host.
 
-### New: India state and UT schemes
-- **89 state and UT schemes in 30 states**, checked against your answers after you choose
-  your state. Examples: Ladki Bahin, Gruha Lakshmi, Shakti, Magalir Urimai Thogai, Pudhumai
-  Penn, Subhadra, Lakshmir Bhandar, Kanyashree, Ladli Behna, Rythu Bharosa, Mahalakshmi, Kanya
-  Sumangala, Mahtari Vandan, Orunodoi, Krishak Bandhu, and state old-age and widow pensions.
-- Each scheme lists who it's for, the papers to gather, the steps to apply and its official
-  website, in English and Hindi. Amounts appear where the state publishes them; Rythu Bharosa
-  is worked out per acre.
-- Every one of the **36 states and UTs** gets a card with its official portal and its myScheme
-  page.
+### Your state's schemes, listed separately
+- Results now show **national schemes first, then a separate section for your state's own
+  schemes**, every one of them with a clear label: likely, may qualify or probably not.
+- **240 state and UT schemes in all 36 states and UTs** (up from 89 in 30): women's monthly
+  support, girls and students, pensions, health cover, farmers, housing, free power and gas,
+  free bus travel, marriage help and more. Each has the papers to gather, the steps to apply
+  and the official website (or the state portal when a scheme has no page of its own).
+- Many existing schemes were corrected: new amounts, renamed schemes and new rules.
 
-### New: US state by state
-- Every state and DC gets a card with its **official site to apply** for SNAP, Medicaid and
-  cash help, and the agency that runs them.
-- **State earned income tax credits** (33 states and DC). Most are estimated as a share of
-  your federal EITC.
-- **State child tax credits** (18 states and DC), with age limits, income limits and per-child
-  amounts.
+### Use the app in your state's language
+After you choose your state, pick **English, Hindi or your state's own language**. Everything
+changes: the questions, results, scheme details, papers, steps and help.
+- বাংলা Bengali (West Bengal, Tripura), मराठी Marathi (Maharashtra), தமிழ் Tamil (Tamil Nadu,
+  Puducherry), తెలుగు Telugu (Andhra Pradesh, Telangana), ಕನ್ನಡ Kannada (Karnataka), മലയാളം
+  Malayalam (Kerala, Lakshadweep), ગુજરાતી Gujarati (Gujarat, Dadra and Nagar Haveli and Daman
+  and Diu), ਪੰਜਾਬੀ Punjabi (Punjab, Chandigarh), ଓଡ଼ିଆ Odia (Odisha), অসমীয়া Assamese (Assam)
+  and اردو Urdu (Jammu and Kashmir, right to left).
+- Rupees always use Indian grouping (₹2,00,000).
 
-### New: live updates on the home page
-- Dated notices for your country and state, such as rule changes, deadlines and fraud alerts.
-  New ones get a "New" badge, and the Home tab shows how many are unread.
-- New updates are published online and reach the app the next time it connects, with no new
-  release needed. Checking for updates sends nothing about you.
-
-### New: help in 19 more countries
-A directory of **119 official programs** in the UK, Canada, Australia, New Zealand, Ireland,
-Germany, France, Spain, Mexico, Brazil, the Philippines, Indonesia, Pakistan, Bangladesh,
-Nepal, Sri Lanka, Kenya, South Africa and Singapore. Each lists who it's for, what it gives,
-the papers to gather, how to apply and the official link. It doesn't check eligibility yet.
+### Android app, built for free
+The APK is built automatically on GitHub Actions for every release. It runs fully offline, keeps
+answers only on the phone and turns off Android cloud backup of app data.
 
 ### Please check before relying on it
-State schemes and credits change often. Some official links (about 50 US state sites, and
-most South Africa and Singapore program pages) came from long-standing official addresses
-that couldn't be re-checked online in this release. South Africa and Singapore programs link
-to the official SASSA and SupportGoWhere portals. Always confirm on the official website.
+State schemes change often, and some links and amounts came from news or older pages because
+no official page could be found. Those schemes are shown as "may qualify" with a note to check
+the official website. Translations were written for this release and haven't yet been reviewed
+by native speakers in every state: please report anything that reads wrong.
 
-Results are estimates; the office that runs each program makes the final decision. Applying is
+Results are estimates; the office that runs each scheme makes the final decision. Applying is
 always free — never pay an agent.

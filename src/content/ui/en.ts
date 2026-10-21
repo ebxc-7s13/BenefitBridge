@@ -15,7 +15,7 @@ export const uiEn: UiStrings = {
     names: { US: "United States", IN: "India" },
     blurbs: {
       US: "18 federal programs, state tax credits and every state's official benefits site: SNAP, Medicaid, WIC and more. English or Spanish.",
-      IN: "39 central schemes, 89 state schemes and every state's official portal: ration, Ayushman Bharat, PM-KISAN, pensions, women's support and more. English or Hindi.",
+      IN: "39 central schemes, 240 state schemes and every state's official portal: ration, Ayushman Bharat, PM-KISAN, pensions, women's support and more. English, Hindi or your state's language.",
     },
   },
   home: {

@@ -22,6 +22,11 @@ export const DOCS = {
   janAadhaar: ["Jan Aadhaar card", "जन आधार कार्ड"],
   labour: ["Worker registration card, if you have one", "श्रमिक पंजीकरण कार्ड, अगर हो"],
   noPapers: ["No papers needed", "कोई कागज़ नहीं चाहिए"],
+  vehicle: ["Driving licence and vehicle registration (RC)", "ड्राइविंग लाइसेंस और गाड़ी का रजिस्ट्रेशन (आरसी)"],
+  jobCard: ["MGNREGA job card", "मनरेगा जॉब कार्ड"],
+  disabilityCert: ["Disability certificate (UDID card)", "दिव्यांगता प्रमाणपत्र (यूडीआईडी कार्ड)"],
+  parentDeath: ["Parent's death certificate", "माता या पिता का मृत्यु प्रमाणपत्र"],
+  mcpCard: ["Mother and Child Protection (MCP) card", "मातृ एवं शिशु सुरक्षा (एमसीपी) कार्ड"],
 } as const;
 
 /** Steps to apply: [English, Hindi]. */
@@ -39,6 +44,8 @@ export const STEPS = {
   showId: ["Show your card or a government ID to the conductor.", "कंडक्टर को अपना कार्ड या सरकारी पहचान पत्र दिखाएँ।"],
   rationShop: ["Collect it at your ration shop with your card and fingerprint.", "राशन दुकान पर कार्ड और अँगूठा लगाकर लें।"],
   schoolMeal: ["Enrol your child in a government school; the meal is served every school day.", "बच्चे का सरकारी स्कूल में दाख़िला कराएँ; खाना स्कूल के हर दिन मिलता है।"],
+  canteen: ["Go to a listed canteen and pay at the counter. No form is needed.", "किसी सूचीबद्ध कैंटीन में जाकर काउंटर पर पैसे दें। कोई फ़ॉर्म नहीं भरना है।"],
+  procurement: ["Register and sell your crop at a government procurement centre; the extra amount comes to your bank account.", "पंजीकरण कराकर सरकारी ख़रीद केंद्र पर फ़सल बेचें; अतिरिक्त राशि बैंक खाते में आती है।"],
 } as const;
 
 export type Doc = keyof typeof DOCS;
@@ -63,8 +70,9 @@ export interface StateLocal {
   locale: IndianLocale;
   /** Names of all 36 states and UTs, by code. */
   stateNames: Record<string, string>;
-  docs: Record<Doc, string>;
-  steps: Record<Step, string>;
+  /** Papers and steps; any not translated yet show in English. */
+  docs: Partial<Record<Doc, string>>;
+  steps: Partial<Record<Step, string>>;
   categories: Record<"sc" | "st" | "obc" | "minority", string>;
   reasons: Record<StateReason, (p: Params, f: ReasonFormat) => string>;
   /** Wraps a reason that isn't met, e.g. "Not a match: for women." */

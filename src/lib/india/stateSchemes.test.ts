@@ -30,7 +30,7 @@ describe("state scheme data", () => {
 
   it("gives every state and UT at least one scheme or its portal", () => {
     const covered = new Set(stateSchemes.map((s) => s.state));
-    expect(covered.size).toBeGreaterThanOrEqual(30);
+    expect(covered.size).toBe(36);
     for (const s of stateSchemes) expect(codes, s.id).toContain(s.state);
   });
 
@@ -41,8 +41,16 @@ describe("state scheme data", () => {
 
   it("links only to government sites over https", () => {
     // Official portals that state governments run outside gov.in.
-    const stateRun = ["https://www.pspcl.in/", "https://www.cmchistn.com/", "https://nandagaurauk.in/", "https://krishakbandhu.net/"];
-    for (const s of stateSchemes) if (!stateRun.includes(s.url)) expect(s.url, s.id).toMatch(/^https:\/\/[a-z0-9.-]+\.(gov|nic)\.in\//);
+    const stateRun = ["www.pspcl.in", "www.cmchistn.com", "nandagaurauk.in", "krishakbandhu.net", "www.mahadiscom.in", "www.hpsbys.in"];
+    for (const s of stateSchemes) {
+      if (s.url === null || stateRun.includes(new URL(s.url).hostname)) continue;
+      expect(s.url, s.id).toMatch(/^https:\/\/[a-z0-9.-]+\.(gov|nic)\.in(\/|$)/);
+    }
+  });
+
+  it("covers every state and UT, with more schemes for the large states", () => {
+    for (const [code] of IN_STATES) expect(stateSchemes.filter((s) => s.state === code).length, code).toBeGreaterThanOrEqual(3);
+    for (const code of ["UP", "MH", "BR", "WB", "TN", "KA", "GJ", "RJ", "MP"]) expect(stateSchemes.filter((s) => s.state === code).length, code).toBeGreaterThanOrEqual(6);
   });
 
   it("has a name, papers and steps for every scheme in English and Hindi", () => {
