@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => ({
     outDir: mode === "single" ? "dist-single" : "dist",
     copyPublicDir: mode !== "single",
     // Everything ships in one bundle on purpose so the app works fully offline.
-    chunkSizeWarningLimit: 800,
+    chunkSizeWarningLimit: 2500,
   },
   test: {
     include: ["src/**/*.test.ts"],
