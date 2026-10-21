@@ -3,6 +3,11 @@ name: Release
 on:
   push:
     tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release, e.g. v1.0.0 (the tag is created on the current commit)"
+        required: true
 
 permissions:
   contents: write
@@ -31,7 +36,9 @@ jobs:
       - name: Publish GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version || github.ref_name }}
         run: |
-          gh release create "$GITHUB_REF_NAME" release/benefitbridge.html release/benefitbridge-web.zip \
-            --title "BenefitBridge $GITHUB_REF_NAME" \
+          gh release create "$VERSION" release/benefitbridge.html release/benefitbridge-web.zip \
+            --target "$GITHUB_SHA" \
+            --title "BenefitBridge $VERSION" \
             --notes-file docs/RELEASE_NOTES.md

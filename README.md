@@ -91,7 +91,7 @@ golden tests to the new official tables.
 
 ## Releases and hosting
 
-- Pushing a tag like `v1.0.1` runs `.github/workflows/release.yml`. It tests the app, builds
+- Pushing a tag like `v1.0.1`, or running `.github/workflows/release.yml` by hand with a version, tests the app, builds
   it, and publishes a GitHub Release with `benefitbridge.html` and `benefitbridge-web.zip`.
 - `.github/workflows/pages.yml` deploys to GitHub Pages when run by hand. Enable Pages first
   (Settings → Pages → Source: GitHub Actions). Pages on a private repo needs a paid GitHub
