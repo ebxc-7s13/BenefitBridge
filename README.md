@@ -1,175 +1,126 @@
-# BenefitBridge
-
-**Find the government help your family may already qualify for. It's private, in plain language, and takes a few minutes.**
-
-Every year, huge amounts of public support go unclaimed, because people don't know they qualify
-or the process is too confusing. BenefitBridge first asks **which country you live in**, then
-runs that country's own questionnaire. It shows the programs you likely qualify for, why, and
-about how much they're worth. It also helps you follow through: papers to gather, steps to
-apply, dates to remember, and printable plans.
-
-| Country | Programs | Languages |
-|---------|----------|-----------|
-| 🇮🇳 India | **39 central schemes + 240 state and UT schemes** in all 36 states and UTs, each state's official portal | English, हिन्दी, and the state's own language: বাংলা, मराठी, தமிழ், తెలుగు, ಕನ್ನಡ, മലയാളം, ગુજરાતી, ਪੰਜਾਬੀ, ଓଡ଼ିଆ, অসমীয়া, اردو |
-| 🇺🇸 United States | **18 federal programs + state EITCs (33) and child tax credits (18)**, official benefits site of all 50 states and DC | English, Español |
-| 🌍 19 more countries | **119 official programs** (directory: who it's for, papers, how to apply, official link) | English |
-
-The home page shows **dated updates** (rule changes, deadlines, fraud alerts) for your country
-and state. New ones are published in [`public/updates.json`](public/updates.json) and reach
-every copy of the app the next time it's online.
-
-<p>
-  <img src="docs/screenshots/0-country-light.png" width="190" alt="Choose your country">
-  <img src="docs/screenshots/in-3-results-light.png" width="190" alt="India results with estimated value">
-  <img src="docs/screenshots/in-4-results-hindi-dark.png" width="190" alt="India results in Hindi, dark mode">
-  <img src="docs/screenshots/3-results-light.png" width="190" alt="United States results">
+<p align="center">
+  <img src="docs/screenshots/banner.png" alt="BenefitBridge: schemes, services, jobs and helplines" width="720">
 </p>
 
-## How it helps
+<p align="center">
+  <b>Every government scheme, service, job and helpline in one free app, in your language.</b><br>
+  No account. No ads. No tracking. Works offline.
+</p>
 
-- **Finds money and support people miss.** For example, a poor farming family in Bihar sees
-  PM-KISAN, free ration, PM Awas, Ujjwala gas, 125 days of rural work, maternity benefits,
-  scholarships and more: about **₹18,000 a year in cash plus ₹1.27 lakh of one-time help**.
-  A family of 4 in Ohio sees about **$16,500 a year** in food and tax-credit help.
-- **Asks criteria-wise questions.** India's questionnaire covers the details schemes actually
-  depend on: state, village or town, age, women and children, 60+/70+, widows, disability
-  level, SC/ST/OBC/minority, ration card type, BPL list, income, income tax, government job,
-  PF/ESIC, farmland, work type, house type, LPG and bank account.
-- **Explains why, plainly.** Every result gives its reasons ("Everyone aged 70 or more is
-  covered under Ayushman Vay Vandana, whatever the income").
-- **Gets it done.** For each scheme you get the papers to gather, how to apply, the official
-  portal and national helpline number, and common questions.
-- **Helps people keep their benefits.** "My plan" tracks status and dates, adds reminders to the
-  phone's calendar, and prints a plan to take to the office.
-- **Safe and private.** No account, no name and no ID numbers, and nothing leaves the phone.
-  There's a quick-exit button, "delete everything", and country helplines (India: fraud 1930,
-  women 181, child 1098, legal aid 15100, Elderline 14567, Tele-MANAS 14416, emergency 112).
-- **Works for everyone.** Large tap targets, light and dark themes, screen-reader support
-  (WCAG 2.1 AA is checked automatically on every screen), and it works offline.
+<p align="center">
+  <a href="../../releases/latest"><img alt="Download" src="https://img.shields.io/github/v/release/ebxc-7s13/BenefitBridge?label=download&color=0b5d4f"></a>
+  <a href="../../actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/ebxc-7s13/BenefitBridge/ci.yml?label=tests"></a>
+  <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-f59e0b"></a>
+  <img alt="Languages" src="https://img.shields.io/badge/languages-14-23488f">
+  <img alt="Accessibility" src="https://img.shields.io/badge/WCAG-2.1%20AA-be185d">
+</p>
 
-## India: schemes checked
+<p align="center">
+  <img src="docs/screenshots/1-home.png" width="200" alt="Home hub">
+  <img src="docs/screenshots/3-state-schemes.png" width="200" alt="Your state's schemes">
+  <img src="docs/screenshots/5-jobs.png" width="200" alt="Government jobs you can apply for">
+  <img src="docs/screenshots/7-tamil.png" width="200" alt="The app in Tamil">
+</p>
 
-| Area | Schemes |
-|------|---------|
-| Food | Free ration (PMGKAY / NFSA, One Nation One Ration Card), Anganwadi / Poshan 2.0, PM POSHAN school meals |
-| Health | Ayushman Bharat PM-JAY (incl. Vay Vandana for everyone 70+), Janani Suraksha Yojana, PM Matru Vandana Yojana |
-| Home and energy | PMAY-Gramin, PMAY-Urban 2.0, PM Surya Ghar (rooftop solar), PM Ujjwala (LPG) |
-| Jobs and business | Rural jobs guarantee (VB-G RAM G, which replaced MGNREGA on 1 July 2026), e-Shram, PM Vishwakarma, PM SVANidhi, Mudra, PMEGP, Skill India, PM Internship, first-job bonus (PM-VBRY) |
-| Farmers | PM-KISAN, PM Kisan Maan-dhan, Kisan Credit Card, PM Fasal Bima |
-| Pensions, insurance and support | Old-age, widow and disability pensions (NSAP), Atal Pension, PM-SYM, PMJJBY, PMSBY, Jan Dhan, Rashtriya Vayoshri, ADIP, UDID card |
-| Women, children and students | Sukanya Samriddhi, self-help groups (DAY-NRLM / Lakhpati Didi), SC/ST/OBC/minority scholarships, Central Sector Scholarship, NMMSS |
+Billions in public support go unclaimed every year, because people don't know they qualify, can't
+find the right website, or pay agents for what is free. **BenefitBridge** asks a few simple questions
+once, then shows what your family can get and exactly where to apply, on the official website.
 
-**State and UT schemes.** After you choose your state, the results add its own flagship
-schemes, checked against the same answers: for example Ladki Bahin (Maharashtra), Gruha Lakshmi
-and Shakti (Karnataka), Kalaignar Magalir Urimai Thogai and Pudhumai Penn (Tamil Nadu), Subhadra
-(Odisha), Lakshmir Bhandar and Kanyashree (West Bengal), Ladli Behna (Madhya Pradesh), Rythu
-Bharosa and Mahalakshmi (Telangana), Kanya Sumangala (Uttar Pradesh) and Mahtari Vandan
-(Chhattisgarh). Each comes with the papers to gather, the steps to apply and a link to its
-official website. State schemes change often, so most are shown as "may qualify" with a note
-to check the website. Every state and UT also gets a card with its official portal and its
-myScheme page. See [`src/lib/india/stateSchemes.ts`](src/lib/india/stateSchemes.ts).
+## ⬇️ Get it
 
-Central figures are those in force on 1 October 2026 (see
-[`src/lib/india/rules2026.ts`](src/lib/india/rules2026.ts)).
+| | |
+|---|---|
+| **Android** | Download `benefitbridge.apk` from the [latest release](../../releases/latest) and open it (allow "install unknown apps"). |
+| **Any phone, no install** | Download `benefitbridge.html` from the [latest release](../../releases/latest) and open it. One file, works offline. |
+| **Website** | Host `benefitbridge-web.zip` on any static host and "Add to Home screen". |
 
-## United States: programs checked
+## ✨ What's inside
 
-SNAP (with a monthly estimate), WIC, school meals, Medicaid (adults, pregnancy, kids/CHIP),
-marketplace tax credits, Medicare Extra Help, EITC and Child Tax Credit (estimates), free tax
-help, SSI (estimate), TANF, LIHEAP, Lifeline, Head Start, child care help and housing vouchers.
-Figures use the 2026 poverty guidelines, SNAP limits for Oct 2026 – Sep 2027 and tax year 2026
-credits (see [`src/lib/us/rulesets/2026.ts`](src/lib/us/rulesets/2026.ts)).
+### 🇮🇳 India
+- **Schemes for you** — 39 central schemes (free ration, Ayushman Bharat, PM-KISAN, PM Awas, Ujjwala,
+  pensions, the 125-day rural jobs guarantee, scholarships…) and **240 state and UT schemes in all
+  36 states and UTs**, shown in their own section for your state, with amounts, papers and steps.
+- **Government services** — 300+ services with official links and helplines: Aadhaar, PAN, passport,
+  voter ID, driving licence, certificates, land records, ration card, electricity, police, RTI,
+  grievances, scholarships, PF, pensions — national and for every state.
+- **Jobs and exams** — SSC, Railways, UPSC, banks, Agniveer, India Post, teaching and more, checked
+  against your **age, education and category** (with SC/ST/OBC relaxation), plus your state's
+  recruitment board and free training.
+- **Helplines** — 112, 1930 (cyber fraud), 181 (women), 1098 (children), 14555 (Ayushman) and state
+  numbers, one tap to call.
+- **Your language** — English, हिन्दी, and after you choose your state: বাংলা, मराठी, தமிழ், తెలుగు,
+  ಕನ್ನಡ, മലയാളം, ગુજરાતી, ਪੰਜਾਬੀ, ଓଡ଼ିଆ, অসমীয়া, اردو.
 
-**State by state:** every state and DC gets a card with its official site to apply for SNAP,
-Medicaid and cash help (for example BenefitsCal, Your Texas Benefits, myBenefits NY). The
-results add your state's own earned income tax credit (as a share of the federal EITC where
-the state uses one) and child tax credit, for tax year 2026 (see
-[`src/lib/us/rulesets/stateCredits2026.ts`](src/lib/us/rulesets/stateCredits2026.ts)).
+### 🇺🇸 United States
+18 federal programs (SNAP, Medicaid, WIC, EITC, SSI…) with dollar estimates, state EITCs and child tax
+credits, every state's official benefits site, federal services and helplines — in English and Spanish.
 
-## Other countries
+### 🌍 And more
+- **My plan** — papers checklist, status tracking, interview and renewal dates.
+- **Live updates** — new rules, deadlines and fraud alerts for your state ([`public/updates.json`](public/updates.json)).
+- **19 more countries** — official programs in the UK, Canada, Australia, Germany, Mexico, Brazil,
+  the Philippines, Pakistan, Bangladesh, Kenya, South Africa and more.
 
-A directory of official government programs in the United Kingdom, Canada, Australia, New
-Zealand, Ireland, Germany, France, Spain, Mexico, Brazil, the Philippines, Indonesia, Pakistan,
-Bangladesh, Nepal, Sri Lanka, Kenya, South Africa and Singapore: who each program is for, what
-it gives, the papers to gather, how to apply and the official link. It doesn't check
-eligibility yet (see [`src/content/world/directory.ts`](src/content/world/directory.ts)).
+## 🔒 Private by design
+Answers never leave the phone: no servers, no sign-in, no analytics. A quick-exit button and
+"delete everything" are always one tap away. See the [privacy policy](docs/PRIVACY.md).
 
-## Try it
+## 🧭 How it works
+1. **Basic details once** — state, village or town, age, family. Every section uses them.
+2. **Ask only what's needed** — schemes ask about income, cards and work; jobs ask about education.
+3. **Official links only** — every link goes to a government website, never to agents.
+4. **Rules, not guesses** — eligibility comes from dated rules files with sources, covered by tests.
 
-- **Android app:** download `benefitbridge.apk` from the [latest release](../../releases/latest),
-  open it, and allow your browser or file manager to "install unknown apps" when Android asks.
-  It works offline and keeps your answers only on the phone.
-- **On a phone, no install:** download `benefitbridge.html` from the
-  [latest release](../../releases/latest) and open it. It's a single file that works offline.
-- **As an installable app:** host the `benefitbridge-web.zip` contents on any static host, or
-  enable GitHub Pages (below), then use "Add to Home screen".
+## 🤝 Contribute
+Found a wrong link or a missing scheme? [Open an issue](../../issues/new/choose) — no coding needed.
+Translators and developers: see [CONTRIBUTING.md](CONTRIBUTING.md) and the [roadmap](docs/ROADMAP.md).
 
-## Develop
+## 🛠️ Develop
 
 ```bash
 npm install
 npm run dev            # http://localhost:5173
-npm test               # rules engines + content tests (Vitest)
+npm test               # rules engines, content in every language, directory checks (Vitest)
 npm run build          # dist/: installable PWA with offline service worker
 npm run build:single   # dist-single/index.html: one self-contained file
-npx playwright install chromium && npm run test:e2e   # end-to-end + accessibility tests
+npm run test:e2e       # Playwright flows + axe accessibility checks
 ```
 
 ```
 src/
   lib/core.ts            shared result types, ranking and totals
-  lib/us/                US rules engine (one pure evaluate() per program) + golden tests
-  lib/india/             India rules engine (one pure evaluate() per scheme) + golden tests
-  content/ui/            shared screen text in English, Spanish and Hindi
-  content/us/            US wording (en, es) and official links
-  content/india/         India wording (en, hi), state scheme wording and official portals
-  content/regional.ts    the 11 Indian state languages (ui/<lang>.ts, india/<lang>.ts, india/local/<lang>.ts)
-  content/world/         directory of official programs in 19 more countries
-  content/updates.ts     dated home-page updates shipped with the app (live ones: public/updates.json)
-  countries/             country packs (rules + content + currency + languages) and questionnaires
-  screens/               Country picker, Home, Results, Program, My plan, Help, Other countries
-e2e/                     Playwright flows for both countries with axe accessibility checks
-docs/PLAN.md             vision, roadmap, architecture, status by phase
+  lib/india/             India rules: central schemes, state schemes (stateData/), jobs (jobs2026.ts)
+  lib/us/                US rules: federal programs and state tax credits
+  lib/jobs.ts            job eligibility (age, education, category relaxation)
+  content/ui/            screen text in 14 languages
+  content/india/         India wording (en, hi, 11 state languages), services, jobs
+  content/us/            US wording (en, es), services, state benefit sites
+  content/directory/     services and helplines model
+  content/world/         official programs in 19 more countries
+  screens/               Home hub, Schemes, Services, Jobs, Helplines, Program, Plan, Help
+android/                 Capacitor Android app (built free on GitHub Actions)
+fastlane/metadata/       Google Play listing text, graphics and screenshots
 ```
 
-**Adding a country:** write a rules engine under `src/lib/<country>/`, its wording under
-`src/content/<country>/`, a questionnaire component, and register a pack in
-`src/countries/index.ts`. The content tests check every language is complete.
+**Publishing updates:** add an item to `public/updates.json` and push to `main` — no release needed.
+**Updating rules:** add a new dated rules file and update the golden tests; never edit a published one.
 
-**Publishing an update:** add an item to `public/updates.json` (the file explains the fields) and
-push to `main`. No release is needed.
-
-**Updating rules:** add a new dated rules file, point the engine at it, and update the golden
-tests to the new official figures. Never edit a published rules file.
-
-## Releases and hosting
-
-- **Android (free):** [`android/`](android/) is a [Capacitor](https://capacitorjs.com/) wrapper around
-  the single-file build. `.github/workflows/android.yml` builds the APK on GitHub Actions (free)
-  and the release workflow attaches it to every release. To build locally: `npm run build:single
-  && npx cap sync android && cd android && ./gradlew assembleDebug` (needs JDK 21 and the
-  Android SDK).
-- **Signing the APK:** without signing secrets the APK is debug-signed with a new key each time,
-  so people must uninstall the old version before installing a new one. For updates that
-  install over the old version, create a key once and add four repository secrets
-  (Settings → Secrets and variables → Actions):
+## 📦 Releases, Android and Google Play
+- Running `.github/workflows/release.yml` with a version tests everything and publishes
+  `benefitbridge.html`, `benefitbridge-web.zip` and `benefitbridge.apk` (and `benefitbridge.aab`
+  for Google Play when a signing key is set).
+- **Signing key (needed for Play and for updates that install over the old version):**
   ```bash
   keytool -genkeypair -v -keystore release.keystore -alias benefitbridge -keyalg RSA -keysize 4096 -validity 10000
-  base64 -w0 release.keystore   # paste the output as ANDROID_KEYSTORE_BASE64
+  base64 -w0 release.keystore   # → repository secret ANDROID_KEYSTORE_BASE64
   ```
-  Then add `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` (`benefitbridge`) and
-  `ANDROID_KEY_PASSWORD`. Keep `release.keystore` safe and never commit it: losing it means
-  users must reinstall.
-- **Google Play** is optional (a one-time $25 developer fee); the same signed build can be uploaded.
+  Also add `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS` (`benefitbridge`) and `ANDROID_KEY_PASSWORD`.
+  Never commit the keystore.
+- The Play Store checklist, data-safety answers and listing are in [docs/PLAY_STORE.md](docs/PLAY_STORE.md).
 
-- Pushing a tag like `v1.1.1`, or running `.github/workflows/release.yml` by hand with a version,
-  tests the app, builds it, and publishes a GitHub Release with `benefitbridge.html` and
-  `benefitbridge-web.zip`.
-- `.github/workflows/pages.yml` deploys to GitHub Pages when run by hand. Enable Pages first
-  (Settings → Pages → Source: GitHub Actions). Pages on a private repo needs a paid GitHub
-  plan; otherwise make the repo public or use any static host.
+## ⚠️ Disclaimer
+BenefitBridge is an independent open-source project, **not a government app**, and is not
+affiliated with any government. Results are estimates; the office that runs each scheme makes the
+final decision. Applying for government schemes is free — never pay an agent.
 
-## Disclaimer
-
-BenefitBridge is not a government service. Results are estimates, and the office that runs each
-program makes the final decision. Applying for government schemes is free — never pay an agent.
+Released under the [MIT License](LICENSE).

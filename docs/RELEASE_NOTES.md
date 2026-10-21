@@ -1,37 +1,38 @@
-## BenefitBridge 1.3.0: your state's schemes, in your language, as an Android app 📱
+## BenefitBridge 1.4.0: everything in one place 🏛️
 
-**Android:** download `benefitbridge.apk` below, open it and allow "install unknown apps" when
-asked. **Any phone:** download `benefitbridge.html` and open it; it works offline.
-**Host it:** unzip `benefitbridge-web.zip` onto any static host.
+**Android:** download `benefitbridge.apk` below. **Any phone:** `benefitbridge.html` works offline.
 
-### Your state's schemes, listed separately
-- Results now show **national schemes first, then a separate section for your state's own
-  schemes**, every one of them with a clear label: likely, may qualify or probably not.
-- **240 state and UT schemes in all 36 states and UTs** (up from 89 in 30): women's monthly
-  support, girls and students, pensions, health cover, farmers, housing, free power and gas,
-  free bus travel, marriage help and more. Each has the papers to gather, the steps to apply
-  and the official website (or the state portal when a scheme has no page of its own).
-- Many existing schemes were corrected: new amounts, renamed schemes and new rules.
+### New home hub
+Tell the app your state and family once. Then everything is one tap away: **Schemes**, **Services**,
+**Jobs**, **Documents**, **Helplines**, **My plan**, **Updates** and **Other countries**.
 
-### Use the app in your state's language
-After you choose your state, pick **English, Hindi or your state's own language**. Everything
-changes: the questions, results, scheme details, papers, steps and help.
-- বাংলা Bengali (West Bengal, Tripura), मराठी Marathi (Maharashtra), தமிழ் Tamil (Tamil Nadu,
-  Puducherry), తెలుగు Telugu (Andhra Pradesh, Telangana), ಕನ್ನಡ Kannada (Karnataka), മലയാളം
-  Malayalam (Kerala, Lakshadweep), ગુજરાતી Gujarati (Gujarat, Dadra and Nagar Haveli and Daman
-  and Diu), ਪੰਜਾਬੀ Punjabi (Punjab, Chandigarh), ଓଡ଼ିଆ Odia (Odisha), অসমীয়া Assamese (Assam)
-  and اردو Urdu (Jammu and Kashmir, right to left).
-- Rupees always use Indian grouping (₹2,00,000).
+### Government services (India and US)
+- **309 Indian government services** with official links, helplines, papers and steps: 67 national
+  (Aadhaar, PAN, passport, voter ID, driving licence, income tax, PF, ABHA, DigiLocker, cyber crime,
+  consumer helpline, RTI, grievances, scholarships…) and services for **every state and UT**
+  (certificates, land records, CM helplines, police, electricity, ration, recruitment).
+- Search in plain words ("land records", "ration card") and filter by category.
+- **64 helplines**, one tap to call; emergency numbers first.
+- US: federal services and every state's benefits site and tax agency.
 
-### Android app, built for free
-The APK is built automatically on GitHub Actions for every release. It runs fully offline, keeps
-answers only on the phone and turns off Android cloud backup of app data.
+### Jobs and exams
+37 national exams and job schemes (SSC, Railways, UPSC, IBPS/SBI/RBI, Agniveer, India Post GDS, CTET,
+KVS/NVS, apprenticeships, PM Internship) checked against your **age, education and category**, with
+the usual SC/ST/OBC age relaxation. Your state's recruitment board and free training are listed too.
+
+### Looks better, fits every phone
+- Fixed the header and bottom bar overlapping the screen on Android phones with edge-to-edge
+  display and on notched phones.
+- A colourful new design: banner, category colours, tiles and chips, light and dark.
+- Tested from 320 px phones to tablets.
+
+### Ready for Google Play
+Store listing, graphics, screenshots, privacy policy and an App Bundle (AAB) build. See
+`docs/PLAY_STORE.md`.
 
 ### Please check before relying on it
-State schemes change often, and some links and amounts came from news or older pages because
-no official page could be found. Those schemes are shown as "may qualify" with a note to check
-the official website. Translations were written for this release and haven't yet been reviewed
-by native speakers in every state: please report anything that reads wrong.
+Links were checked against official sites in October 2026, but services change: always confirm on
+the official website. Some service descriptions are in English or Hindi only for now.
 
 Results are estimates; the office that runs each scheme makes the final decision. Applying is
 always free — never pay an agent.

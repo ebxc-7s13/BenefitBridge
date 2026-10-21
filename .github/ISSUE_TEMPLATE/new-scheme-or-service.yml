@@ -1,0 +1,27 @@
+name: Add a scheme or service
+description: Suggest a government scheme, service, job or helpline that's missing
+labels: ["data", "enhancement"]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Name
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Country and state (or "national")
+    validations:
+      required: true
+  - type: textarea
+    id: who
+    attributes:
+      label: Who is it for, and what does it give?
+  - type: input
+    id: source
+    attributes:
+      label: Official website
+      placeholder: https://…gov.in/…
+    validations:
+      required: true

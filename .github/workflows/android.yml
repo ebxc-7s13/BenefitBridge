@@ -58,8 +58,10 @@ jobs:
         run: |
           chmod +x gradlew
           if [ -n "$ANDROID_KEYSTORE_PATH" ]; then
-            ./gradlew --no-daemon assembleRelease
+            # Signed APK to install directly, and an App Bundle (AAB) to upload to Google Play.
+            ./gradlew --no-daemon assembleRelease bundleRelease
             cp app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/benefitbridge.apk"
+            cp app/build/outputs/bundle/release/app-release.aab "$RUNNER_TEMP/benefitbridge.aab"
           else
             ./gradlew --no-daemon assembleDebug
             cp app/build/outputs/apk/debug/app-debug.apk "$RUNNER_TEMP/benefitbridge.apk"
@@ -67,9 +69,14 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: benefitbridge-apk
-          path: ${{ runner.temp }}/benefitbridge.apk
+          path: |
+            ${{ runner.temp }}/benefitbridge.apk
+            ${{ runner.temp }}/benefitbridge.aab
+          if-no-files-found: ignore
       - name: Attach to release
         if: inputs.version != ''
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload "$VERSION" "$RUNNER_TEMP/benefitbridge.apk" --clobber
+        run: |
+          gh release upload "$VERSION" "$RUNNER_TEMP/benefitbridge.apk" --clobber
+          if [ -f "$RUNNER_TEMP/benefitbridge.aab" ]; then gh release upload "$VERSION" "$RUNNER_TEMP/benefitbridge.aab" --clobber; fi

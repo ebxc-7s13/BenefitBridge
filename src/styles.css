@@ -527,3 +527,10 @@ input[type="search"]:focus { border-color: var(--brand); }
 .small { font-size: 0.86rem; }
 button.tile { width: 100%; font: inherit; text-align: left; cursor: pointer; }
 .profile-card .button.small { flex: none; }
+.search-field input[type="search"] { padding-left: 2.7rem; }
+@media (max-width: 400px) {
+  .hero { padding: 1.15rem 1rem 1.05rem; border-radius: 20px; }
+  .hero .lead { font-size: 0.98rem; }
+  .tile { padding: 0.8rem 0.75rem; }
+  .tone-icon { width: 40px; height: 40px; }
+}

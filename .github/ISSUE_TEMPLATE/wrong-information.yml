@@ -1,0 +1,24 @@
+name: Wrong information
+description: A link, phone number, amount or rule in the app is wrong or out of date
+labels: ["data"]
+body:
+  - type: input
+    id: where
+    attributes:
+      label: Which scheme, service, job or helpline?
+      placeholder: e.g. "Ladki Bahin Yojana (Maharashtra)" or "UP land records"
+    validations:
+      required: true
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What is wrong?
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Official source (government website or notice)
+      placeholder: https://…gov.in/…
+    validations:
+      required: true

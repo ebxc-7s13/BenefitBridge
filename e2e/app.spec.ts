@@ -60,7 +60,7 @@ test("asks for the country first, and every start page is accessible", async ({ 
   await page.getByRole("button", { name: /India/ }).click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Find the government schemes your family can get.");
   await expect(page.getByRole("heading", { name: "Updates" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Beware of fake scheme messages" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "New: services, jobs and helplines in one place" })).toBeVisible();
   await expectAccessible(page);
 });
 

@@ -13,6 +13,8 @@ Private, offline-first benefits screener (React + TypeScript + Vite) for several
   State programs: India `src/lib/india/stateSchemes.ts` (+ `stateRules.ts`), US `src/lib/us/rulesets/stateCredits*.ts` (+ `stateCredits.ts`).
 - `src/content/ui/` — screen text shared by every country (en, es, hi). `src/content/<country>/` — that country's questionnaire wording, scheme content, reasons and official links.
 - `src/countries/index.ts` — one pack per country (rules, content, links, currency, languages, state portal card). Questionnaires are `src/countries/*Screener.tsx`.
+- `src/content/directory/` — government services and helplines (India: `src/content/india/services.ts`; US: `src/content/us/services.ts`). Jobs: rules in `src/lib/jobs.ts` + dated `src/lib/india/jobs2026.ts`, wording in `src/content/india/jobs.ts`.
+- `android/` — Capacitor app; `fastlane/metadata/` — Google Play listing (see `docs/PLAY_STORE.md`).
 - `src/content/world/` — directory of official programs in countries we don't screen yet (English only, no eligibility).
 - Home-page updates: bundled in `src/content/updates.ts`; live ones go in `public/updates.json` on `main` (fetched from GitHub when online, no release needed).
 

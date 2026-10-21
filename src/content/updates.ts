@@ -6,6 +6,16 @@ import type { Update } from "../lib/updates";
  */
 export const bundledUpdates: Update[] = [
   {
+    id: "app-2026-10-hub",
+    date: "2026-10-21",
+    country: "IN",
+    title: { en: "New: services, jobs and helplines in one place", hi: "नया: सेवाएँ, नौकरियाँ और हेल्पलाइन एक जगह" },
+    body: {
+      en: "Find 300+ government services with official links, check which government exams you can apply for, and call helplines with one tap.",
+      hi: "आधिकारिक लिंक के साथ 300 से ज़्यादा सरकारी सेवाएँ खोजें, देखें कि आप किन सरकारी परीक्षाओं में आवेदन कर सकते हैं, और एक टैप में हेल्पलाइन पर कॉल करें।",
+    },
+  },
+  {
     id: "app-2026-10-languages",
     date: "2026-10-21",
     country: "IN",
