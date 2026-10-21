@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: npm run build:single
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - name: Package
+        run: |
+          mkdir -p release
+          cp dist-single/index.html release/benefitbridge.html
+          (cd dist && zip -r ../release/benefitbridge-web.zip .)
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" release/benefitbridge.html release/benefitbridge-web.zip \
+            --title "BenefitBridge $GITHUB_REF_NAME" \
+            --notes-file docs/RELEASE_NOTES.md

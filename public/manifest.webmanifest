@@ -1,10 +1,16 @@
 {
   "name": "BenefitBridge",
   "short_name": "BenefitBridge",
-  "description": "Find the benefits you qualify for, privately, in 3 minutes.",
-  "start_url": "/",
+  "description": "Find food, health, cash, energy and child care help you may qualify for. Private, free, in English and Spanish.",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#f7f6f2",
+  "background_color": "#f6f4ee",
   "theme_color": "#1f5f4a",
-  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+  "lang": "en",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
 }

@@ -81,10 +81,22 @@ through a partner nonprofit.
 | 3     | Apply & follow up        | Pre-filled application packets (PDF); deadline/interview reminders (SMS, email, push); helper mode for caseworkers with consent-based shared cases |
 | 4     | Keep it & scale          | Renewal tracking; deeper per-state rules for the top 10 states; partner API for nonprofits; outcome analytics (anonymous, aggregate) |
 
+### Status at v1.0.0 (October 2026)
+
+Everything that can run privately on the phone is built. The remaining items need a
+server, accounts or partners that the project owner has to set up.
+
+| Phase | Built in v1.0.0 | Still to do (and why) |
+|-------|-----------------|------------------------|
+| 1 | Screener; rules engine using Oct 2026 figures; results with reasons; installable offline PWA; WCAG 2.1 AA checked on every screen in CI | Public hosting (needs GitHub Pages enabled or another host); testing with 20 real users through a partner nonprofit |
+| 2 | **18 programs** (SNAP, WIC, school meals, Medicaid adults/pregnancy/kids, marketplace credits, Medicare Extra Help, EITC, CTC, free tax help, SSI, TANF, LIHEAP, Lifeline, Head Start, child care, housing vouchers); dollar estimates for SNAP, EITC, CTC, SSI and Lifeline; per-program document checklists; plain-language FAQs; **full Spanish** | Claude-powered Q&A (needs a server holding an API key); camera capture of documents; optional encrypted account |
+| 3 | Step-by-step apply guides with official links and phone numbers; status tracking (not started → approved/denied, with appeal help); **calendar reminders** (.ics) for interviews and renewals; **printable / PDF plan** to bring to appointments; quick-exit button and help for safety, legal aid, immigration and crisis | SMS/email/push reminders (need a server and a messaging provider); caseworker helper mode with shared cases |
+| 4 | **Renewal tracking** with dates and reminders in "My plan" | State-by-state rules for the top 10 states; partner API; anonymous outcome analytics (all need a server and data agreements) |
+
 ## 5. Architecture
 
 ```
-┌────────────────────────────── Client (Next.js PWA) ──────────────────────────────┐
+┌────────────────────────────── Client (React PWA, Vite) ──────────────────────────┐
 │  Screener UI ──► lib/eligibility (pure TS rules engine, runs in browser)         │
 │        │                 ▲                                                        │
 │        │                 └── rulesets/*.ts  (versioned, cited, effective-dated)   │
@@ -93,7 +105,7 @@ through a partner nonprofit.
 └───────────┬──────────────────────────────────────────────────────────────────────┘
             │ Phase 2+ (opt-in only)
             ▼
-┌──────────── API (Next.js route handlers) ────────────┐      ┌──────────────────┐
+┌──────────── API (serverless functions) ────────────┐      ┌──────────────────┐
 │  /api/explain   → Claude (explains engine output)    │─────►│  Claude API      │
 │  /api/documents → Claude vision (extract pay stubs)  │      └──────────────────┘
 │  /api/reminders → queue → SMS/email                  │
@@ -102,9 +114,9 @@ through a partner nonprofit.
      Postgres (accounts, encrypted case data, reminders) — Phase 2+
 ```
 
-**Stack:** Next.js (App Router) + TypeScript + React, Vitest, Postgres (Neon or Supabase)
-from Phase 2, the Claude API for explanations and document understanding, deployed
-on Vercel.
+**Stack:** React + TypeScript built with Vite (static, offline-first PWA and a single-file build), Vitest, Playwright + axe; later Postgres (Neon or Supabase)
+from Phase 2, the Claude API for explanations and document understanding. Deployable
+on any static host (GitHub Pages workflow included).
 
 ### Rules engine design
 - Each program is a pure function `evaluate(household, ctx) → ProgramResult`.
