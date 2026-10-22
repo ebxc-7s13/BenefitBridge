@@ -1,7 +1,9 @@
 # Roadmap
 
 The goal: every government service a family needs, in one private app, in their language.
-Each phase ships as a release; the list is worked top to bottom.
+
+**Status: feature-complete (v1.5.0).** The app is finished and maintained for data accuracy
+(links, amounts, new schemes). The "Next" list below is kept as ideas for contributors.
 
 ## Done
 - v1.0 United States screener (18 programs), plan, reminders, offline, accessible
@@ -13,7 +15,7 @@ Each phase ships as a release; the list is worked top to bottom.
 
 - v1.5 Read aloud, share, text size; services and jobs in all 11 state languages
 
-## Next
+## Ideas for the future
 1. **Services, deeper** — fees, time limits and "track status" links for each service; more state
    services (transport booking, RTI, employment) where official pages exist.
 2. **Documents guide** — how to get each paper (income, caste, domicile, UDID, birth certificate)

@@ -126,6 +126,12 @@ countries (UK, Canada, Philippines, Mexico); more Indian languages.
 Next: native-speaker review of translations; Konkani, Manipuri, Mizo, Khasi and Nepali for the
 remaining states; a signed build on Google Play.
 
+### Final status: v1.5.0 (October 2026) — feature-complete
+
+Schemes, services, jobs and helplines for India (national and every state/UT) in 14 languages,
+the U.S. with state programs, a 19-country directory, read aloud, sharing, text size, an Android
+app and a Google Play-ready listing. Future work is data upkeep; ideas are in `docs/ROADMAP.md`.
+
 ## 5. Architecture
 
 ```

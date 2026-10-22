@@ -73,9 +73,25 @@ Answers never leave the phone: no servers, no sign-in, no analytics. A quick-exi
 3. **Official links only** — every link goes to a government website, never to agents.
 4. **Rules, not guesses** — eligibility comes from dated rules files with sources, covered by tests.
 
+## 📊 At a glance
+
+| | |
+|---|---|
+| Schemes checked | 39 central + 240 state/UT (India), 18 federal + state tax credits (US) |
+| Government services | 309 India (national + all 36 states/UTs), 30+ US federal + every state |
+| Jobs and exams | 37 national exams and job schemes with eligibility |
+| Helplines | 64 India, 9 US |
+| Languages | 14 (English, Hindi, Spanish + 11 Indian state languages) |
+| Other countries | 119 official programs in 19 countries |
+| Tests | 151 unit tests + 11 end-to-end flows with accessibility checks |
+| Platforms | Android app, any browser (offline single file), installable web app |
+
+See the [changelog](CHANGELOG.md) for every release.
+
 ## 🤝 Contribute
 Found a wrong link or a missing scheme? [Open an issue](../../issues/new/choose) — no coding needed.
-Translators and developers: see [CONTRIBUTING.md](CONTRIBUTING.md) and the [roadmap](docs/ROADMAP.md).
+Translators and developers: see [CONTRIBUTING.md](CONTRIBUTING.md). The project is feature-complete;
+ideas for the future are kept in [docs/ROADMAP.md](docs/ROADMAP.md).
 
 ## 🛠️ Develop
 
