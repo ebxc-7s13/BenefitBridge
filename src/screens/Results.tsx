@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Icon, type IconName } from "../components/Icon";
+import { ShareButton } from "../components/Tools";
 import { reasonText } from "../content";
 import { longDate, moneyRange } from "../content/format";
 import { totals, type ProgramResult, type Status } from "../lib/core";
@@ -119,6 +120,13 @@ export function Results() {
           ))}
         </section>
       )}
+
+      <div className="tools">
+        <ShareButton
+          title={r.title}
+          text={[...likely, ...possibly, ...ownState.filter((x) => x.status !== "unlikely")].map((x) => `• ${c.programs[x.programId].name}`).join("\n")}
+        />
+      </div>
 
       <div className="button-row">
         <a className="button" href={href({ name: "plan" })}>

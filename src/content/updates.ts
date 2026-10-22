@@ -6,6 +6,17 @@ import type { Update } from "../lib/updates";
  */
 export const bundledUpdates: Update[] = [
   {
+    id: "app-2026-10-listen",
+    date: "2026-10-22",
+    country: "ALL",
+    title: { en: "New: listen, share and bigger text", es: "Nuevo: escuchar, compartir y letra más grande", hi: "नया: सुनें, शेयर करें और बड़े अक्षर" },
+    body: {
+      en: "Tap Listen on any scheme to hear it read aloud, share schemes with family, and choose larger text in Help.",
+      es: "Toque Escuchar en cualquier programa para oírlo, compártalo con su familia y elija letra más grande en Ayuda.",
+      hi: "किसी भी योजना पर 'सुनें' दबाकर उसे सुनें, परिवार के साथ शेयर करें, और 'मदद' में बड़े अक्षर चुनें।",
+    },
+  },
+  {
     id: "app-2026-10-hub",
     date: "2026-10-21",
     country: "IN",

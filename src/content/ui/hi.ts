@@ -224,6 +224,15 @@ export const uiHi: UiStrings = {
     stateJobs: "राज्य की भर्तियाँ और रोज़गार",
     training: "मुफ़्त प्रशिक्षण और अप्रेंटिसशिप",
   },
+  tools: {
+    listen: "सुनें",
+    stop: "रोकें",
+    share: "शेयर करें",
+    copied: "कॉपी हो गया। इसे किसी संदेश में चिपकाएँ।",
+    shareFailed: "यहाँ से शेयर नहीं हो सका।",
+    textSize: "अक्षरों का आकार",
+    sizes: { normal: "सामान्य", large: "बड़ा", xlarge: "बहुत बड़ा" },
+  },
   helplines: {
     title: "हेल्पलाइन",
     lead: "मुफ़्त सरकारी नंबर। कॉल करने के लिए दबाएँ।",

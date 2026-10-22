@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Icon } from "../components/Icon";
+import { ShareButton } from "../components/Tools";
 import { directoryFor } from "../content/directory";
 import { serviceIcon } from "../content/directory/icons";
 import { pick, pickList, telHref, type Service } from "../content/directory/types";
@@ -117,6 +118,7 @@ export function ServiceList({ items }: { items: Service[] }) {
                   <Icon name="phone" size={16} /> {s.call(x.phone)}
                 </a>
               )}
+              <ShareButton title={pick(x.name, locale)} text={[pick(x.what, locale), x.phone].filter(Boolean).join(" · ")} url={x.url ?? undefined} />
             </div>
           </li>
         );

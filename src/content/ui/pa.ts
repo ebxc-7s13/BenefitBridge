@@ -244,6 +244,15 @@ export const uiPa: UiStrings = {
     state: (place) => `${place}`,
     emergency: "ਐਮਰਜੈਂਸੀ: 112",
   },
+  tools: {
+    listen: "ਸੁਣੋ",
+    stop: "ਰੋਕੋ",
+    share: "ਭੇਜੋ",
+    copied: "ਕਾਪੀ ਹੋ ਗਿਆ। ਇਸ ਨੂੰ ਸੁਨੇਹੇ ਵਿੱਚ ਪੇਸਟ ਕਰੋ।",
+    shareFailed: "ਇੱਥੋਂ ਭੇਜ ਨਹੀਂ ਸਕੇ।",
+    textSize: "ਅੱਖਰਾਂ ਦਾ ਆਕਾਰ",
+    sizes: { normal: "ਆਮ", large: "ਵੱਡਾ", xlarge: "ਹੋਰ ਵੱਡਾ" },
+  },
   money: { perMonth: "/ ਮਹੀਨਾ", perYear: "/ ਸਾਲ", upTo: "ਤੱਕ", once: "ਇੱਕ ਵਾਰ" },
   status: { likely: "ਸ਼ਾਇਦ ਮਿਲੇਗਾ", possibly: "ਮਿਲ ਸਕਦਾ ਹੈ", unlikely: "ਸ਼ਾਇਦ ਨਹੀਂ ਮਿਲੇਗਾ" },
 };

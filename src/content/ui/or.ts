@@ -224,6 +224,15 @@ export const uiOr: UiStrings = {
     stateJobs: "ରାଜ୍ୟ ନିଯୁକ୍ତି ଓ ନିଯୁକ୍ତି ସେବା",
     training: "ମାଗଣା ତାଲିମ ଓ ଆପ୍ରେଣ୍ଟିସସିପ୍",
   },
+  tools: {
+    listen: "ଶୁଣନ୍ତୁ",
+    stop: "ବନ୍ଦ କରନ୍ତୁ",
+    share: "ସେୟାର୍",
+    copied: "କପି ହେଲା। ମେସେଜରେ ପେଷ୍ଟ କରନ୍ତୁ।",
+    shareFailed: "ଏଠାରୁ ସେୟାର୍ କରିହେଲା ନାହିଁ।",
+    textSize: "ଅକ୍ଷର ଆକାର",
+    sizes: { normal: "ସାଧାରଣ", large: "ବଡ଼", xlarge: "ବହୁତ ବଡ଼" },
+  },
   helplines: {
     title: "ହେଲ୍ପଲାଇନ୍",
     lead: "ମାଗଣା ସରକାରୀ ନମ୍ବର। ଫୋନ୍ କରିବାକୁ ଦବାନ୍ତୁ।",

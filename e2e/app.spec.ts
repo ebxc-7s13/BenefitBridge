@@ -60,7 +60,7 @@ test("asks for the country first, and every start page is accessible", async ({ 
   await page.getByRole("button", { name: /India/ }).click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Find the government schemes your family can get.");
   await expect(page.getByRole("heading", { name: "Updates" })).toBeVisible();
-  await expect(page.getByRole("heading", { name: "New: services, jobs and helplines in one place" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "New: listen, share and bigger text" })).toBeVisible();
   await expectAccessible(page);
 });
 
@@ -305,5 +305,19 @@ test("the hub: basic details once, then services, jobs and helplines for the sta
   await page.getByRole("link", { name: "Home", exact: true }).click();
   await page.getByRole("link", { name: /Helplines/ }).click();
   await expect(page.locator('a[href="tel:112"]').first()).toBeVisible();
+  await expectAccessible(page);
+});
+
+test("text can be made larger, and schemes and services can be shared", async ({ page }) => {
+  await completeIndia(page);
+  await page.getByRole("link", { name: "Help", exact: true }).click();
+  await page.getByRole("button", { name: "Extra large" }).click();
+  await expect(page.locator("html")).toHaveAttribute("style", /font-size: 125%/);
+  await expectAccessible(page);
+
+  await page.getByRole("link", { name: "Schemes", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Share" }).first()).toBeVisible();
+  await page.getByRole("link", { name: /PM-KISAN/ }).first().click();
+  await expect(page.getByRole("button", { name: "Share" })).toBeVisible();
   await expectAccessible(page);
 });

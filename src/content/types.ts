@@ -225,6 +225,16 @@ export interface UiStrings {
     stateJobs: string;
     training: string;
   };
+  /** Read aloud, share and text size. */
+  tools: {
+    listen: string;
+    stop: string;
+    share: string;
+    copied: string;
+    shareFailed: string;
+    textSize: string;
+    sizes: { normal: string; large: string; xlarge: string };
+  };
   helplines: { title: string; lead: string; national: string; state: (place: string) => string; emergency: string };
   updates: {
     title: string;
