@@ -307,3 +307,17 @@ test("the hub: basic details once, then services, jobs and helplines for the sta
   await expect(page.locator('a[href="tel:112"]').first()).toBeVisible();
   await expectAccessible(page);
 });
+
+test("text can be made larger, and schemes and services can be shared", async ({ page }) => {
+  await completeIndia(page);
+  await page.getByRole("link", { name: "Help", exact: true }).click();
+  await page.getByRole("button", { name: "Extra large" }).click();
+  await expect(page.locator("html")).toHaveAttribute("style", /font-size: 125%/);
+  await expectAccessible(page);
+
+  await page.getByRole("link", { name: "Schemes", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Share" }).first()).toBeVisible();
+  await page.getByRole("link", { name: /PM-KISAN/ }).first().click();
+  await expect(page.getByRole("button", { name: "Share" })).toBeVisible();
+  await expectAccessible(page);
+});
