@@ -56,6 +56,8 @@ once, then shows what your family can get and exactly where to apply, on the off
 credits, every state's official benefits site, federal services and helplines — in English and Spanish.
 
 ### 🌍 And more
+- **Listen, share, bigger text** — hear any scheme read aloud in your language, share schemes and
+  services with family on WhatsApp, and switch to large or extra-large text.
 - **My plan** — papers checklist, status tracking, interview and renewal dates.
 - **Live updates** — new rules, deadlines and fraud alerts for your state ([`public/updates.json`](public/updates.json)).
 - **19 more countries** — official programs in the UK, Canada, Australia, Germany, Mexico, Brazil,

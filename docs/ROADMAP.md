@@ -11,6 +11,8 @@ Each phase ships as a release; the list is worked top to bottom.
 - v1.4 Home hub; 300+ government services and 64 helplines; jobs and exams with eligibility;
   colourful redesign; Play Store readiness
 
+- v1.5 Read aloud, share, text size; services and jobs in all 11 state languages
+
 ## Next
 1. **Services, deeper** — fees, time limits and "track status" links for each service; more state
    services (transport booking, RTI, employment) where official pages exist.
@@ -19,9 +21,9 @@ Each phase ships as a release; the list is worked top to bottom.
 3. **State jobs** — state PSC, police, teacher and health recruitment with age and education rules.
 4. **Scholarships finder** — NSP and every state scholarship, matched to class, income and category.
 5. **Farmers' corner** — crop insurance windows, MSP, soil health, KCC, mandi prices links.
-6. **Translations** — services and jobs text in all 13 Indian languages; Konkani, Manipuri, Mizo,
-   Khasi and Nepali for the remaining states; native-speaker review.
-7. **Read aloud** — speak results in the user's language (on-device speech, no server).
+6. **Translations** — Konkani, Manipuri, Mizo, Khasi and Nepali for the remaining states;
+   native-speaker review of all languages.
+7. **Offline voice search** — find a service by speaking its name.
 8. **Signed Google Play release** and F-Droid listing.
 9. **More countries** with eligibility checks: UK, Canada, Philippines, Mexico.
 
